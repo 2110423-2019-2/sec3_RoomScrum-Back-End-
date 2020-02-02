@@ -1,0 +1,30 @@
+version: '3'
+services:
+  
+  backend:
+    image: node:12.14-slim
+    working_dir: /home/node/app
+    restart: unless_stopped
+    volumes:
+      - .:/home/node/app
+    entrypoint:
+      - "yarn"
+      - "start:dev"
+    ports:
+      - 3000:3000
+    environment:
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "12345678"
+      MYSQL_DATABASE: "room_scrum"
+  
+  mysql:
+    image: mysql:8.0.19
+    volumes:
+      - ./data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_USER: "admin"
+      MYSQL_PASSWORD: "12345678"
+      MYSQL_DATABASE: "room_scrum"
+      MYSQL_ROOT_PASSWORD: "1238943ujflefennace" 
