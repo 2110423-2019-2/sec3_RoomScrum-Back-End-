@@ -1,5 +1,5 @@
-import { Controller, Body } from "@nestjs/common";
-import { Request, Post, Get } from "@nestjs/common";
+import { Controller, Body, HttpException, HttpStatus } from "@nestjs/common";
+import { Post, Get } from "@nestjs/common";
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
 
@@ -13,10 +13,14 @@ export class UserController {
   }
 
   @Post()
-  createUser(
+  async createUser(
     @Body()
     user: User
-  ): Promise<User> {
-    return this.userService.create(user);
+  ): Promise<any> {
+    try {
+      return await this.userService.create(user);
+    } catch (err) {
+      throw new HttpException('username already exists', HttpStatus.BAD_REQUEST);
+    }
   }
 }
