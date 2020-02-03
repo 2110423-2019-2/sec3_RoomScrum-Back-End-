@@ -2,6 +2,10 @@ import { Module } from "@nestjs/common";
 import { UserModule } from "./user/user.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "src/user/user.entity";
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
 
 @Module({
   imports: [
@@ -15,9 +19,10 @@ import { User } from "src/user/user.entity";
       database: process.env.MYSQL_DATABASE,
       entities: [User],
       synchronize: true
-    })
+    }),
+    AuthModule,
   ],
-  controllers: [],
-  providers: []
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

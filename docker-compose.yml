@@ -16,7 +16,7 @@ services:
       MYSQL_USER: "admin"
       MYSQL_PASSWORD: "12345678"
       MYSQL_DATABASE: "room_scrum"
-  
+      JWT_SECRET: "secret1234"
   mysql:
     image: mysql:8.0.19
     volumes:
