@@ -7,15 +7,18 @@ services:
     restart: unless-stopped
     volumes:
       - .:/home/node/app
-    entrypoint:
-      - "yarn"
-      - "start:dev"
+    entrypoint: ["sh", "-c", "yarn start:dev"]
     ports:
-      - 3000:3000
+      - 3002:3002
     environment:
+      ALLOW_CORS: "true"
+      CORS_HOST: "http://localhost:3000"
       MYSQL_USER: "admin"
       MYSQL_PASSWORD: "12345678"
       MYSQL_DATABASE: "room_scrum"
+      MYSQL_HOST: "mysql"
+      MYSQL_PORT: "3306"
+      PORT: "3002"
       JWT_SECRET: "secret1234"
   mysql:
     image: mysql:8.0.19

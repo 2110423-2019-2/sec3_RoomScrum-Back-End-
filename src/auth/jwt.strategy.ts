@@ -2,6 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { PassportStrategy } from "@nestjs/passport";
 import {Strategy} from 'passport-jwt';
 import { Request } from 'express';
+import config from "src/config";
+
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(Strategy) {
@@ -14,7 +16,7 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
         return null;
       },
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET,
+      secretOrKey: config.JWT_SECRET,
     });
   }
 

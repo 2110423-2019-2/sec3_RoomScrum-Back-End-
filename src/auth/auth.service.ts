@@ -13,7 +13,6 @@ export class AuthService {
 
   async validateUserPass(username: string, password: string): Promise<any> {
     const foundUser = (await this.userService.find({username}))[0];
-    console.log(foundUser);
     if (!foundUser) {
       return null;
     }

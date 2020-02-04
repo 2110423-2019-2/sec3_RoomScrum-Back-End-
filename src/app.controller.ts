@@ -26,7 +26,10 @@ export class AppController {
   ) {
     const token = this.authService.sign(req.user);
     res.cookie('token', token);
-    res.send(req.user);
+    res.send({
+      ...req.user,
+      token,
+    });
   }
 
   @UseGuards(AuthGuard('jwt'))
