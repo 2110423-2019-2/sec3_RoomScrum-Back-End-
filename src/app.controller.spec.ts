@@ -23,7 +23,7 @@ describe("AppController", () => {
           port: config.MYSQL_PORT,
           username: config.MYSQL_USER,
           password: config.MYSQL_PASSWORD,
-          database: config.MYSQL_DATABASE,
+          database: config.MYSQL_TEST_DATABASE,
           entities: [User],
           synchronize: true
         }),
