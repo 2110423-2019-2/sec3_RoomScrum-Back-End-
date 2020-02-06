@@ -15,9 +15,9 @@ export class EventsController {
     @Post()
     async createEvent(@Body() event: Event): Promise<any> {
         try{
-            return this.eventsService.create(event);
+            return await this.eventsService.create(event);
         } catch(err) {
-            throw new HttpException('id err', HttpStatus.BAD_REQUEST);
+            throw new HttpException('event id error', HttpStatus.BAD_REQUEST);
         }
     }
 }
