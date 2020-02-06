@@ -6,6 +6,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { EventsModule } from './events/events.module';
 
 import config from 'src/config';
 
@@ -23,6 +24,7 @@ import config from 'src/config';
       synchronize: true
     }),
     AuthModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
