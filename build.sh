@@ -1,6 +1,3 @@
-echo "$KEY" >> private_key.cer;
-chmod 600 private_key.cer;
-
 mkdir -p ~/Projects/$APPNAME-$BRANCH &&
 cd ~/Projects/$APPNAME-$BRANCH &&
 source ~/.bashrc &&
