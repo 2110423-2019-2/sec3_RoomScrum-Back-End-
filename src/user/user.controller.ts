@@ -20,7 +20,12 @@ export class UserController {
     try {
       return await this.userService.create(user);
     } catch (err) {
-      throw new HttpException('username already exists', HttpStatus.BAD_REQUEST);
+      console.log(err);
+      if (err !== 1062){
+        throw new HttpException('username already exists', HttpStatus.BAD_REQUEST);
+      } else {
+        throw new HttpException('Bad request', HttpStatus.BAD_REQUEST)
+      }
     }
   }
 }
