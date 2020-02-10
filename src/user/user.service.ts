@@ -18,6 +18,7 @@ export class UserService {
   }
 
   async create(user: User): Promise<any> {
+
     const hashedPassword = await hash(user.password, 8);
     user.password = hashedPassword;
     return this.userRepository.insert(user);
