@@ -2,6 +2,7 @@ import { Controller, Body, HttpException, HttpStatus } from "@nestjs/common";
 import { Post, Get } from "@nestjs/common";
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
+import createUserDto from "./dto/create-user-dto";
 
 @Controller("user")
 export class UserController {
@@ -15,12 +16,16 @@ export class UserController {
   @Post()
   async createUser(
     @Body()
-    user: User
+    user: createUserDto
   ): Promise<any> {
     try {
-      return await this.userService.create(user);
+      await this.userService.create(user);
+      return {
+        status: 200,
+        message: "OK",
+      }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       if (err !== 1062){
         throw new HttpException('username already exists', HttpStatus.BAD_REQUEST);
       } else {
