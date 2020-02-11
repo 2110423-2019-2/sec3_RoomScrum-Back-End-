@@ -7,7 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { EventsModule } from './events/events.module';
-import { Event } from 'src/events/events.entity';
+import { Event,Application } from 'src/events/events.entity';
 
 import config from 'src/config';
 
