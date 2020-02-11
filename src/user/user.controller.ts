@@ -1,5 +1,4 @@
-import { Controller, Body, HttpException, HttpStatus, 
-  UsePipes, ValidationPipe, Res,
+import { Controller, Body, HttpException, HttpStatus, Res,
   UseInterceptors, UploadedFile, Param } from "@nestjs/common";
 import { Post, Get } from "@nestjs/common";
 import { User } from "./user.entity";
@@ -15,7 +14,6 @@ export class UserController {
     return this.userService.find({});
   }
 
-  @UsePipes(new ValidationPipe())
   @Post()
   async createUser(
     @Body()
