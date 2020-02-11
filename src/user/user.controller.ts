@@ -5,9 +5,6 @@ import { Post, Get } from "@nestjs/common";
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
 import createUserDto from "./dto/create-user-dto";
-import { FileInterceptor } from "@nestjs/platform-express";
-import { imageFileFilter, editFileName } from "../utils/file-uploading.utils";
-import { diskStorage } from "multer";
 
 @Controller("user")
 export class UserController {
@@ -37,28 +34,5 @@ export class UserController {
         throw new HttpException('Bad request', HttpStatus.BAD_REQUEST)
       }
     }
-  }
-
-  @Post('upload-image')
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './files/user',
-        filename: editFileName,
-      }),
-      fileFilter: imageFileFilter,
-    }),
-  )
-  async uploadedFile(@UploadedFile() file) {
-    const response = {
-      originalname: file.originalname,
-      filename: file.filename,
-    };
-    return response;
-  }
-
-  @Get('image/:imgpath')
-  seeUploadedFile(@Param('imgpath') image, @Res() res) {
-    return res.sendFile(image, { root: './files/user' });
   }
 }

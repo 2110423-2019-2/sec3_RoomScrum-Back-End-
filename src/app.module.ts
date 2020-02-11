@@ -8,6 +8,7 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { EventsModule } from './events/events.module';
 import { Event,Application } from 'src/events/events.entity';
+import { UploadModule } from "src/upload/upload.module";
 
 import config from 'src/config';
 
@@ -26,6 +27,7 @@ import config from 'src/config';
     }),
     AuthModule,
     EventsModule,
+    UploadModule
   ],
   controllers: [AppController],
   providers: [AppService],
