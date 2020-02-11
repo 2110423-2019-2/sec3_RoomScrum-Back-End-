@@ -3,7 +3,7 @@ import { EventsController } from './events.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import config from 'src/config';
-import { Event } from './events.entity';
+import { Event,Application } from './events.entity';
 import { EventsService } from './events.service';
 
 describe('Events Controller', () => {
@@ -23,11 +23,11 @@ describe('Events Controller', () => {
           username: config.MYSQL_USER,
           password: config.MYSQL_PASSWORD,
           database: config.MYSQL_TEST_DATABASE,
-          entities: [Event],
+          entities: [Event,Application],
           synchronize: true,
           dropSchema: true, // for debug only !!
         }),
-        TypeOrmModule.forFeature([Event])
+        TypeOrmModule.forFeature([Event,Application])
       ],
       providers: [EventsService],
     }).compile();
