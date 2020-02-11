@@ -6,10 +6,13 @@ import { Response, Request } from "express";
 import * as cors from 'cors';
 
 import config from 'src/config';
+import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(cookieParser());
+  app.useGlobalPipes(new ValidationPipe); // https://docs.nestjs.com/techniques/validation
+
   if (config.ALLOW_CORS === "true") {
     app.use(cors());
     app.use((req: Request, res: Response, next) => {
