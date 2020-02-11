@@ -54,7 +54,19 @@ describe("User Controller", () => {
 
   describe('Test create user endpoint', () => {
     it("should create user sucessfully", () => {
-      return expect(controller.createUser(baseUser))
+      return expect(controller.createUser({
+        ...baseUser
+      }))
+        .resolves.toMatchObject({
+          status: 200
+        });
+    })
+
+    it("should create another user sucessfully", () => {
+      return expect(controller.createUser({
+        ...baseUser,
+        username: "username2",
+      }))
         .resolves.toMatchObject({
           status: 200
         });
@@ -62,7 +74,9 @@ describe("User Controller", () => {
 
     it("should not allow duplicate username", () => {
       expect.assertions(1);
-      return controller.createUser(baseUser)
+      return controller.createUser({
+        ...baseUser,
+      })
         .catch(err => {
           expect(err).toMatchObject({
             status: 400,
