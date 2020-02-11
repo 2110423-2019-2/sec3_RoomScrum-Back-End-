@@ -6,14 +6,24 @@ import { User } from "./user.entity";
 import { UserService } from "./user.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import * as _ from 'lodash';
+import { NotImplementedException } from "@nestjs/common";
+import createUserDto from "./dto/create-user-dto";
+
+const baseUser: createUserDto = {
+  firstName: "aaaa",
+  lastName: "aaaa",
+  password: "passw0rd",
+  username: "username",
+};
 
 describe("User Controller", () => {
+  let module: TestingModule;
   let controller: UserController;
   let userService: UserService;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     
-    const module: TestingModule = await Test.createTestingModule({
+    module = await Test.createTestingModule({
       controllers: [UserController],
       imports: [
         TypeOrmModule.forRoot({
@@ -24,25 +34,70 @@ describe("User Controller", () => {
           password: config.MYSQL_PASSWORD,
           database: config.MYSQL_TEST_DATABASE,
           entities: [User],
-          synchronize: true
+          synchronize: true,
+          dropSchema: true, // for debug only !!
         }),
         TypeOrmModule.forFeature([User])
       ],
       providers: [UserService],
     }).compile();
-
     controller = module.get<UserController>(UserController);
-    userService = module.get<UserService>(UserService);
+    userService = module.get<UserService>(UserService);    
   });
 
-  it("should be an array", done => {
-    expect.assertions(1);
-    controller.findAllUsers().then(res => {
-      expect(_.isArray(res)).toBeTruthy();
-      done();
-    })
-    .catch(err => {
-      done(err);
-    })
+  afterAll(async () => {
+    await module.close();
   });
+
+
+  describe('Test create user endpoint', () => {
+    it("should create user sucessfully", () => {
+      return expect(controller.createUser(baseUser))
+        .resolves.toMatchObject({
+          status: 200
+        });
+    })
+
+    it("should not allow duplicate username", () => {
+      expect.assertions(1);
+      return controller.createUser(baseUser)
+        .catch(err => {
+          expect(err).toMatchObject({
+            status: 400,
+            message: expect.stringMatching(/username/)
+          });
+        });
+    })
+
+    // it("should not allow duplicate email", () => {
+    //   fail("Not implemented")
+    // })
+
+    // it("should not allow incomplete information", () => {
+    //   fail("Not implemented")
+    // })
+
+    // it("should not allow musician with incomplete information", () => {
+    //   fail("Not implemented")
+    // })
+  })
+  
+  // describe('Test another endpoint', () => {
+  //   it("....", () => {
+  //     fail("Not implemented");
+  //   })
+  // })
+
+  // describe('Test another endpoint', () => {
+  //   it("....", () => {
+  //     fail("Not implemented");
+  //   })
+  // })
+
+  // describe('Test another endpoint', () => {
+  //   it("....", () => {
+  //     fail("Not implemented");
+  //   })
+  // })
+
 });
