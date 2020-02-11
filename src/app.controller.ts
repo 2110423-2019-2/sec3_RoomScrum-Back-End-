@@ -5,9 +5,6 @@ import { AuthGuard } from "@nestjs/passport";
 import { User } from "./user/user.entity";
 import { AuthService } from "./auth/auth.service";
 import { Request, Response } from "express";
-import { FileInterceptor } from "@nestjs/platform-express";
-import { imageFileFilter, editFileName } from "./utils/file-uploading.utils";
-import { diskStorage } from "multer";
 
 @Controller()
 export class AppController {
@@ -44,26 +41,4 @@ export class AppController {
     return req.user;
   } 
 
-  @Post('upload-image')
-  @UseInterceptors(
-    FileInterceptor('image', {
-      storage: diskStorage({
-        destination: './uploaded_files',
-        filename: editFileName,
-      }),
-      fileFilter: imageFileFilter,
-    }),
-  )
-  async uploadedFile(@UploadedFile() file) {
-    const response = {
-      originalname: file.originalname,
-      filename: file.filename,
-    };
-    return response;
-  }
-
-  @Get('image/:imgpath')
-  seeUploadedFile(@Param('imgpath') image, @Res() res) {
-    return res.sendFile(image, { root: './uploaded_files' });
-  }
 }

@@ -38,4 +38,4 @@ data/
 .env
 
 # upload file store
-uploaded_files/*
+uploaded_files/user/*
