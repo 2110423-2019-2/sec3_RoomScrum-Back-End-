@@ -44,7 +44,7 @@ export class AppController {
     return req.user;
   } 
 
-  @Post()
+  @Post('upload-image')
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({

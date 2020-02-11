@@ -36,3 +36,6 @@ lerna-debug.log*
 # mysql data
 data/
 .env
+
+# upload file store
+uploaded_files/*
