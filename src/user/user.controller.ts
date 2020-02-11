@@ -1,4 +1,4 @@
-import { Controller, Body, HttpException, HttpStatus } from "@nestjs/common";
+import { Controller, Body, HttpException, HttpStatus, UsePipes, ValidationPipe } from "@nestjs/common";
 import { Post, Get } from "@nestjs/common";
 import { User } from "./user.entity";
 import { UserService } from "./user.service";
@@ -13,6 +13,7 @@ export class UserController {
     return this.userService.find({});
   }
 
+  @UsePipes(new ValidationPipe())
   @Post()
   async createUser(
     @Body()
@@ -25,8 +26,7 @@ export class UserController {
         message: "OK",
       }
     } catch (err) {
-      // console.log(err);
-      if (err !== 1062){
+      if (err.errno === 1062){
         throw new HttpException('username already exists', HttpStatus.BAD_REQUEST);
       } else {
         throw new HttpException('Bad request', HttpStatus.BAD_REQUEST)

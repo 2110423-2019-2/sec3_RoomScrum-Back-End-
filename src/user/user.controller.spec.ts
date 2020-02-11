@@ -14,6 +14,8 @@ const baseUser: createUserDto = {
   lastName: "aaaa",
   password: "passw0rd",
   username: "username",
+  email: "doge@gmail.com",
+  phonenumber:"082-111-1234",
 };
 
 describe("User Controller", () => {
