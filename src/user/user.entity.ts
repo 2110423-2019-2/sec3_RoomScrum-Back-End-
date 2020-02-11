@@ -1,6 +1,4 @@
 import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from "typeorm";
-import { Contains, IsInt, Length, IsEmail, IsDate, Min, Max, 
-  Matches, IsString, IsPhoneNumber } from "class-validator";
 
 export enum Gender {
   M = 0, F = 1, O = 2
@@ -21,19 +19,16 @@ export class User {
       length: 20,
       unique: true,
     })
-    @Matches( /^[a-z0-9_-]{3,15}$/ )
     username: string;
 
     @Column({
         length: 255
     })
-    @IsString()
     password: string;
 
     @Column({
         length: 255
     })
-    @IsString()
     firstName: string;
     
     @Column({
@@ -62,14 +57,12 @@ export class User {
     @Column({
         length: 50
     })
-    @IsEmail()
     email: string;
 
     @Column({
         type: "char",
         length: 20
     })
-    @IsPhoneNumber('TH')
     phonenumber: string;
 
     // @Column({
