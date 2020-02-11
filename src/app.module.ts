@@ -6,6 +6,8 @@ import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { EventsModule } from './events/events.module';
+import { Event } from 'src/events/events.entity';
 import { MulterModule } from "@nestjs/platform-express";
 
 import config from 'src/config';
@@ -20,10 +22,11 @@ import config from 'src/config';
       username: config.MYSQL_USER,
       password: config.MYSQL_PASSWORD,
       database: config.MYSQL_DATABASE,
-      entities: [User],
+      entities: [User,Event],
       synchronize: true
     }),
     AuthModule,
+    EventsModule,
     MulterModule.register({
       dest: './uploaded-files',
     })
