@@ -6,8 +6,10 @@ import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
+import { MulterModule } from "@nestjs/platform-express";
 import { EventsModule } from './events/events.module';
 import { Event, Application } from 'src/events/events.entity';
+
 
 import config from 'src/config';
 
@@ -26,6 +28,9 @@ import config from 'src/config';
     }),
     AuthModule,
     EventsModule,
+    MulterModule.register({
+      dest: './uploaded-files',
+    })
   ],
   controllers: [AppController],
   providers: [AppService],

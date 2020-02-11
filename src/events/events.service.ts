@@ -29,3 +29,4 @@ export class EventsService {
         return this.applicationRepository.insert(application);
     }
 }
+
