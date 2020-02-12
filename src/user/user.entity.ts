@@ -107,8 +107,10 @@ export class User {
     // })
     // tag: string;
 
-    // @Column()
-    // isVerify: boolean;
+    @Column({
+      default: false,
+    })
+    isVerify: boolean;
 
     // @Column()
     // national_card_image: string;
