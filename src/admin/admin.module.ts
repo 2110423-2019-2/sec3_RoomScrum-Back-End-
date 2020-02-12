@@ -11,6 +11,6 @@ import { User } from 'src/user/user.entity';
   imports: [
     TypeOrmModule.forFeature([User]),
   ],
-  providers: [AdminService, UserService]
+  providers: [AdminService]
 })
 export class AdminModule {}
