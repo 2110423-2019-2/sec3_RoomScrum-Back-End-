@@ -1,7 +1,8 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, NotImplementedException } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { ApproveUserDto } from './dto/approve-user.dto';
 import { User } from 'src/user/user.entity';
+import { RejectUserDto } from './dto/reject-user.dto';
 
 @Controller('admin')
 export class AdminController {
@@ -18,6 +19,13 @@ export class AdminController {
             status: updateResult.raw.changedRows ? 200 : 304 ,
             message: "OK",
         }
+    }
+
+    @Post("/user/reject")
+    async rejectUser(
+        @Body() rejectUserDto: RejectUserDto,
+    ) {
+        throw new NotImplementedException(); // how to reject user in database
     }
 
     @Get("/user/unapproved")
