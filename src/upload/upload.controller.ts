@@ -5,7 +5,8 @@ import { diskStorage } from "multer";
 
 @Controller('upload')
 export class UploadController {
-    @Post('image')
+    // upload user image
+    @Post('image/user')
     @UseInterceptors(
         FileInterceptor('image/user', {
             storage: diskStorage({
@@ -23,7 +24,7 @@ export class UploadController {
         return response;
     }
 
-    //this is HACK
+    // upload band image
     @Post('image/band')
     @UseInterceptors(
         FileInterceptor('image', {
@@ -42,6 +43,7 @@ export class UploadController {
         return response;
     }
 
+    //upload event image
     @Post('image/event')
     @UseInterceptors(
         FileInterceptor('image', {
