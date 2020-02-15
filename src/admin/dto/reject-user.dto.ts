@@ -3,5 +3,5 @@ import { IsInt, Min } from "class-validator";
 export class RejectUserDto {
     @IsInt()
     @Min(1)
-    id: number;
+    userId: number;
 }

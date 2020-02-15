@@ -26,7 +26,7 @@ class createUserDto {
     
     @IsNotEmpty()
     @IsString()
-    phonenumber: string;
+    phoneNumber: string;
 }
 
 export default createUserDto;

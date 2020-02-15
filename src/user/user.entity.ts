@@ -4,6 +4,10 @@ export enum Gender {
   M = 0, F = 1, O = 2
 }
 
+export enum MusicianApprovement {
+  NA = 'NA', A = 'A', R = 'R'
+};
+
 @Entity()
 export class User {
 
@@ -12,7 +16,7 @@ export class User {
       primary: true,
       type: "integer",
     })
-    id: number;
+    userId: number;
     
     @Column({
       type: "varchar",
@@ -42,12 +46,12 @@ export class User {
     // })
     // national_id: string;
 
-    // @Column({
-    //     type: "enum",
-    //     enum: Gender,
-    //     default: Gender.O
-    // })
-    // gender: Gender;
+    @Column({
+        type: "enum",
+        enum: Gender,
+        default: Gender.O
+    })
+    gender: Gender;
 
     // @Column({
     //     type: "date"
@@ -63,7 +67,7 @@ export class User {
         type: "char",
         length: 20
     })
-    phonenumber: string;
+    phoneNumber: string;
 
     // @Column({
     //     length: 1000
@@ -108,9 +112,11 @@ export class User {
     // tag: string;
 
     @Column({
-      default: false,
+      default: MusicianApprovement.NA,
+      type: "enum",
+      enum: MusicianApprovement,
     })
-    isVerify: boolean;
+    musicianApprovement: string;
 
     // @Column()
     // national_card_image: string;
@@ -123,6 +129,6 @@ export class User {
     @Column({
         nullable: true
     })
-    hiree_id: number;
+    hireeId: number;
 }
 
