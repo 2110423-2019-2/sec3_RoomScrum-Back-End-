@@ -24,7 +24,7 @@ export class AdminService {
     approveUser(
         userToApprove: ApproveUserDto
     ): Promise<UpdateResult> {
-        return this.userRepository.update(userToApprove.id, {
+        return this.userRepository.update(userToApprove.userId, {
             musicianApprovement: MusicianApprovement.A,
         });
     }
@@ -32,7 +32,7 @@ export class AdminService {
     rejectUser(
         userToReject: RejectUserDto,
     ): Promise<UpdateResult> {
-        return this.userRepository.update(userToReject.id, {
+        return this.userRepository.update(userToReject.userId, {
             musicianApprovement: MusicianApprovement.R,
         })
     }
