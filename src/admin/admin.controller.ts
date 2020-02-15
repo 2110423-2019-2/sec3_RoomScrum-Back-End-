@@ -18,14 +18,18 @@ export class AdminController {
         return {
             status: updateResult.raw.changedRows ? 200 : 304 ,
             message: "OK",
-        }
+        };
     }
 
     @Post("/user/reject")
     async rejectUser(
         @Body() rejectUserDto: RejectUserDto,
     ) {
-        throw new NotImplementedException(); // how to reject user in database
+        const updateResult = await this.adminService.rejectUser(rejectUserDto);
+        return {
+            status: updateResult.raw.changedRows ? 200 : 304 ,
+            message: "OK",
+        };
     }
 
     @Get("/user/unapproved")
