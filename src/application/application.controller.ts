@@ -1,7 +1,10 @@
-import { Controller, Body, HttpException, HttpStatus } from "@nestjs/common";
+import { Controller, Body, HttpException, HttpStatus,
+    UsePipes, ValidationPipe, Res,
+    UseInterceptors, UploadedFile, Param } from "@nestjs/common";
 import { Get, Post, Put } from '@nestjs/common';
 import { Application } from './application.entity';
 import { ApplicationService} from './application.service';
+import applyDto from './dto/apply-dto';
 
 @Controller('application')
 export class ApplicationController {
@@ -13,8 +16,9 @@ export class ApplicationController {
         return this.applicationService.findAllApplications();
     }
 
+    @UsePipes(new ValidationPipe())
     @Post('apply')
-    async applyEvent(@Body() application: Application): Promise<any> {
+    async applyEvent(@Body() application: applyDto): Promise<any> {
         try{
             return await this.applicationService.apply(application);
         } catch(err) {
