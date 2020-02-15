@@ -1,6 +1,6 @@
 import { Controller, Body, HttpException, HttpStatus } from "@nestjs/common";
 import { Get, Post, Put } from '@nestjs/common';
-import { Event, Application } from './events.entity';
+import { Event } from './events.entity';
 import { EventsService } from './events.service';
 
 @Controller('events')
@@ -21,17 +21,5 @@ export class EventsController {
         }
     }
 
-    @Get('apply')
-    findAllApplications(): Promise<Application[]> {
-        return this.eventsService.findAllApplications();
-    }
 
-    @Post('apply')
-    async applyEvent(@Body() application: Application): Promise<any> {
-        try{
-            return await this.eventsService.apply(application);
-        } catch(err) {
-            throw new HttpException('Duplicate data', HttpStatus.BAD_REQUEST);
-        }
-    }
 }
