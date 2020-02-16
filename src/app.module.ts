@@ -10,7 +10,6 @@ import { EventsModule } from './events/events.module';
 import { Event } from 'src/events/events.entity';
 import { ApplicationModule } from './application/application.module';
 import { Application } from 'src/application/application.entity';
-import { UploadModule } from "src/upload/upload.module";
 import { AdminModule } from './admin/admin.module';
 
 import config from 'src/config';
@@ -31,7 +30,6 @@ import config from 'src/config';
     AuthModule,
     EventsModule,
     ApplicationModule,
-    UploadModule,
     AdminModule,
     ApplicationModule
   ],
