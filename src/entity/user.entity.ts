@@ -51,7 +51,7 @@ export class User {
         length: 13,
         nullable: true,
     })
-    national_id: string;
+    nationalId: string;
 
     @Column({
         type: "enum",
@@ -96,7 +96,7 @@ export class User {
     @Column({
       length: 255
     })
-    city_state: string;
+    cityState: string;
 
     @Column({
       length: 255
