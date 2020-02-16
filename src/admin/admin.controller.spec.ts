@@ -3,7 +3,7 @@ import { AdminService } from "./admin.service";
 import { AdminController } from "./admin.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import config from "src/config";
-import { User } from "src/user/user.entity";
+import { User } from "src/entity/user.entity";
 
 describe("Admin Controller", () => {
   let module: TestingModule;
