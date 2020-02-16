@@ -24,15 +24,20 @@ export class UserService {
     return this.userRepository.insert(user);
   }
 
-  async uploadPic(@UploadedFile() file): Promise<any> {
-    const response = {
-      originalname: file.originalname,
-      filename: file.filename,
-    };
-    return response;
-  }
+  async uploadPic(@UploadedFile() file, userId: number): Promise<any> {
+    const originalname = file.originalname;
+    const filename = file.filename;
+    // const response = {
+    //   originalname: file.originalname,
+    //   filename: file.filename,
+    // };
+    const updatedUser = new User();
+    updatedUser.profileImage = 'src/files/user' + file.filename;
 
-  getPic( image, @Res() res) {
-    return res.sendFile(image, { root: './files/' });
+    await this.userRepository.update(
+      userId, updatedUser
+    );
+
+    return;
   }
 }
