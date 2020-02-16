@@ -2,7 +2,7 @@ import { Controller, Body, HttpException, HttpStatus,
     UsePipes, ValidationPipe, Res,
     UseInterceptors, UploadedFile, Param } from "@nestjs/common";
 import { Get, Post, Put } from '@nestjs/common';
-import { Application } from './application.entity';
+import { Application } from 'src/entity/application.entity';
 import { ApplicationService} from './application.service';
 import applyDto from './dto/apply-dto';
 

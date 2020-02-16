@@ -33,7 +33,7 @@ export class AdminService {
         userToReject: RejectUserDto,
     ): Promise<UpdateResult> {
         return this.userRepository.update(userToReject.userId, {
-            musicianApprovement: MusicianApprovement.Rejected
+            musicianApprovement: MusicianApprovement.Rejected,
         })
     }
 }

@@ -3,7 +3,8 @@ import { EventsController } from './events.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import config from 'src/config';
-import { Event,Application } from './events.entity';
+import { Event } from 'src/entity/events.entity';
+import { Application } from 'src/entity/application.entity';
 import { EventsService } from './events.service';
 
 describe('Events Controller', () => {
@@ -27,7 +28,7 @@ describe('Events Controller', () => {
           synchronize: true,
           dropSchema: true, // for debug only !!
         }),
-        TypeOrmModule.forFeature([Event,Application])
+        TypeOrmModule.forFeature([Event])
       ],
       providers: [EventsService],
     }).compile();
