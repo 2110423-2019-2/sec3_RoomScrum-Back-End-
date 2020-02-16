@@ -1,10 +1,11 @@
 import { IsString, IsNotEmpty, Length, MinLength, IsEmail, IsNumber, IsEmpty, IsDateString } from "class-validator";
-
+import {User} from '../../entity/user.entity'
 class createEventDto {
 
-    @IsNotEmpty()
-    @IsNumber()
-    event_id: number;
+    // @IsNotEmpty()
+    // @IsNumber()
+    @IsEmpty()
+    eventId: number;
 
     @IsNotEmpty()
     @IsString()
@@ -34,7 +35,9 @@ class createEventDto {
     @IsString()
     zipcode: string;
 
-    // TODO : tag: string[]
+    // @IsNotEmpty()
+    // @IsString()
+    // tag: string[]
 
     @IsNotEmpty()
     @IsDateString()
@@ -44,9 +47,10 @@ class createEventDto {
     @IsDateString()
     enddatetime: Date;
 
-    @IsNotEmpty()
-    @IsNumber()
-    user_id: number;
+    // @IsEmpty()
+    // @IsNumber()
+    user: Partial<User>;
+    // user: Number;
 }
 
 export default createEventDto;

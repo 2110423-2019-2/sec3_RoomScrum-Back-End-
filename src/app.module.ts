@@ -25,6 +25,7 @@ import config from 'src/config';
       password: config.MYSQL_PASSWORD,
       database: config.MYSQL_DATABASE,
       entities: [User,Event,Application],
+      logging: true,
       synchronize: true
     }),
     AuthModule,

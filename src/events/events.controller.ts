@@ -1,10 +1,12 @@
 import { Controller, Body, HttpException, HttpStatus,
     UsePipes, ValidationPipe, Res,
-    UseInterceptors, UploadedFile, Param  } from "@nestjs/common";
+    UseInterceptors, UploadedFile, Param, UseGuards, Req  } from "@nestjs/common";
 import { Get, Post, Put } from '@nestjs/common';
 import { Event } from 'src/entity/events.entity';
 import { EventsService } from './events.service';
 import createEventDto from  './dto/create-event-dto';
+import { AuthGuard } from "@nestjs/passport";
+import { Request } from "express";
 
 @Controller('events')
 export class EventsController {
@@ -14,10 +16,13 @@ export class EventsController {
     findAllEvents(): Promise<Event[]> {
         return this.eventsService.findAllEvent();
     }
-
+    @UseGuards(AuthGuard('jwt'))
     @UsePipes(new ValidationPipe())
     @Post()
-    async createEvent(@Body() event: createEventDto): Promise<any> {
+    async createEvent(@Body() event: createEventDto, @Req() req): Promise<any> {
+        event.user = {
+            userId: req.user.userId,
+        }
         try{
             return await this.eventsService.create(event);
         } catch(err) {

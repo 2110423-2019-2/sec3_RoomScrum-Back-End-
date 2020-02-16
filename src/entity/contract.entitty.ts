@@ -1,10 +1,9 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne} from "typeorm";
-import {User} from './user.entity' ;
+import { Entity, Column, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
-export class Event { 
+export class Contract{ 
     @PrimaryGeneratedColumn()
-    eventId: number;
+    contractId: number;
 
     @Column({ length:2000 })
     description: string;
@@ -26,23 +25,22 @@ export class Event {
 
     @Column({ 
         type:'char',
-        length:5 })
+        length:5 
+    })
     zipcode: string;
 
     @Column({
         type:'datetime'
     })
-    startdatetime: Date;
+    startdatetime: string;
 
     @Column({
         type:'datetime'
     })
-    enddatetime: Date;
+    enddatetime: string;
 
-    // @Column({
-    //     type:'set', })
-    // tag: string[];
-
-    @ManyToOne(type => User, user => user.event)
-    user: User;
+    @Column({
+        type:'set', 
+        length:50 })
+    tag: string[];
 }
