@@ -1,5 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany} from "typeorm";
-import {Event} from './events.entity'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn} from "typeorm";
+import { Event } from './events.entity';
+import { Hiree } from 'src/entity/hiree.entity';
+import { Profiler } from "inspector";
+import { Optional } from "@nestjs/common";
 
 export enum Gender {
   Male = 0, Female = 1, Other = 2
@@ -146,12 +149,15 @@ export class User {
       nullable: true
     })
     videoUrl: string;
-
-    //TODO change to many-to-one
+  
     @Column({
       nullable: true
     })
     hireeId: number;
+
+    @OneToOne(type => Hiree, hiree => hiree.user.userId)
+    //@JoinColumn({name: 'hireeId'})
+    hiree: Hiree;
 
     @OneToMany(type => Event, event => event.user.userId)
     event: Event[];

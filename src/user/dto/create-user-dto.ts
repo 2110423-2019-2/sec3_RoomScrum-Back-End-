@@ -92,6 +92,9 @@ class createUserDto {
         || o.userType === UserType.PremiumMusician))
     @IsUrl()
     videoUrl: string;
+
+    @IsEmpty()
+    hireeId: number;
 }
 
 export default createUserDto;

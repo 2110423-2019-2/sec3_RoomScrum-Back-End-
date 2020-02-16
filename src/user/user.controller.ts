@@ -14,18 +14,18 @@ import { AuthGuard } from "@nestjs/passport";
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
+  @Get('all')
   findAllUsers(): Promise<User[]> {
     return this.userService.find({});
   }
 
   @Get()
-  findUserFromId(@Req() req): promise<User[]> {
+  findUserFromId(@Req() req): Promise<User[]> {
     const id = req.Body.id;
     return this.userService.findFromId(id);
   }
 
-  @Post()
+  @Post('create')
   async createUser(
     @Body()
     user: createUserDto
@@ -34,7 +34,7 @@ export class UserController {
       await this.userService.create(user);
       return {
         status: 200,
-        message: "OK",
+        message: 'OK',
       }
     } catch (err) {
       if (err.errno === 1062){
