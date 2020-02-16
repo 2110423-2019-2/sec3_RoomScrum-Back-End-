@@ -18,7 +18,7 @@ export class User {
 
     @PrimaryGeneratedColumn()
     userId: number;
-    
+
     ////////////////////////////// LOGIN INFORMATION 
     @Column({
       length: 20,
@@ -153,7 +153,7 @@ export class User {
     })
     hireeId: number;
 
-    @OneToMany(type => Event, event => event.user)
+    @OneToMany(type => Event, event => event.user.userId)
     event: Event[];
 }
 

@@ -39,11 +39,10 @@ export class Event {
     })
     enddatetime: Date;
 
-    @Column({
-        type:'set', 
-        length:50 })
-    tag: string[];
+    // @Column({
+    //     type:'set', })
+    // tag: string[];
 
     @ManyToOne(type => User, user => user.event)
-    user: Number;
+    user: User;
 }

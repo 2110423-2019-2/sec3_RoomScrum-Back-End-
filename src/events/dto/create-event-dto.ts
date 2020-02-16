@@ -2,8 +2,9 @@ import { IsString, IsNotEmpty, Length, MinLength, IsEmail, IsNumber, IsEmpty, Is
 import {User} from '../../entity/user.entity'
 class createEventDto {
 
-    @IsNotEmpty()
-    @IsNumber()
+    // @IsNotEmpty()
+    // @IsNumber()
+    @IsEmpty()
     eventId: number;
 
     @IsNotEmpty()
@@ -34,9 +35,9 @@ class createEventDto {
     @IsString()
     zipcode: string;
 
-    @IsNotEmpty()
-    @IsString()
-    tag: string[]
+    // @IsNotEmpty()
+    // @IsString()
+    // tag: string[]
 
     @IsNotEmpty()
     @IsDateString()
@@ -46,9 +47,10 @@ class createEventDto {
     @IsDateString()
     enddatetime: Date;
 
-    @IsEmpty()
-    @IsNumber()
-    user: Number;
+    // @IsEmpty()
+    // @IsNumber()
+    user: Partial<User>;
+    // user: Number;
 }
 
 export default createEventDto;
