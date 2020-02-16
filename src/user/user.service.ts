@@ -1,7 +1,7 @@
 import { Injectable, UploadedFile } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { User } from "src/user/user.entity";
+import { User } from "src/entity/user.entity";
 import { compare, hash } from 'bcrypt';
 import createUserDto from "./dto/create-user-dto";
 
@@ -30,5 +30,9 @@ export class UserService {
       filename: file.filename,
     };
     return response;
+  }
+
+  getPic( image, @Res() res) {
+    return res.sendFile(image, { root: './files/' });
   }
 }

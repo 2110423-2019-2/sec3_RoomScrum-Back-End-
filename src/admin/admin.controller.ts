@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Get, NotImplementedException } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { ApproveUserDto } from './dto/approve-user.dto';
-import { User } from 'src/user/user.entity';
+import { User } from 'src/entity/user.entity';
 import { RejectUserDto } from './dto/reject-user.dto';
 
 @Controller('admin')

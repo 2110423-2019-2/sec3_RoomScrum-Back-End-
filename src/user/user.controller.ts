@@ -1,7 +1,7 @@
 import { Controller, Body, HttpException, HttpStatus, Res,
   UseInterceptors, UploadedFile, Param } from "@nestjs/common";
 import { Post, Get } from "@nestjs/common";
-import { User } from "./user.entity";
+import { User } from "src/entity/user.entity";
 import { UserService } from "./user.service";
 import { FileInterceptor } from "@nestjs/platform-express"
 import { imageFileFilter, editFileName } from "../utils/file-uploading.utils";
