@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { UserController } from "./user.controller";
 
 import config from 'src/config';
-import { User } from "./user.entity";
+import { User } from "../entity/user.entity";
 import { UserService } from "./user.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import * as _ from 'lodash';

@@ -1,15 +1,15 @@
 import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from "typeorm";
 
 export enum Gender {
-  M = 0, F = 1, O = 2
+  Male = 0, Female = 1, Other = 2
 }
 
 export enum UserType {
-  H = 'H', PH = 'PH', M = 'M', PM = 'PM', A = 'A'
+  Hirer = 'H', PremiumHirer = 'PH', Musician = 'M', PremiumMusician = 'PM', Admin = 'A'
 }
 
 export enum MusicianApprovement {
-  NA = 'NA', A = 'A', R = 'R'
+  NotApproved = 'NA', Approved = 'A', Rejected = 'R'
 };
 
 @Entity()
@@ -56,7 +56,7 @@ export class User {
     @Column({
         type: "enum",
         enum: Gender,
-        default: Gender.O
+        default: Gender.Other
     })
     gender: Gender;
 
@@ -117,7 +117,7 @@ export class User {
 
     ////////////////////////////// User Type
     @Column({
-      default: UserType.A,
+      default: UserType.Admin,
       type: "enum",
       enum: UserType,
     })
@@ -131,7 +131,7 @@ export class User {
     bio: string;
 
     @Column({
-      default: MusicianApprovement.NA,
+      default: MusicianApprovement.NotApproved,
       type: "enum",
       enum: MusicianApprovement,
       nullable: true
