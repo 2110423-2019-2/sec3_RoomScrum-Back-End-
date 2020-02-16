@@ -63,7 +63,7 @@ export class User {
     @Column({
         type: "date"
     })
-    birthdate: string;
+    birthdate: Date;
 
     ////////////////////////////// Contact
     @Column({
@@ -121,7 +121,7 @@ export class User {
       type: "enum",
       enum: UserType,
     })
-    userType: string;
+    userType: UserType;
 
     ////////////////////////////// Musician Shit
     @Column({
@@ -136,7 +136,7 @@ export class User {
       enum: MusicianApprovement,
       nullable: true
     })
-    musicianApprovement: string;
+    musicianApprovement: MusicianApprovement;
 
     @Column({
       length: 255,

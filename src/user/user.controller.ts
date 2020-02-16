@@ -1,5 +1,5 @@
 import { Controller, Body, HttpException, HttpStatus,
-  UseInterceptors, UploadedFile, Param } from "@nestjs/common";
+  UseInterceptors, UploadedFile, Param, UseGuards, Request} from "@nestjs/common";
 import { Post, Get } from "@nestjs/common";
 import { User } from "src/entity/user.entity";
 import { UserService } from "./user.service";
@@ -7,6 +7,8 @@ import { FileInterceptor } from "@nestjs/platform-express"
 import { imageFileFilter, editFileName } from "../utils/file-uploading.utils";
 import { diskStorage } from "multer";
 import createUserDto from "./dto/create-user-dto";
+import { AuthGuard } from "@nestjs/passport";
+// import { request } from "http";
 
 @Controller("user")
 export class UserController {
@@ -38,6 +40,7 @@ export class UserController {
   }
 
   @Post('profile-pic')
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
@@ -47,11 +50,9 @@ export class UserController {
       fileFilter: imageFileFilter,
     }),
   )
-  async uploadProfilePicture(
-    @UploadedFile() file, 
-    @Body('userId') userId 
-  ) {
+  async uploadProfilePicture( @UploadedFile() file, @Request() req ) {
     try {
+        const userId = req.user.userId;
         await this.userService.uploadPic(file.filename, userId);
         return {
           status: 200,

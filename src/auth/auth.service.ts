@@ -22,6 +22,7 @@ export class AuthService {
     }
     return {
       username,
+      userId: foundUser.userId,
     };
   }
 
