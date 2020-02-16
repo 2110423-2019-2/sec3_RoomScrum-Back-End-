@@ -2,7 +2,7 @@ import { Controller, Body, HttpException, HttpStatus,
     UsePipes, ValidationPipe, Res,
     UseInterceptors, UploadedFile, Param  } from "@nestjs/common";
 import { Get, Post, Put } from '@nestjs/common';
-import { Event } from './events.entity';
+import { Event } from 'src/entity/events.entity';
 import { EventsService } from './events.service';
 import createEventDto from  './dto/create-event-dto';
 
