@@ -13,6 +13,7 @@ import { Application } from 'src/entity/application.entity';
 import { AdminModule } from './admin/admin.module';
 
 import config from 'src/config';
+import { Hiree } from "./entity/hiree.entity";
 
 @Module({
   imports: [
@@ -24,8 +25,7 @@ import config from 'src/config';
       username: config.MYSQL_USER,
       password: config.MYSQL_PASSWORD,
       database: config.MYSQL_DATABASE,
-      entities: [User,Event,Application],
-      logging: true,
+      entities: [User,Hiree, Event, Application],
       synchronize: true
     }),
     AuthModule,

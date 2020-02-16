@@ -7,6 +7,6 @@ export class Hiree {
     @PrimaryGeneratedColumn()
     hireeId: number;
 
-    @OneToOne(type => User, user => user.hiree)
+    @OneToOne(type => User, user => user.hiree.hireeId)
     user: User;
 }
