@@ -12,11 +12,17 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>
   ) {}
-
+  
   find(user: Partial<User>): Promise<User[]> {
     return this.userRepository.find({
       where: user,
     });
+  }
+
+  findFromId(id): Promise<User[]> {
+    return this.userRepository.find({
+      where: //TODO
+    })
   }
 
   async create(user: createUserDto): Promise<any> {

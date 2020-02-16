@@ -1,5 +1,5 @@
 import { Controller, Body, HttpException, HttpStatus,
-  UseInterceptors, UploadedFile, Param, UseGuards, Request} from "@nestjs/common";
+  UseInterceptors, UploadedFile, Param, UseGuards, Request, Req} from "@nestjs/common";
 import { Post, Get } from "@nestjs/common";
 import { User } from "src/entity/user.entity";
 import { UserService } from "./user.service";
@@ -17,6 +17,12 @@ export class UserController {
   @Get()
   findAllUsers(): Promise<User[]> {
     return this.userService.find({});
+  }
+
+  @Get()
+  findUserFromId(@Req() req): promise<User[]> {
+    const id = req.Body.id;
+    return this.userService.findFromId(id);
   }
 
   @Post()

@@ -10,7 +10,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-
+    
   async validateUserPass(username: string, password: string): Promise<any> {
     const foundUser = (await this.userService.find({username}))[0];
     if (!foundUser) {
