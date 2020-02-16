@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne} from "typeorm";
+import {User} from './user.entity' ;
 
 @Entity()
 export class Event { 
@@ -31,17 +32,18 @@ export class Event {
     @Column({
         type:'datetime'
     })
-    startdatetime: string;
+    startdatetime: Date;
 
     @Column({
         type:'datetime'
     })
-    enddatetime: string;
+    enddatetime: Date;
 
     @Column({
         type:'set', 
         length:50 })
     tag: string[];
 
-    //userId
+    @ManyToOne(type => User, user => user.event)
+    user: Number;
 }

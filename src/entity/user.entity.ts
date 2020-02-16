@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany} from "typeorm";
+import {Event} from './events.entity'
 
 export enum Gender {
   Male = 0, Female = 1, Other = 2
@@ -16,10 +17,6 @@ export enum MusicianApprovement {
 export class User {
 
     @PrimaryGeneratedColumn()
-    @Column({
-      primary: true,
-      type: "integer",
-    })
     userId: number;
     
     ////////////////////////////// LOGIN INFORMATION 
@@ -121,7 +118,7 @@ export class User {
       type: "enum",
       enum: UserType,
     })
-    userType: string;
+    userType: UserType;
 
     ////////////////////////////// Musician Shit
     @Column({
@@ -136,7 +133,7 @@ export class User {
       enum: MusicianApprovement,
       nullable: true
     })
-    musicianApprovement: string;
+    musicianApprovement: MusicianApprovement;
 
     @Column({
       length: 255,
@@ -155,5 +152,8 @@ export class User {
       nullable: true
     })
     hireeId: number;
+
+    @OneToMany(type => Event, event => event.user)
+    event: Event[];
 }
 
