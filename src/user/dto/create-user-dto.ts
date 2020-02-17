@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, Length, MinLength, IsEmail, IsNumber, IsEmpty, IsNumberString, IsDate, IsInt, IsEnum, ValidateIf, IsUrl } from "class-validator";
+import { IsString, IsNotEmpty, Length, MinLength, IsEmail, IsNumber, IsEmpty, IsNumberString, IsDate, IsInt, IsEnum, ValidateIf, IsUrl, IsDateString } from "class-validator";
 import { Gender, UserType, MusicianApprovement } from 'src/entity/user.entity';
 import { Column } from "typeorm";
 
@@ -32,8 +32,8 @@ class createUserDto {
     gender: Gender;
 
     @IsNotEmpty()
-    @IsDate()
-    birthdate: Date;
+    @IsDateString()
+    birthdate: string;
 
     @IsNotEmpty()
     @IsString()
