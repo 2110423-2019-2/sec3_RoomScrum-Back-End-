@@ -31,16 +31,17 @@ export class UserController {
     user: createUserDto
   ): Promise<any> {
     try {
-      await this.userService.create(user);
+      const result = this.userService.create(user)
       return {
-        status: 200,
-        message: 'OK',
-      }
+            status: 200,
+            message: result
+          } 
+      
     } catch (err) {
       if (err.errno === 1062){
         throw new HttpException('username already exists', HttpStatus.BAD_REQUEST);
       } else {
-        throw new HttpException('Bad request', HttpStatus.BAD_REQUEST)
+        throw new HttpException( err.message, HttpStatus.BAD_REQUEST)
       }
     }
   }

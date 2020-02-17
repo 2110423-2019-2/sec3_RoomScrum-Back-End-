@@ -12,7 +12,7 @@ export class HireeService {
     ) {}
     
     async create(hiree: createHireeDto): Promise<any> {
-        return this.hireeRepository.insert(hiree);
+        return await this.hireeRepository.insert(hiree);
     }
 
 }

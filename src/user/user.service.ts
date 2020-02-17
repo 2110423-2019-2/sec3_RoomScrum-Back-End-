@@ -36,17 +36,14 @@ export class UserService {
 
     user.hireeId = hiree.hireeId;
 
-    return this.userRepository.insert(user);
+    return await this.userRepository.insert(user);
   }
 
   async uploadPic(@UploadedFile() file, userId: number): Promise<any> {
-    const originalname = file.originalname;
-    const filename = file.filename;
-    const updatedUser = new User();
-    updatedUser.profileImage = 'src/files/user/' + file.filename;
+    const imagePath = 'src/files/user/' + file.filename;
 
     await this.userRepository.update(
-      userId, updatedUser
+      userId, {profileImage: imagePath}
     );
 
     return;

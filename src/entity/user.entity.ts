@@ -5,7 +5,7 @@ import { Profiler } from "inspector";
 import { Optional } from "@nestjs/common";
 
 export enum Gender {
-  Male = 0, Female = 1, Other = 2
+  Male = 'M', Female = 'F', Other = 'O'
 }
 
 export enum UserType {
@@ -67,7 +67,8 @@ export class User {
 
     ////////////////////////////// Contact
     @Column({
-      length: 50
+      length: 50,
+      unique: true
     })
     email: string;
 
