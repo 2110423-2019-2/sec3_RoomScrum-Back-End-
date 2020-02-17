@@ -50,6 +50,7 @@ export class User {
         type: "char",
         length: 13,
         nullable: true,
+        unique: true
     })
     nationalId: string;
 

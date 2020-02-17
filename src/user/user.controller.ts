@@ -34,14 +34,10 @@ export class UserController {
       const result = await this.userService.create(user)
       return {
         status: 200,
-        message: result
+        message: 'ok'
       } 
     } catch (err) {
-      if (err.errno === 1062){
-        throw new HttpException('username already exists', HttpStatus.BAD_REQUEST);
-      } else {
-        throw new HttpException( 'err.message', HttpStatus.BAD_REQUEST)
-      }
+      throw new HttpException( err.message, HttpStatus.BAD_REQUEST);
     }
   }
 

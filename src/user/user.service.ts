@@ -1,7 +1,7 @@
 import { Injectable, UploadedFile } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { User } from "src/entity/user.entity";
+import { User, UserType } from "src/entity/user.entity";
 import { compare, hash } from 'bcrypt';
 import createUserDto from "./dto/create-user-dto";
 import createHireeDto from 'src/hiree/dto/create-hiree-dto';
@@ -33,10 +33,13 @@ export class UserService {
     const hashedPassword = await hash(user.password, 8);
     user.password = hashedPassword;
 
-    const hiree: Hiree = await this.hireeService.create(new createHireeDto());
-
+    
     const userEntity: User = await this.userRepository.create(user);
-    userEntity.hiree = hiree;
+    
+    if (user.userType == UserType.Musician || user.userType == UserType.PremiumMusician) {
+      const hiree: Hiree = await this.hireeService.create(new createHireeDto());
+      userEntity.hiree = hiree;
+    }
 
     await this.userRepository.save(userEntity);
     return userEntity;

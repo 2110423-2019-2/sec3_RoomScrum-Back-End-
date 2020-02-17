@@ -78,19 +78,16 @@ class createUserDto {
     ////////////////////////////// Musician Shit
     @ValidateIf(o => (o.userType === UserType.Musician 
         || o.userType === UserType.PremiumMusician))
-    @IsNotEmpty()
     @IsString()
     bio: string;
 
     @ValidateIf(o => (o.userType === UserType.Musician
         || o.userType === UserType.PremiumMusician))
-    @IsNotEmpty()
-    @IsEnum(MusicianApprovement)
+    @IsEmpty()
     musicianApprovement: MusicianApprovement;
 
     @ValidateIf(o => (o.userType === UserType.Musician
-        || o.userType === UserType.PremiumMusician))
-    @IsUrl()
+        || o.userType === UserType.PremiumMusician ))
     videoUrl: string;
 
     @IsEmpty()
