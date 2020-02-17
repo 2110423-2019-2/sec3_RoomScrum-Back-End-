@@ -5,7 +5,7 @@ import { Profiler } from "inspector";
 import { Optional } from "@nestjs/common";
 
 export enum Gender {
-  Male = 'M', Female = 'F', Other = 'O'
+  Male = 1, Female = 2, Other = 3
 }
 
 export enum UserType {
@@ -150,14 +150,10 @@ export class User {
       nullable: true
     })
     videoUrl: string;
-  
-    @Column({
-      nullable: true
-    })
-    hireeId: number;
 
-    @OneToOne(type => Hiree, hiree => hiree.user.userId)
-    //@JoinColumn({name: 'hireeId'})
+
+    @OneToOne(type => Hiree, hiree => hiree.user, {cascade: true})
+    @JoinColumn()
     hiree: Hiree;
 
     @OneToMany(type => Event, event => event.user.userId)

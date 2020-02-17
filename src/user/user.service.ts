@@ -7,6 +7,7 @@ import createUserDto from "./dto/create-user-dto";
 import createHireeDto from 'src/hiree/dto/create-hiree-dto';
 import { Request } from "express";
 import { HireeService } from "src/hiree/hiree.service";
+import { Hiree } from "src/entity/hiree.entity";
 
 @Injectable()
 export class UserService {
@@ -32,11 +33,14 @@ export class UserService {
     const hashedPassword = await hash(user.password, 8);
     user.password = hashedPassword;
 
-    const hiree = await this.hireeService.create(new createHireeDto());
+    const hiree: Hiree = await this.hireeService.create(new createHireeDto());
 
-    user.hireeId = hiree.hireeId;
+    const userEntity: User = await this.userRepository.create(user);
+    userEntity.hiree = hiree;
 
-    return await this.userRepository.insert(user);
+    await this.userRepository.save(userEntity);
+    return userEntity;
+
   }
 
   async uploadPic(@UploadedFile() file, userId: number): Promise<any> {
