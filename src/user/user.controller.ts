@@ -65,8 +65,8 @@ export class UserController {
       }
   }
 
-  @Get('profile-pic')
-  async getProfilePicture( @Body('userId') userId: number, @Res() res ) {
+  @Get('profile-pic/:id')
+  async getProfilePicture(@Param('id') userId: number, @Res() res ) {
     try {
       // const userId = req.body.userId;
       const imgPath = await this.userService.getPicPath(userId);
