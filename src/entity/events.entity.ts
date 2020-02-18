@@ -6,6 +6,9 @@ export class Event {
     @PrimaryGeneratedColumn()
     eventId: number;
 
+    @Column({length: 255})
+    eventName: string;
+
     @Column({ length:2000 })
     description: string;
 

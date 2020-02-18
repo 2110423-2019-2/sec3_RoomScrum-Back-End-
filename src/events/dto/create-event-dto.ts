@@ -9,6 +9,10 @@ class createEventDto {
 
     @IsNotEmpty()
     @IsString()
+    eventName: string;
+
+    @IsNotEmpty()
+    @IsString()
     description: string;
 
     @IsNotEmpty()
