@@ -1,5 +1,5 @@
-import { Controller, Body, HttpException, HttpStatus, Res,
-  UseInterceptors, UploadedFile, Param } from "@nestjs/common";
+import { Controller, Body, HttpException, HttpStatus,
+  UseInterceptors, UploadedFile, Param, UseGuards, Request, Req, Res} from "@nestjs/common";
 import { Post, Get } from "@nestjs/common";
 import { User } from "src/entity/user.entity";
 import { UserService } from "./user.service";
@@ -7,37 +7,42 @@ import { FileInterceptor } from "@nestjs/platform-express"
 import { imageFileFilter, editFileName } from "../utils/file-uploading.utils";
 import { diskStorage } from "multer";
 import createUserDto from "./dto/create-user-dto";
+import { AuthGuard } from "@nestjs/passport";
+// import { request } from "http";
 
 @Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
+  @Get('all')
   findAllUsers(): Promise<User[]> {
     return this.userService.find({});
   }
 
-  @Post()
+  @Get()
+  findUserFromId(@Req() req): Promise<User[]> {
+    const id = req.Body.id;
+    return this.userService.findFromId(id);
+  }
+
+  @Post('create')
   async createUser(
     @Body()
     user: createUserDto
   ): Promise<any> {
     try {
-      await this.userService.create(user);
+      const result = await this.userService.create(user)
       return {
         status: 200,
-        message: "OK",
-      }
+        message: 'ok'
+      } 
     } catch (err) {
-      if (err.errno === 1062){
-        throw new HttpException('username already exists', HttpStatus.BAD_REQUEST);
-      } else {
-        throw new HttpException('Bad request', HttpStatus.BAD_REQUEST)
-      }
+      throw new HttpException( err.message, HttpStatus.BAD_REQUEST);
     }
   }
 
   @Post('profile-pic')
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
@@ -47,8 +52,27 @@ export class UserController {
       fileFilter: imageFileFilter,
     }),
   )
-  async uploadProfilePicture(@UploadedFile() file) {
-    const response = await this.userService.uploadPic(file);
-    return response;
+  async uploadProfilePicture( @UploadedFile() file, @Request() req ) {
+    try {
+        const userId = req.user.userId;
+        await this.userService.uploadPic(file, userId);
+        return {
+          status: 200,
+          message: "OK",
+        }
+      } catch (err) {
+        throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+      }
+  }
+
+  @Get('profile-pic/:id')
+  async getProfilePicture(@Param('id') userId: number, @Res() res ) {
+    try {
+      // const userId = req.body.userId;
+      const imgPath = await this.userService.getPicPath(userId);
+      return res.sendFile(imgPath, {root: './files/user'});
+    } catch (err) {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    }
   }
 }

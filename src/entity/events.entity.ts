@@ -1,10 +1,13 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne} from "typeorm";
-import {User} from './user.entity' ;
+import { User } from './user.entity' ;
 
 @Entity()
 export class Event { 
     @PrimaryGeneratedColumn()
     eventId: number;
+
+    @Column({length: 255})
+    eventName: string;
 
     @Column({ length:2000 })
     description: string;

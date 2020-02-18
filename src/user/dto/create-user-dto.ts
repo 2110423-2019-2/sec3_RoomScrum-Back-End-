@@ -1,4 +1,6 @@
-import { IsString, IsNotEmpty, Length, MinLength, IsEmail, IsNumber, IsEmpty } from "class-validator";
+import { IsString, IsNotEmpty, Length, MinLength, IsEmail, IsISO8601, IsEmpty, IsNumberString, IsDate, IsInt, IsEnum, ValidateIf, IsUrl, IsDateString } from "class-validator";
+import { Gender, UserType, MusicianApprovement } from 'src/entity/user.entity';
+import { Column } from "typeorm";
 
 class createUserDto {
     @IsNotEmpty()
@@ -18,15 +20,78 @@ class createUserDto {
     @IsNotEmpty()
     @IsString()
     lastName: string;
+
+    @IsNotEmpty()
+    @IsString()
+    @Length(13)
+    @IsNumberString()
+    nationalId: string;
     
+    @IsNotEmpty()
+    @IsEnum(Gender)
+    gender: Gender;
+
+    @IsNotEmpty()
+    @IsISO8601()
+    birthdate: string;
+
     @IsNotEmpty()
     @IsString()
     @IsEmail()
     email: string;
     
     @IsNotEmpty()
-    @IsString()
+    @IsNumberString()
     phoneNumber: string;
+
+    ////////////////////////////// Addresses
+    @IsNotEmpty()
+    @IsString()
+    address: string;
+    
+    @IsNotEmpty()
+    @IsString()
+    subdistrict: string;
+    
+    @IsNotEmpty()
+    @IsString()
+    district: string;
+    
+    @IsNotEmpty()
+    @IsString()
+    cityState: string;
+    
+    @IsNotEmpty()
+    @IsString()
+    country: string;
+
+    @IsNotEmpty()
+    @IsString()
+    @Length(5)
+    zipcode: string;
+
+    ////////////////////////////// User Type
+    @IsNotEmpty()
+    @IsEnum(UserType)
+    userType: UserType;
+
+    ////////////////////////////// Musician Shit
+    @ValidateIf(o => (o.userType === UserType.Musician 
+        || o.userType === UserType.PremiumMusician))
+    @IsString()
+    bio: string;
+
+    @ValidateIf(o => (o.userType === UserType.Musician
+        || o.userType === UserType.PremiumMusician))
+    @IsEmpty()
+    musicianApprovement: MusicianApprovement;
+
+    @ValidateIf(o => (o.userType === UserType.Musician
+        || o.userType === UserType.PremiumMusician ))
+    videoUrl: string;
+
+    @IsEmpty()
+    hireeId: number;
 }
 
 export default createUserDto;

@@ -1,8 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany} from "typeorm";
-import {Event} from './events.entity'
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn} from "typeorm";
+import { Event } from './events.entity';
+import { Hiree } from 'src/entity/hiree.entity';
+import { Profiler } from "inspector";
+import { Optional } from "@nestjs/common";
 
 export enum Gender {
-  Male = 0, Female = 1, Other = 2
+  Male = 1, Female = 2, Other = 3
 }
 
 export enum UserType {
@@ -47,6 +50,7 @@ export class User {
         type: "char",
         length: 13,
         nullable: true,
+        unique: true
     })
     nationalId: string;
 
@@ -60,11 +64,12 @@ export class User {
     @Column({
         type: "date"
     })
-    birthdate: string;
+    birthdate: Date;
 
     ////////////////////////////// Contact
     @Column({
-      length: 50
+      length: 50,
+      unique: true
     })
     email: string;
 
@@ -147,11 +152,10 @@ export class User {
     })
     videoUrl: string;
 
-    //TODO change to many-to-one
-    @Column({
-      nullable: true
-    })
-    hireeId: number;
+
+    @OneToOne(type => Hiree, hiree => hiree.user, {cascade: true})
+    @JoinColumn()
+    hiree: Hiree;
 
     @OneToMany(type => Event, event => event.user.userId)
     event: Event[];
