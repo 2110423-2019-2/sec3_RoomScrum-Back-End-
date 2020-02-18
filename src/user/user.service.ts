@@ -46,7 +46,7 @@ export class UserService {
 
   }
 
-  async uploadPic(@UploadedFile() file, userId: number): Promise<any> {
+  async uploadProfilePic(@UploadedFile() file, userId: number): Promise<any> {
     
     const imagePath = file.filename;
 
@@ -57,8 +57,24 @@ export class UserService {
     return;
   }
 
-  async getPicPath(id: number) {
-    const imgPath = await (await this.userRepository.findOneOrFail({userId: id})).profileImage;
+  async uploadIdPic(@UploadedFile() file, userId: number): Promise<any> {
+
+    const imagePath = file.filename;
+
+    this.userRepository.update(
+      userId, { nationalCardImage: imagePath }
+    );
+
+    return;
+  }
+
+  async getProfilePicPath(id: number) {
+    const imgPath = await (await this.userRepository.findOneOrFail({ userId: id })).profileImage;
+    return imgPath;
+  }
+
+  async getIdPicPath(id: number) {
+    const imgPath = await (await this.userRepository.findOneOrFail({ userId: id })).nationalCardImage;
     return imgPath;
   }
 }

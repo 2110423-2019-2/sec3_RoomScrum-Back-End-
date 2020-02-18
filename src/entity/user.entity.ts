@@ -1,8 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn} from "typeorm";
 import { Event } from './events.entity';
 import { Hiree } from 'src/entity/hiree.entity';
-import { Profiler } from "inspector";
-import { Optional } from "@nestjs/common";
 
 export enum Gender {
   Male = 1, Female = 2, Other = 3

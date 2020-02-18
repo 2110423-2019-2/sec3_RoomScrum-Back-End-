@@ -55,7 +55,7 @@ export class UserController {
   async uploadProfilePicture( @UploadedFile() file, @Request() req ) {
     try {
         const userId = req.user.userId;
-        await this.userService.uploadPic(file, userId);
+      await this.userService.uploadProfilePic(file, userId);
         return {
           status: 200,
           message: "OK",
@@ -69,8 +69,43 @@ export class UserController {
   async getProfilePicture(@Param('id') userId: number, @Res() res ) {
     try {
       // const userId = req.body.userId;
-      const imgPath = await this.userService.getPicPath(userId);
+      const imgPath = await this.userService.getProfilePicPath(userId);
       return res.sendFile(imgPath, {root: './files/user'});
+    } catch (err) {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Post('id-card-pic')
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './files/id-card/',
+        filename: editFileName,
+      }),
+      fileFilter: imageFileFilter,
+    }),
+  )
+  async uploadIdPicture(@UploadedFile() file, @Request() req) {
+    try {
+      const userId = req.user.userId;
+      await this.userService.uploadIdPic(file, userId);
+      return {
+        status: 200,
+        message: "OK",
+      }
+    } catch (err) {
+      throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Get('id-card-pic/:id')
+  async getIdPicture(@Param('id') userId: number, @Res() res) {
+    try {
+      // const userId = req.body.userId;
+      const imgPath = await this.userService.getIdPicPath(userId);
+      return res.sendFile(imgPath, { root: './files/id-card' });
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
     }
