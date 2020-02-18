@@ -47,12 +47,18 @@ export class UserService {
   }
 
   async uploadPic(@UploadedFile() file, userId: number): Promise<any> {
-    const imagePath = 'src/files/user/' + file.filename;
+    
+    const imagePath = file.filename;
 
-    await this.userRepository.update(
+    this.userRepository.update(
       userId, {profileImage: imagePath}
     );
 
     return;
+  }
+
+  async getPicPath(id: number) {
+    const imgPath = await (await this.userRepository.findOneOrFail({userId: id})).profileImage;
+    return imgPath;
   }
 }
