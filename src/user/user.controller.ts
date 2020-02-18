@@ -1,5 +1,5 @@
 import { Controller, Body, HttpException, HttpStatus,
-  UseInterceptors, UploadedFile, Param, UseGuards, Request, Req} from "@nestjs/common";
+  UseInterceptors, UploadedFile, Param, UseGuards, Request, Req, Res} from "@nestjs/common";
 import { Post, Get } from "@nestjs/common";
 import { User } from "src/entity/user.entity";
 import { UserService } from "./user.service";
@@ -55,7 +55,7 @@ export class UserController {
   async uploadProfilePicture( @UploadedFile() file, @Request() req ) {
     try {
         const userId = req.user.userId;
-        await this.userService.uploadPic(file.filename, userId);
+        await this.userService.uploadPic(file, userId);
         return {
           status: 200,
           message: "OK",
@@ -63,5 +63,16 @@ export class UserController {
       } catch (err) {
         throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
       }
+  }
+
+  @Get('profile-pic')
+  async getProfilePicture( @Body('userId') userId: number, @Res() res ) {
+    try {
+      // const userId = req.body.userId;
+      const imgPath = await this.userService.getPicPath(userId);
+      return res.sendFile(imgPath, {root: './files/user'});
+    } catch (err) {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    }
   }
 }
