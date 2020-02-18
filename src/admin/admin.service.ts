@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { User, MusicianApprovement } from 'src/entity/user.entity';
+import { User, MusicianApprovement, UserType } from 'src/entity/user.entity';
 import { Repository, UpdateResult } from 'typeorm';
 import { ApproveUserDto } from './dto/approve-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,6 +16,7 @@ export class AdminService {
         return this.userRepository.find({
             where: {
                 musicianApprovement: MusicianApprovement.NotApproved,
+                userType: UserType.Musician,
             }
         })
     }
