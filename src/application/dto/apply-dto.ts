@@ -1,14 +1,23 @@
-import { IsString, IsNotEmpty, Length, MinLength, IsEmail, IsNumber, IsEmpty, IsDateString } from "class-validator";
+import { IsString, IsNotEmpty, IsEnum, Length, MinLength, IsEmail, IsNumber, IsEmpty, IsDateString } from "class-validator";
+import { Status } from 'src/entity/application.entity';
 
 class applyDto {
 
     @IsNotEmpty()
     @IsNumber()
-    event_id: number;
+    eventId: number;
 
     @IsNotEmpty()
     @IsNumber()
-    hiree_id: number;
+    hireeId: number;
+
+    @IsNotEmpty()
+    @IsDateString()
+    timestamp: Date;
+
+    @IsNotEmpty()
+    @IsEnum(Status)
+    status: Status;
 }
 
 export default applyDto;

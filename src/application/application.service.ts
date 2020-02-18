@@ -17,4 +17,6 @@ export class ApplicationService {
     async apply(application: Application) {
         return this.applicationRepository.insert(application);
     }
+
+    
 }
