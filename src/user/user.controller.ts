@@ -41,6 +41,24 @@ export class UserController {
     }
   }
 
+  @Post('temp-pic')
+  @UseInterceptors(
+      FileInterceptor('image', {
+          storage: diskStorage({
+              destination: './files/temp/',
+              filename: editFileName,
+          }),
+          fileFilter: imageFileFilter,
+      }),
+  )
+  async uploadTempPicture(@UploadedFile() file) {
+      try {
+          return { imageName: file.filename }; 
+      } catch (err) {
+          throw new HttpException( err.message, HttpStatus.BAD_REQUEST);
+      }
+  }
+
   @Post('profile-pic')
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(
