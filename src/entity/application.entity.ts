@@ -24,4 +24,3 @@ export class Application { //This is a table for map event_id -> hiree_id
     })
     status: Status;
 }
-

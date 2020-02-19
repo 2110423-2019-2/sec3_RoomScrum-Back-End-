@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn} from "typeorm";
 import { User } from './user.entity' ;
+import { JoinAttribute } from "typeorm/query-builder/JoinAttribute";
 
 @Entity()
 export class Event { 
@@ -46,6 +47,15 @@ export class Event {
     //     type:'set', })
     // tag: string[];
 
-    @ManyToOne(type => User, user => user.event)
+    @Column()
+    userId: number;
+
+    @ManyToOne(type => User, user => user.event, {
+        // eager: true,
+    })
+    @JoinColumn({
+        name: "userId", // new name
+        referencedColumnName: "userId", // field name in user
+    })
     user: User;
 }

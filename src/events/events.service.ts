@@ -18,5 +18,7 @@ export class EventsService {
     async create(event: createEventDto) {
         return this.eventRepository.insert(event);
     }
+
+    
 }
 
