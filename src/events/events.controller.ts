@@ -1,12 +1,14 @@
 import { Controller, Body, HttpException, HttpStatus,
     UsePipes, ValidationPipe, Res,
-    UseInterceptors, UploadedFile, Param, UseGuards, Req  } from "@nestjs/common";
+    UseInterceptors, UploadedFile, Param, UseGuards, Req } from "@nestjs/common";
 import { Get, Post, Put } from '@nestjs/common';
 import { Event } from 'src/entity/events.entity';
 import { EventsService } from './events.service';
 import createEventDto from  './dto/create-event-dto';
 import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
+import { imageFileFilter, editFileName } from '../utils/file-uploading.utils';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('events')
 export class EventsController {
@@ -35,6 +37,36 @@ export class EventsController {
             // } else {
                 throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
             // }
+        }
+    }
+
+    @Post('pic')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(
+        FileInterceptor('image', {
+            storage: diskStorage({
+                destination: './files/event/',
+                filename: editFileName,
+            }),
+            fileFilter: imageFileFilter,
+        }),
+    )
+    async uploadEventPicture(@UploadedFile() file, @Req() req) {
+        try {
+            return file.editFileName; 
+        } catch (err) {
+            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Get('pic/:id')
+    async getIdPicture(@Param('id') userId: number, @Res() res) {
+        try {
+            // const userId = req.body.userId;
+            const imgPath = await this.eventsService.getEventPicName(userId);
+            return res.sendFile(imgPath, { root: './files/event' });
+        } catch (err) {
+            throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
         }
     }
 
