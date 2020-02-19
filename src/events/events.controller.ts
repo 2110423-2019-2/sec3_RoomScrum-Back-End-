@@ -9,6 +9,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
 import { imageFileFilter, editFileName } from '../utils/file-uploading.utils';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 @Controller('events')
 export class EventsController {
@@ -35,7 +36,7 @@ export class EventsController {
             // if (err.errno === 1062){
             //     throw new HttpException('event id error', HttpStatus.BAD_REQUEST);
             // } else {
-                throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+                throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
             // }
         }
     }
@@ -53,14 +54,14 @@ export class EventsController {
     )
     async uploadEventPicture(@UploadedFile() file, @Req() req) {
         try {
-            return file.editFileName; 
+            return { imageName: file.filename }; 
         } catch (err) {
-            throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
+            throw new HttpException( err.message, HttpStatus.BAD_REQUEST);
         }
     }
 
     @Get('pic/:id')
-    async getIdPicture(@Param('id') userId: number, @Res() res) {
+    async getEventPicture(@Param('id') userId: number, @Res() res) {
         try {
             // const userId = req.body.userId;
             const imgPath = await this.eventsService.getEventPicName(userId);

@@ -28,7 +28,7 @@ import { Hiree } from "./entity/hiree.entity";
       entities: [User,Hiree, Event, Application],
       synchronize: true,
       // logging: true,
-      // dropSchema:true,
+      dropSchema:true,
     }),
     AuthModule,
     EventsModule,
