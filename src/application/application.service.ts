@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Application } from 'src/entity/application.entity';
+import applyDto from './dto/apply-dto';
 
 @Injectable()
 export class ApplicationService {
@@ -14,7 +15,7 @@ export class ApplicationService {
         return this.applicationRepository.find()
     }
 
-    async apply(application: Application) {
+    async apply(application: applyDto) {
         return this.applicationRepository.insert(application);
     }
 

@@ -25,18 +25,14 @@ export class Application { //This is a table for map event_id -> hiree_id
     })
     status: Status;
 
-    @ManyToOne(type => Event, event => event.application)({
-        // eager: true,
-    })
+    @ManyToOne(type => Event, event => event.application)
     @JoinColumn({
         name: "eventId", // new name
         referencedColumnName: "eventId", // field name in user
     })
     event: Event;
     
-    @ManyToOne(type => Hiree, hiree => hiree.application)({
-        // eager: true,
-    })
+    @ManyToOne(type => Hiree, hiree => hiree.application, )
     @JoinColumn({
         name: "hireeId", // new name
         referencedColumnName: "hireeId", // field name in user

@@ -18,18 +18,14 @@ export class Join { //This is a table for map event_id -> hiree_id
     })
     timestamp: Date;
 
-    @ManyToOne(type => User, user => user.join)({
-        // eager: true,
-    })
+    @ManyToOne(type => User, user => user.join)
     @JoinColumn({
         name: "userId", // new name
         referencedColumnName: "userId", // field name in user
     })
     user: User;
     
-    @ManyToOne(type => Band, Band => Band.join)({
-        // eager: true,
-    })
+    @ManyToOne(type => Band, Band => Band.join)
     @JoinColumn({
         name: "bandId", // new name
         referencedColumnName: "bandId", // field name in user
