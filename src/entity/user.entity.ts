@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn} from "typeorm" ;
 import { Event } from './events.entity';
 import { Hiree } from 'src/entity/hiree.entity';
-import { Join } from "./join.entity";
-import { join } from "path";
+// import { Join } from "./join.entity";
+// import { join } from "path";
 
 export enum Gender {
   Male = 1, Female = 2, Other = 3
@@ -160,7 +160,7 @@ export class User {
     @OneToMany(type => Event, event => event.user.userId)
     event: Event[];
 
-    @OneToMany(type => Join, join => join.user.userId)
-    join: Join[];
+    // @OneToMany(type => Join, join => join.user.userId)
+    // join: Join[];
 }
 

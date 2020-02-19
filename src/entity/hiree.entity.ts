@@ -23,6 +23,6 @@ export class Hiree {
     @OneToOne(type => User, user => user.hiree)
     user: User;
 
-    @OneToMany(type => Application, application => application.hiree.hireeId)
-    application: Application[];
+    // @OneToMany(type => Application, application => application.hiree.hireeId)
+    // application: Application[];
 }

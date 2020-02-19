@@ -8,16 +8,18 @@ class applyDto {
     @IsNumber()
     eventId: number;
 
-    @IsNotEmpty()
-    @IsNumber()
+    // @IsNotEmpty()
+    // @IsNumber()
+    @IsEmpty()
     hireeId: number;
 
     @IsNotEmpty()
     @IsDateString()
     timestamp: Date;
 
-    @IsNotEmpty()
-    @IsEnum(Status)
+    // @IsNotEmpty()
+    // @IsEnum(Status)
+    @IsEmpty()
     status: Status;
 
 
