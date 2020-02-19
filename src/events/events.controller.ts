@@ -24,13 +24,17 @@ export class EventsController {
             userId: req.user.userId,
         }
         try{
-            return await this.eventsService.create(event);
+            await this.eventsService.create(event);
+            return {
+                status: 200,
+                message: 'create event ok'
+            } 
         } catch(err) {
-            if (err.errno === 1062){
-                throw new HttpException('event id error', HttpStatus.BAD_REQUEST);
-            } else {
+            // if (err.errno === 1062){
+            //     throw new HttpException('event id error', HttpStatus.BAD_REQUEST);
+            // } else {
                 throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-            }
+            // }
         }
     }
 
