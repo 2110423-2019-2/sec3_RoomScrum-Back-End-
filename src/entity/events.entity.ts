@@ -58,9 +58,6 @@ export class Event {
     @Column()
     userId: number;
 
-    @Column()
-    eventImage: string;
-
     @ManyToOne(type => User, user => user.event, {
         // eager: true,
     })
