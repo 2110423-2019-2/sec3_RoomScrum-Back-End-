@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn } from "typeorm";
-
+import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn , OneToMany } from "typeorm";
+import { Join } from './join.entity';
 
 @Entity()
 export class Band {
@@ -19,5 +19,7 @@ export class Band {
     })
     bandImage: string;
 
+    @OneToMany(type => Join, join => join.band.bandId)
+    join: Join[];
 }
 

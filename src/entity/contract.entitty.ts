@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Contract{ 
@@ -39,8 +39,8 @@ export class Contract{
     })
     enddatetime: string;
 
-    @Column({
-        type:'set', 
-        length:50 })
-    tag: string[];
+    // @Column({
+    //     type:'set', 
+    //     length:50 })
+    // tag: string[];
 }
