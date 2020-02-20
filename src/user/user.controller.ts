@@ -41,17 +41,35 @@ export class UserController {
     }
   }
 
-  @Post('temp-pic')
+  @Post('temp-profile-pic')
   @UseInterceptors(
       FileInterceptor('image', {
           storage: diskStorage({
-              destination: './files/temp/',
+              destination: './files/user/',
               filename: editFileName,
           }),
           fileFilter: imageFileFilter,
       }),
   )
-  async uploadTempPicture(@UploadedFile() file) {
+  async uploadTempProfile(@UploadedFile() file) {
+      try {
+          return { imageName: file.filename }; 
+      } catch (err) {
+          throw new HttpException( err.message, HttpStatus.BAD_REQUEST);
+      }
+  }
+
+  @Post('temp-id-pic')
+  @UseInterceptors(
+      FileInterceptor('image', {
+          storage: diskStorage({
+              destination: './files/id-card/',
+              filename: editFileName,
+          }),
+          fileFilter: imageFileFilter,
+      }),
+  )
+  async uploadTempIdCard(@UploadedFile() file) {
       try {
           return { imageName: file.filename }; 
       } catch (err) {
@@ -64,7 +82,7 @@ export class UserController {
   @UseInterceptors(
     FileInterceptor('image', {
       storage: diskStorage({
-        destination: './files/user/',
+        destination: './files/',
         filename: editFileName,
       }),
       fileFilter: imageFileFilter,
