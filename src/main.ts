@@ -13,13 +13,20 @@ async function bootstrap() {
   app.use(cookieParser());
   app.useGlobalPipes(new ValidationPipe); // https://docs.nestjs.com/techniques/validation
 
+  var corsOptions = {
+    Credentials: true,
+    origin: config.CORS_HOST,
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
   if (config.ALLOW_CORS === "true") {
-    app.use(cors());
     app.use((req: Request, res: Response, next) => {
-      res.setHeader('Access-Control-Allow-Credentials', 'true');
-      res.setHeader('Access-Control-Allow-Origin', config.CORS_HOST);
-      next();
-    })
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.setHeader('Access-Control-Allow-Origin', config.CORS_HOST);
+        res.setHeader('Access-Control-Allow-Methods',"POST, GET, OPTIONS, DELETE, PUT");
+        next();
+      })
+      
+    app.use(cors(corsOptions));
   }
   const options = new DocumentBuilder()
     .setTitle('Room scrum')

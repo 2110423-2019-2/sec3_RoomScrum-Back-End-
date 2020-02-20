@@ -1,5 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne} from "typeorm";
-import { User } from './user.entity' ;
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn} from "typeorm";
+import { User } from './user.entity';
+import { JoinAttribute } from "typeorm/query-builder/JoinAttribute";
+import { Application } from './application.entity';
+import { OneToMany } from "typeorm";
 
 @Entity()
 export class Event { 
@@ -42,10 +45,28 @@ export class Event {
     })
     enddatetime: Date;
 
+    /////////////////////////////Event image
+    @Column({
+        nullable: true
+    })
+    eventImage: string;
+
     // @Column({
     //     type:'set', })
     // tag: string[];
 
-    @ManyToOne(type => User, user => user.event)
+    @Column()
+    userId: number;
+
+    @ManyToOne(type => User, user => user.event, {
+        // eager: true,
+    })
+    @JoinColumn({
+        name: "userId", // new name
+        referencedColumnName: "userId", // field name in user
+    })
     user: User;
+
+    @OneToMany(type => Application, application => application.event.eventId)
+    application: Application[];
 }

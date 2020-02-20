@@ -1,12 +1,15 @@
 import { Controller, Body, HttpException, HttpStatus,
     UsePipes, ValidationPipe, Res,
-    UseInterceptors, UploadedFile, Param, UseGuards, Req  } from "@nestjs/common";
+    UseInterceptors, UploadedFile, Param, UseGuards, Req } from "@nestjs/common";
 import { Get, Post, Put } from '@nestjs/common';
 import { Event } from 'src/entity/events.entity';
 import { EventsService } from './events.service';
 import createEventDto from  './dto/create-event-dto';
 import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
+import { imageFileFilter, editFileName } from '../utils/file-uploading.utils';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
 
 @Controller('events')
 export class EventsController {
@@ -24,13 +27,47 @@ export class EventsController {
             userId: req.user.userId,
         }
         try{
-            return await this.eventsService.create(event);
+            await this.eventsService.create(event);
+            return {
+                status: 200,
+                message: 'create event ok'
+            } 
         } catch(err) {
-            if (err.errno === 1062){
-                throw new HttpException('event id error', HttpStatus.BAD_REQUEST);
-            } else {
-                throw new HttpException('Bad request', HttpStatus.BAD_REQUEST);
-            }
+            // if (err.errno === 1062){
+            //     throw new HttpException('event id error', HttpStatus.BAD_REQUEST);
+            // } else {
+                throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+            // }
+        }
+    }
+
+    @Post('pic')
+    @UseGuards(AuthGuard('jwt'))
+    @UseInterceptors(
+        FileInterceptor('image', {
+            storage: diskStorage({
+                destination: './files/event/',
+                filename: editFileName,
+            }),
+            fileFilter: imageFileFilter,
+        }),
+    )
+    async uploadEventPicture(@UploadedFile() file, @Req() req) {
+        try {
+            return { imageName: file.filename }; 
+        } catch (err) {
+            throw new HttpException( err.message, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Get('pic/:id')
+    async getEventPicture(@Param('id') userId: number, @Res() res) {
+        try {
+            // const userId = req.body.userId;
+            const imgPath = await this.eventsService.getEventPicName(userId);
+            return res.sendFile(imgPath, { root: './files/event' });
+        } catch (err) {
+            throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
         }
     }
 

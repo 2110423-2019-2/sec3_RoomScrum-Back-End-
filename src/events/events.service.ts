@@ -18,5 +18,11 @@ export class EventsService {
     async create(event: createEventDto) {
         return this.eventRepository.insert(event);
     }
+    
+    async getEventPicName(id: number) {
+        return (await this.eventRepository.findOneOrFail({eventId: id})).eventImage;
+    }
+
+    
 }
 
