@@ -1,166 +1,185 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne, JoinColumn} from "typeorm" ;
-import { Event } from './events.entity';
-import { Hiree } from 'src/entity/hiree.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  OneToOne,
+  JoinColumn
+} from "typeorm";
+import { Event } from "./events.entity";
+import { Hiree } from "src/entity/hiree.entity";
 // import { Join } from "./join.entity";
 // import { join } from "path";
 
 export enum Gender {
-  Male = 1, Female = 2, Other = 3
+  Male = 1,
+  Female = 2,
+  Other = 3
 }
 
 export enum UserType {
-  Hirer = 'H', PremiumHirer = 'PH', Musician = 'M', PremiumMusician = 'PM', Admin = 'A'
+  Hirer = "H",
+  PremiumHirer = "PH",
+  Musician = "M",
+  PremiumMusician = "PM",
+  Admin = "A"
 }
 
 export enum MusicianApprovement {
-  NotApproved = 'NA', Approved = 'A', Rejected = 'R'
-};
+  NotApproved = "NA",
+  Approved = "A",
+  Rejected = "R"
+}
 
 @Entity()
 export class User {
+  @PrimaryGeneratedColumn()
+  userId: number;
 
-    @PrimaryGeneratedColumn()
-    userId: number;
+  ////////////////////////////// LOGIN INFORMATION
+  @Column({
+    length: 20,
+    unique: true
+  })
+  username: string;
 
-    ////////////////////////////// LOGIN INFORMATION 
-    @Column({
-      length: 20,
-      unique: true,
-    })
-    username: string;
+  @Column({
+    length: 255
+  })
+  password: string;
 
-    @Column({
-        length: 255
-    })
-    password: string;
+  ////////////////////////////// NAME
+  @Column({
+    length: 255
+  })
+  firstName: string;
 
-    ////////////////////////////// NAME
-    @Column({
-      length: 255
-    })
-    firstName: string;
-    
-    @Column({
-      length: 255
-    })
-    lastName: string;
-    
-    ////////////////////////////// Personal
-    @Column({
-        type: "char",
-        length: 13,
-        nullable: true,
-        unique: true
-    })
-    nationalId: string;
+  @Column({
+    length: 255
+  })
+  lastName: string;
 
-    @Column({
-        type: "enum",
-        enum: Gender,
-        default: Gender.Other
-    })
-    gender: Gender;
+  ////////////////////////////// Personal
+  @Column({
+    type: "char",
+    length: 13,
+    nullable: true,
+    unique: true
+  })
+  nationalId: string;
 
-    @Column({
-        type: "date"
-    })
-    birthdate: Date;
+  @Column({
+    type: "enum",
+    enum: Gender,
+    default: Gender.Other
+  })
+  gender: Gender;
 
-    ////////////////////////////// Contact
-    @Column({
-      length: 50,
-      unique: true
-    })
-    email: string;
+  @Column({
+    type: "date"
+  })
+  birthdate: Date;
 
-    @Column({
-      type: "char",
-      length: 10
-    })
-    phoneNumber: string;
+  ////////////////////////////// Contact
+  @Column({
+    length: 50,
+    unique: true
+  })
+  email: string;
 
-    ////////////////////////////// Addresses
-    @Column({
-      length: 1000
-    })
-    address: string;
+  @Column({
+    type: "char",
+    length: 10
+  })
+  phoneNumber: string;
 
-    @Column({
-      length: 255
-    })
-    subdistrict: string;
-    
-    @Column({
-      length: 255
-    })
-    district: string;
+  ////////////////////////////// Addresses
+  @Column({
+    length: 1000
+  })
+  address: string;
 
-    @Column({
-      length: 255
-    })
-    cityState: string;
+  @Column({
+    length: 255
+  })
+  subdistrict: string;
 
-    @Column({
-      length: 255
-    })
-    country: string;
+  @Column({
+    length: 255
+  })
+  district: string;
 
-    @Column({
-        type: "char",
-        length: 5
-    })
-    zipcode: string;
+  @Column({
+    length: 255
+  })
+  cityState: string;
 
-    ////////////////////////////// Profile Image
-    @Column({
-        nullable: true
-    })
-    profileImage: string;
+  @Column({
+    length: 255
+  })
+  country: string;
 
-    ////////////////////////////// User Type
-    @Column({
-      default: UserType.Admin,
-      type: "enum",
-      enum: UserType,
-    })
-    userType: UserType;
+  @Column({
+    type: "char",
+    length: 5
+  })
+  zipcode: string;
 
-    ////////////////////////////// Musician Shit
-    @Column({
-        length: 150,
-        nullable: true
-    })
-    bio: string;
+  ////////////////////////////// Profile Image
+  @Column({
+    nullable: true
+  })
+  profileImage: string;
 
-    @Column({
-      default: MusicianApprovement.NotApproved,
-      type: "enum",
-      enum: MusicianApprovement,
-      nullable: true
-    })
-    musicianApprovement: MusicianApprovement;
+  ////////////////////////////// User Type
+  @Column({
+    default: UserType.Admin,
+    type: "enum",
+    enum: UserType
+  })
+  userType: UserType;
 
-    @Column({
-      length: 255,
-      nullable: true
-    })
-    nationalCardImage: string;
+  ////////////////////////////// Musician Shit
+  @Column({
+    length: 150,
+    nullable: true
+  })
+  bio: string;
 
-    @Column({
-      length: 255,
-      nullable: true
-    })
-    videoUrl: string;
+  @Column({
+    default: MusicianApprovement.NotApproved,
+    type: "enum",
+    enum: MusicianApprovement,
+    nullable: true
+  })
+  musicianApprovement: MusicianApprovement;
 
+  @Column({
+    length: 255,
+    nullable: true
+  })
+  nationalCardImage: string;
 
-    @OneToOne(type => Hiree, hiree => hiree.user, {cascade: true})
-    @JoinColumn()
-    hiree: Hiree;
+  @Column({
+    length: 255,
+    nullable: true
+  })
+  videoUrl: string;
 
-    @OneToMany(type => Event, event => event.user.userId)
-    event: Event[];
+  @OneToOne(
+    type => Hiree,
+    hiree => hiree.user,
+    { cascade: true }
+  )
+  @JoinColumn()
+  hiree: Hiree;
 
-    // @OneToMany(type => Join, join => join.user.userId)
-    // join: Join[];
+  @OneToMany(
+    type => Event,
+    event => event.user.userId
+  )
+  event: Event[];
+
+  // @OneToMany(type => Join, join => join.user.userId)
+  // join: Join[];
 }
-

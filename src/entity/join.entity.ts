@@ -24,7 +24,7 @@
 //         referencedColumnName: "userId", // field name in user
 //     })
 //     user: User;
-    
+
 //     @ManyToOne(type => Band, Band => Band.join)
 //     @JoinColumn({
 //         name: "bandId", // new name
@@ -32,6 +32,4 @@
 //     })
 //     band: Band;
 
-    
-    
 // }

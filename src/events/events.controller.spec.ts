@@ -1,19 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { EventsController } from './events.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { Test, TestingModule } from "@nestjs/testing";
+import { EventsController } from "./events.controller";
+import { TypeOrmModule } from "@nestjs/typeorm";
 
-import config from 'src/config';
-import { Event } from 'src/entity/events.entity';
-import { Application } from 'src/entity/application.entity';
-import { EventsService } from './events.service';
+import config from "src/config";
+import { Event } from "src/entity/events.entity";
+import { Application } from "src/entity/application.entity";
+import { EventsService } from "./events.service";
 
-describe('Events Controller', () => {
+describe("Events Controller", () => {
   let controller: EventsController;
   let module: TestingModule;
-  let eventsService: EventsService
+  let eventsService: EventsService;
 
   beforeAll(async () => {
-    
     module = await Test.createTestingModule({
       controllers: [EventsController],
       imports: [
@@ -24,23 +23,23 @@ describe('Events Controller', () => {
           username: config.MYSQL_USER,
           password: config.MYSQL_PASSWORD,
           database: config.MYSQL_TEST_DATABASE,
-          entities: [Event,Application],
+          entities: [Event, Application],
           synchronize: true,
-          dropSchema: true, // for debug only !!
+          dropSchema: true // for debug only !!
         }),
         TypeOrmModule.forFeature([Event])
       ],
-      providers: [EventsService],
+      providers: [EventsService]
     }).compile();
     controller = module.get<EventsController>(EventsController);
-    eventsService = module.get<EventsService>(EventsService);    
+    eventsService = module.get<EventsService>(EventsService);
   });
 
   afterAll(async () => {
     await module.close();
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 });

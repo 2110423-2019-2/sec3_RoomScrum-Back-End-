@@ -22,4 +22,3 @@
 //     @OneToMany(type => Join, join => join.band.bandId)
 //     join: Join[];
 // }
-
