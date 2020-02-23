@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { Event } from "src/entity/events.entity";
 import createEventDto from "./dto/create-event-dto";
 
@@ -13,6 +13,52 @@ export class EventsService {
 
   findAllEvent(): Promise<Event[]> {
     return this.eventRepository.find();
+  }
+
+  advanceSearch(searchType: string, value: string): Promise<Event[]> {
+    if (searchType == "description") {
+      return this.eventRepository.find({
+          where: [
+            { description: Like(`%${value}%`) },
+          ]
+        }
+      );
+    }
+    else if (searchType == "name") {
+      return this.eventRepository.find({
+        where: [
+          { eventName: Like(`%${value}%`) },
+        ]
+      });
+    }
+    else if (searchType == "location"){
+      return this.eventRepository.find({
+        where: [
+          { address: Like(`%${value}%`) },
+          { subdistrict: Like(`%${value}%`) },
+          { district: Like(`%${value}%`) },
+          { province: Like(`%${value}%`) },
+          { country: Like(`%${value}%`) },
+          { zipcode: Like(`%${value}%`) },
+        ]
+      })
+    }
+    else {
+      return this.eventRepository.find(
+        {
+          where: [
+            { eventName: Like(`%${value}%`) },
+            { description: Like(`%${value}%`) },
+            { address: Like(`%${value}%`) },
+            { subdistrict: Like(`%${value}%`) },
+            { district: Like(`%${value}%`) },
+            { province: Like(`%${value}%`) },
+            { country: Like(`%${value}%`) },
+            { zipcode: Like(`%${value}%`) },
+          ]
+        }
+      );
+    }
   }
 
   async create(event: createEventDto) {
