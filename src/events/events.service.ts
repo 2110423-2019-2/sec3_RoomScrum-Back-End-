@@ -1,32 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { Event,Application } from './events.entity'
+import { Event } from "src/entity/events.entity";
+import createEventDto from "./dto/create-event-dto";
 
 @Injectable()
 export class EventsService {
-    constructor(
-        @InjectRepository(Event)
-        private readonly eventRepository: Repository<Event>,
+  constructor(
+    @InjectRepository(Event)
+    private readonly eventRepository: Repository<Event>
+  ) {}
 
-        @InjectRepository(Application)
-        private readonly applicationRepository: Repository<Application>,
-    ) {}
+  findAllEvent(): Promise<Event[]> {
+    return this.eventRepository.find();
+  }
 
-    findAllEvent(): Promise<Event[]> {
-        return this.eventRepository.find();
-    }
+  async create(event: createEventDto) {
+    return this.eventRepository.insert(event);
+  }
 
-    async create(event: Event) {
-        return this.eventRepository.insert(event);
-    }
-    
-    findAllApplications(): Promise<Application[]> {
-        return this.applicationRepository.find()
-    }
-
-    async apply(application: Application) {
-        return this.applicationRepository.insert(application);
-    }
+  async getEventPicName(id: number) {
+    return (await this.eventRepository.findOneOrFail({ eventId: id }))
+      .eventImage;
+  }
 }
-

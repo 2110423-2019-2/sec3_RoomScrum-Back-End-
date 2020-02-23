@@ -1,20 +1,17 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { EventsController } from "./events.controller";
+import { AdminService } from "./admin.service";
+import { AdminController } from "./admin.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
-
 import config from "src/config";
-import { Event } from "src/entity/events.entity";
-import { Application } from "src/entity/application.entity";
-import { EventsService } from "./events.service";
+import { User } from "src/entity/user.entity";
 
-describe("Events Controller", () => {
-  let controller: EventsController;
+describe("Admin Controller", () => {
   let module: TestingModule;
-  let eventsService: EventsService;
+  let controller: AdminController;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      controllers: [EventsController],
+      providers: [AdminService],
       imports: [
         TypeOrmModule.forRoot({
           type: "mysql",
@@ -23,23 +20,25 @@ describe("Events Controller", () => {
           username: config.MYSQL_USER,
           password: config.MYSQL_PASSWORD,
           database: config.MYSQL_TEST_DATABASE,
-          entities: [Event, Application],
+          entities: [User],
           synchronize: true,
           dropSchema: true // for debug only !!
         }),
-        TypeOrmModule.forFeature([Event])
+        TypeOrmModule.forFeature([User])
       ],
-      providers: [EventsService]
+      controllers: [AdminController]
     }).compile();
-    controller = module.get<EventsController>(EventsController);
-    eventsService = module.get<EventsService>(EventsService);
+    controller = module.get<AdminController>(AdminController);
+    console.log(controller);
   });
 
   afterAll(async () => {
     await module.close();
   });
 
-  it("should be defined", () => {
-    expect(controller).toBeDefined();
+  describe("Test", () => {
+    it("should be defined", () => {
+      expect(controller).toBeDefined();
+    });
   });
 });

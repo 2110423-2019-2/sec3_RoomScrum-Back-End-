@@ -2,9 +2,9 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 
-import config from 'src/config';
+import config from "src/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { User } from "./user/user.entity";
+import { User } from "src/entity/user.entity";
 import { AuthModule } from "./auth/auth.module";
 import { UserModule } from "./user/user.module";
 
@@ -26,7 +26,7 @@ describe("AppController", () => {
           database: config.MYSQL_TEST_DATABASE,
           entities: [User],
           synchronize: true
-        }),
+        })
       ],
       providers: [AppService]
     }).compile();
