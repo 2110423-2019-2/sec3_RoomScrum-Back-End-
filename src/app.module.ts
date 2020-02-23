@@ -26,7 +26,7 @@ import { Hiree } from "./entity/hiree.entity";
       password: config.MYSQL_PASSWORD,
       database: config.MYSQL_DATABASE,
       entities: [User, Hiree, Event, Application],
-      synchronize: true
+      synchronize: true,
       // logging: true,
       // dropSchema:true,
     }),
