@@ -2,10 +2,10 @@ import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
 import { Hiree } from "./hiree.entity";
 import { Event } from "./events.entity";
 export enum Status {
-  default = 0,
-  isInvited = 1,
-  isApplied = 2,
-  areAccepted = 3
+  default = 1,
+  isInvited = 2,
+  isApplied = 3,
+  areAccepted = 4
 }
 
 @Entity()
