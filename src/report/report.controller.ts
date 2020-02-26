@@ -2,10 +2,11 @@ import { Controller, UseGuards, UsePipes, Body, Req, ValidationPipe, HttpExcepti
 import { Get, Post, Put } from '@nestjs/common';
 import reportUserDto from 'src/report/dto/report-user-dto';
 import { AuthGuard } from '@nestjs/passport';
+import { ReportService } from './report.service';
 
-@Controller('report')
+@Controller("report")
 export class ReportController {
-    reportService: any;
+    constructor(private readonly reportService: ReportService) {}
     
     @UseGuards(AuthGuard('jwt'))
     @UsePipes(new ValidationPipe())

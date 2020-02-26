@@ -11,10 +11,11 @@ import { Event } from "src/entity/events.entity";
 import { ApplicationModule } from "./application/application.module";
 import { Application } from "src/entity/application.entity";
 import { AdminModule } from "./admin/admin.module";
-
+import { Report } from "src/entity/report.entity";
 import config from "src/config";
 import { Hiree } from "./entity/hiree.entity";
 import { ReportModule } from './report/report.module';
+import { from } from "rxjs";
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { ReportModule } from './report/report.module';
       username: config.MYSQL_USER,
       password: config.MYSQL_PASSWORD,
       database: config.MYSQL_DATABASE,
-      entities: [User, Hiree, Event, Application],
+      entities: [User, Hiree, Event, Application, Report],
       synchronize: true,
       // logging: true,
       // dropSchema:true,
