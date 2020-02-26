@@ -9,6 +9,6 @@ import { HireeModule } from "src/hiree/hiree.module";
   imports: [TypeOrmModule.forFeature([User]), HireeModule],
   providers: [UserService],
   controllers: [UserController],
-  exports: [UserService],
+  exports: [UserService]
 })
 export class UserModule {}

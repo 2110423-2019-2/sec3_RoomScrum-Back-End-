@@ -1,8 +1,8 @@
-import { IsEmpty, IsNumber, IsNotEmpty } from 'class-validator';
+import { IsEmpty, IsNumber, IsNotEmpty } from "class-validator";
 
 class createHireeDto {
-    @IsEmpty()
-    hireeId: number;
+  @IsEmpty()
+  hireeId: number;
 }
 
 export default createHireeDto;

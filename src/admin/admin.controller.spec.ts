@@ -10,7 +10,6 @@ describe("Admin Controller", () => {
   let controller: AdminController;
 
   beforeAll(async () => {
-    
     module = await Test.createTestingModule({
       providers: [AdminService],
       imports: [
@@ -23,11 +22,11 @@ describe("Admin Controller", () => {
           database: config.MYSQL_TEST_DATABASE,
           entities: [User],
           synchronize: true,
-          dropSchema: true, // for debug only !!
+          dropSchema: true // for debug only !!
         }),
         TypeOrmModule.forFeature([User])
       ],
-      controllers: [AdminController],
+      controllers: [AdminController]
     }).compile();
     controller = module.get<AdminController>(AdminController);
     console.log(controller);
@@ -37,10 +36,9 @@ describe("Admin Controller", () => {
     await module.close();
   });
 
-  describe('Test', () => {
-    it('should be defined', () => {
+  describe("Test", () => {
+    it("should be defined", () => {
       expect(controller).toBeDefined();
-    })
-  })
-
+    });
+  });
 });

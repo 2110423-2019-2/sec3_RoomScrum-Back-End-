@@ -1,12 +1,12 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ApplicationController } from './application.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Application } from '../entity/application.entity';
-import { Event } from 'src/entity/events.entity';
-import config from 'src/config';
-import { ApplicationService } from './application.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { ApplicationController } from "./application.controller";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { Application } from "../entity/application.entity";
+import { Event } from "src/entity/events.entity";
+import config from "src/config";
+import { ApplicationService } from "./application.service";
 
-describe('Application Controller', () => {
+describe("Application Controller", () => {
   let controller: ApplicationController;
 
   beforeEach(async () => {
@@ -22,19 +22,19 @@ describe('Application Controller', () => {
           database: config.MYSQL_TEST_DATABASE,
           entities: [Event, Application],
           synchronize: true,
-          dropSchema: true, // for debug only !!
+          dropSchema: true // for debug only !!
         }),
         TypeOrmModule.forFeature([Application])
       ],
-      controllers: [ApplicationController],
+      controllers: [ApplicationController]
     }).compile();
 
     controller = module.get<ApplicationController>(ApplicationController);
   });
 
-  describe('Event controller', () => {
-    it('should be defined', () => {
+  describe("Event controller", () => {
+    it("should be defined", () => {
       expect(controller).toBeDefined();
     });
-  })
+  });
 });
