@@ -14,6 +14,7 @@ import { AdminModule } from './admin/admin.module';
 
 import config from 'src/config';
 import { Hiree } from "./entity/hiree.entity";
+import { ReportModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -34,7 +35,8 @@ import { Hiree } from "./entity/hiree.entity";
     EventsModule,
     ApplicationModule,
     AdminModule,
-    ApplicationModule
+    ApplicationModule,
+    ReportModule
   ],
   controllers: [AppController],
   providers: [AppService],
