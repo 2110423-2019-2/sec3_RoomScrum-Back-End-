@@ -32,10 +32,12 @@ export class EventsController {
     return this.eventsService.findAllEvent();
   }
 
-
   @Post("search")
   advanceSearch(@Body() searchParams: searchEventDto): Promise<Event[]> {
-    return this.eventsService.advanceSearch(searchParams.searchType, searchParams.value);
+    return this.eventsService.advanceSearch(
+      searchParams.searchType,
+      searchParams.value
+    );
   }
 
   @UseGuards(AuthGuard("jwt"))
@@ -60,7 +62,6 @@ export class EventsController {
     }
   }
 
-  
   @Post("pic")
   @UseGuards(AuthGuard("jwt"))
   @UseInterceptors(

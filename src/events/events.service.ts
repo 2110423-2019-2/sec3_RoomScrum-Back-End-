@@ -18,20 +18,13 @@ export class EventsService {
   advanceSearch(searchType: string, value: string): Promise<Event[]> {
     if (searchType == "description") {
       return this.eventRepository.find({
-          where: [
-            { description: Like(`%${value}%`) },
-          ]
-        }
-      );
-    }
-    else if (searchType == "name") {
-      return this.eventRepository.find({
-        where: [
-          { eventName: Like(`%${value}%`) },
-        ]
+        where: [{ description: Like(`%${value}%`) }]
       });
-    }
-    else if (searchType == "location"){
+    } else if (searchType == "name") {
+      return this.eventRepository.find({
+        where: [{ eventName: Like(`%${value}%`) }]
+      });
+    } else if (searchType == "location") {
       return this.eventRepository.find({
         where: [
           { address: Like(`%${value}%`) },
@@ -39,25 +32,22 @@ export class EventsService {
           { district: Like(`%${value}%`) },
           { province: Like(`%${value}%`) },
           { country: Like(`%${value}%`) },
-          { zipcode: Like(`%${value}%`) },
+          { zipcode: Like(`%${value}%`) }
         ]
-      })
-    }
-    else {
-      return this.eventRepository.find(
-        {
-          where: [
-            { eventName: Like(`%${value}%`) },
-            { description: Like(`%${value}%`) },
-            { address: Like(`%${value}%`) },
-            { subdistrict: Like(`%${value}%`) },
-            { district: Like(`%${value}%`) },
-            { province: Like(`%${value}%`) },
-            { country: Like(`%${value}%`) },
-            { zipcode: Like(`%${value}%`) },
-          ]
-        }
-      );
+      });
+    } else {
+      return this.eventRepository.find({
+        where: [
+          { eventName: Like(`%${value}%`) },
+          { description: Like(`%${value}%`) },
+          { address: Like(`%${value}%`) },
+          { subdistrict: Like(`%${value}%`) },
+          { district: Like(`%${value}%`) },
+          { province: Like(`%${value}%`) },
+          { country: Like(`%${value}%`) },
+          { zipcode: Like(`%${value}%`) }
+        ]
+      });
     }
   }
 
