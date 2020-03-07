@@ -1,4 +1,4 @@
-import { IsEmpty, IsNumber, IsNotEmpty } from "class-validator";
+import { IsEmpty } from "class-validator";
 
 class createHireeDto {
   @IsEmpty()

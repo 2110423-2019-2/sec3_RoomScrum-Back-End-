@@ -10,7 +10,6 @@ import { EventsService } from "./events.service";
 describe("Events Controller", () => {
   let controller: EventsController;
   let module: TestingModule;
-  let eventsService: EventsService;
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
@@ -32,7 +31,7 @@ describe("Events Controller", () => {
       providers: [EventsService]
     }).compile();
     controller = module.get<EventsController>(EventsController);
-    eventsService = module.get<EventsService>(EventsService);
+    // eventsService = module.get<EventsService>(EventsService);
   });
 
   afterAll(async () => {

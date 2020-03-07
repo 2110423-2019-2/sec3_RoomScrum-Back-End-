@@ -1,12 +1,5 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  OneToOne,
-  OneToMany,
-  Column
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, OneToOne, Column } from "typeorm";
 import { User } from "./user.entity";
-import { Application } from "./application.entity";
 export enum HireeType {
   Musician = "M",
   Band = "B"

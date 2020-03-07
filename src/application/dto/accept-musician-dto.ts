@@ -1,14 +1,4 @@
-import {
-  IsString,
-  IsNotEmpty,
-  IsEnum,
-  Length,
-  MinLength,
-  IsEmail,
-  IsNumber,
-  IsEmpty,
-  IsDateString
-} from "class-validator";
+import { IsNotEmpty, IsNumber } from "class-validator";
 
 class acceptMusicianDto {
   @IsNotEmpty()

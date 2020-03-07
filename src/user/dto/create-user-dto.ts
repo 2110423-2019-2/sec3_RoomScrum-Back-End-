@@ -7,15 +7,10 @@ import {
   IsISO8601,
   IsEmpty,
   IsNumberString,
-  IsDate,
-  IsInt,
   IsEnum,
-  ValidateIf,
-  IsUrl,
-  IsDateString
+  ValidateIf
 } from "class-validator";
 import { Gender, UserType, MusicianApprovement } from "src/entity/user.entity";
-import { Column } from "typeorm";
 
 class createUserDto {
   @IsNotEmpty()
@@ -115,7 +110,7 @@ class createUserDto {
   videoUrl: string;
 
   @IsEmpty()
-  hireeId: number;
+  hireeId?: number;
 }
 
 export default createUserDto;

@@ -2,10 +2,9 @@ import { Injectable, UploadedFile } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User, UserType } from "src/entity/user.entity";
-import { compare, hash } from "bcrypt";
+import { hash } from "bcrypt";
 import createUserDto from "./dto/create-user-dto";
 import createHireeDto from "src/hiree/dto/create-hiree-dto";
-import { Request } from "express";
 import { HireeService } from "src/hiree/hiree.service";
 import { Hiree } from "src/entity/hiree.entity";
 

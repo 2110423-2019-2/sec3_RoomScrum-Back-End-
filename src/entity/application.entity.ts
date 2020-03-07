@@ -1,5 +1,4 @@
 import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
-import { Hiree } from "./hiree.entity";
 import { Event } from "./events.entity";
 export enum Status {
   default = 1,

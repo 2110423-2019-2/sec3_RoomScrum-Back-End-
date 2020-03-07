@@ -42,7 +42,7 @@ export class UserController {
     user: createUserDto
   ): Promise<any> {
     try {
-      const result = await this.userService.create(user);
+      await this.userService.create(user);
       return {
         status: 200,
         message: "ok"

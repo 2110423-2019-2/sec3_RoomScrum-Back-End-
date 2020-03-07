@@ -12,13 +12,12 @@ import {
   UseGuards,
   Req
 } from "@nestjs/common";
-import { Get, Post, Put } from "@nestjs/common";
+import { Get, Post } from "@nestjs/common";
 import { Event } from "src/entity/events.entity";
 import { EventsService } from "./events.service";
 import createEventDto from "./dto/create-event-dto";
 import searchEventDto from "./dto/search-event-dto";
 import { AuthGuard } from "@nestjs/passport";
-import { Request } from "express";
 import { imageFileFilter, editFileName } from "../utils/file-uploading.utils";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
