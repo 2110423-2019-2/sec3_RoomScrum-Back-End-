@@ -13,6 +13,8 @@ import { AdminModule } from "./admin/admin.module";
 
 import config from "src/config";
 import { Hiree } from "./entity/hiree.entity";
+import { NotificationModule } from "./notification/notification.module";
+import { Notification, EventInviteInfo, BandInviteInfo } from "./entity/notification.entity";
 
 @Module({
   imports: [
@@ -24,8 +26,10 @@ import { Hiree } from "./entity/hiree.entity";
       username: config.MYSQL_USER,
       password: config.MYSQL_PASSWORD,
       database: config.MYSQL_DATABASE,
-      entities: [User, Hiree, Event, Application],
-      synchronize: true
+      entities: [User, Hiree, Event, Application,
+        Notification, EventInviteInfo, BandInviteInfo
+      ],
+      synchronize: true,
       // logging: true,
       // dropSchema:true,
     }),
@@ -33,7 +37,8 @@ import { Hiree } from "./entity/hiree.entity";
     EventsModule,
     ApplicationModule,
     AdminModule,
-    ApplicationModule
+    ApplicationModule,
+    NotificationModule,
   ],
   controllers: [AppController],
   providers: [AppService]
