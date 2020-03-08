@@ -1,7 +1,7 @@
 import { Controller, UseGuards, Post, Body, UsePipes, Req, Get } from '@nestjs/common';
 import { NotificationService } from './notification.service';
 import { AuthGuard } from '@nestjs/passport';
-import { EventInviteDto } from './dto/event.dto';
+import { EventInviteDto, EventStateUpdateDto } from './dto/event.dto';
 import { Notification } from 'src/entity/notification.entity';
 import { BandInviteDto } from './dto/band.dto';
 
@@ -29,6 +29,14 @@ export class NotificationController {
     ) {
         const {userId} = req.user;
         return this.notificationService.sendBandInviteNotif(userId, bandInviteDto);
+    }
+
+    @UseGuards(AuthGuard("jwt"))
+    @Post("/event-update-notif")
+    sendEventStateUpdateNotif(
+        @Body() eventStateUpdateDto: EventStateUpdateDto,
+    ) {
+        return this.notificationService.sendEventStateUpdateNotif(eventStateUpdateDto);
     }
 
     @Get("/all")

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Notification, NotificationType, EventInviteInfo, BandInviteInfo} from 'src/entity/notification.entity';
+import { Notification, NotificationType, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo} from 'src/entity/notification.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EventInviteDto } from './dto/event.dto';
+import { EventInviteDto, EventStateUpdateDto } from './dto/event.dto';
 import { BandInviteDto } from './dto/band.dto';
 
 @Injectable()
@@ -11,6 +11,7 @@ export class NotificationService {
         @InjectRepository(Notification) private readonly notificationRepo: Repository<Notification>,
         @InjectRepository(EventInviteInfo) private readonly eventInviteInfoRepo: Repository<EventInviteInfo>,
         @InjectRepository(BandInviteInfo) private readonly bandInviteRepo: Repository<BandInviteInfo>,
+        @InjectRepository(EventStateUpdateInfo) private readonly eventStateUpdateRepo: Repository<EventStateUpdateInfo>,
     ) {}
 
 
@@ -32,6 +33,18 @@ export class NotificationService {
             type: NotificationType.EventInvitation,
             timestamp: new Date(),
             eventInviteInfo: eventInfo,
+        })
+    }
+
+    async sendEventStateUpdateNotif(eventStateUpdateDto: EventStateUpdateDto): Promise<any> {
+        const {updateType, eventId, receiverId} = eventStateUpdateDto;
+        
+        const eventUpdateInfo = await this.eventStateUpdateRepo.save({id: null, updateType, eventId });
+        return this.notificationRepo.insert({
+            receiver: {userId: receiverId},
+            type: NotificationType.EventStateUpdate,
+            timestamp: new Date(),
+            eventStateUpdateInfo: eventUpdateInfo,
         })
     }
 

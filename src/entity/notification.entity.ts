@@ -1,9 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
 import { Event } from './events.entity';
+import { eventUpdateTypes } from 'src/notification/dto/event.dto';
 
 export enum NotificationType {
-    EventInvitation = 1, 
+    EventInvitation = 1,
+    EventStateUpdate = 2, 
 
     BandInvitation = 11,
 }
@@ -37,6 +39,40 @@ export class EventInviteInfo {
     })
     event: Event;
 }
+
+@Entity()
+export class EventStateUpdateInfo {
+    @PrimaryGeneratedColumn()
+    id: number;
+
+    @Column({
+        type: "enum",
+        enum: eventUpdateTypes,
+    })
+    updateType: string;
+
+    @Column()
+    eventId: number;
+
+    @ManyToOne(type => Event, {eager: true})
+    @JoinColumn({
+        name: "eventId",
+        referencedColumnName: "eventId",
+    })
+    event: Event;
+
+    
+    // @Column()
+    // userId: number;
+
+    // @ManyToOne(type => User)
+    // @JoinColumn({
+    //     name: "userId",
+    //     referencedColumnName: "userId",
+    // })
+    // user: User;
+}
+
 
 @Entity()
 export class BandInviteInfo {
@@ -104,6 +140,9 @@ export class Notification {
     @JoinColumn()
     bandInviteInfo: BandInviteInfo;
 
+    @OneToOne(type => EventStateUpdateInfo, evtInfo => evtInfo.id, {eager: true})
+    @JoinColumn()
+    eventStateUpdateInfo: EventStateUpdateInfo;
 }
 
 
