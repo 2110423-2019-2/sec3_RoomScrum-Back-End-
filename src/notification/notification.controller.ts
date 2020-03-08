@@ -3,6 +3,7 @@ import { NotificationService } from './notification.service';
 import { AuthGuard } from '@nestjs/passport';
 import { EventInviteDto } from './dto/event.dto';
 import { Notification } from 'src/entity/notification.entity';
+import { BandInviteDto } from './dto/band.dto';
 
 @Controller('notification')
 export class NotificationController {
@@ -18,6 +19,16 @@ export class NotificationController {
     ) {
         const {userId} = req.user;
         return this.notificationService.sendEventInviteNotif(userId, eventInviteDto);
+    }
+
+    @UseGuards(AuthGuard("jwt"))
+    @Post("/band-invite-notif")
+    sendBandInviteNotif(
+        @Body() bandInviteDto: BandInviteDto,
+        @Req() req,
+    ) {
+        const {userId} = req.user;
+        return this.notificationService.sendBandInviteNotif(userId, bandInviteDto);
     }
 
     @Get("/all")
