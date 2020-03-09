@@ -59,4 +59,8 @@ export class EventsService {
     return (await this.eventRepository.findOneOrFail({ eventId: id }))
       .eventImage;
   }
+
+  async updateEvent(eventId: number, event: createEventDto) { //Edit Event
+    return this.eventRepository.update({ "eventId": eventId }, event);
+  }
 }
