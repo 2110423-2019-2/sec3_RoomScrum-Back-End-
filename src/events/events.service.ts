@@ -15,6 +15,10 @@ export class EventsService {
     return this.eventRepository.find();
   }
 
+  findEventById(eventId: number): Promise<Event[]> {
+    return this.eventRepository.find({"eventId": eventId});
+  }
+
   advanceSearch(searchType: string, value: string): Promise<Event[]> {
     if (searchType == "description") {
       return this.eventRepository.find({
