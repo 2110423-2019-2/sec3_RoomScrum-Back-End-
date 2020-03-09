@@ -31,6 +31,12 @@ export class EventsController {
     return this.eventsService.findAllEvent();
   }
 
+  @Get(":id")
+  async findEventById(@Param() params): Promise<Event> {
+    return (await this.eventsService.findEventById(params.id))[0];
+  }
+  
+
   @Post("search")
   advanceSearch(@Body() searchParams: searchEventDto): Promise<Event[]> {
     return this.eventsService.advanceSearch(
