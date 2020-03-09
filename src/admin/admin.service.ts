@@ -1,9 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { User, MusicianApprovement, UserType } from "src/entity/user.entity";
 import { Repository, UpdateResult } from "typeorm";
-import { ApproveUserDto } from "./dto/approve-user.dto";
 import { InjectRepository } from "@nestjs/typeorm";
-import { RejectUserDto } from "./dto/reject-user.dto";
+import { SelectUserDto } from "./dto/select-user.dto";
 
 @Injectable()
 export class AdminService {
@@ -21,13 +20,13 @@ export class AdminService {
     });
   }
 
-  approveUser(userToApprove: ApproveUserDto): Promise<UpdateResult> {
+  approveUser(userToApprove: SelectUserDto): Promise<UpdateResult> {
     return this.userRepository.update(userToApprove.userId, {
       musicianApprovement: MusicianApprovement.Approved
     });
   }
 
-  rejectUser(userToReject: RejectUserDto): Promise<UpdateResult> {
+  rejectUser(userToReject: SelectUserDto): Promise<UpdateResult> {
     return this.userRepository.update(userToReject.userId, {
       musicianApprovement: MusicianApprovement.Rejected
     });
