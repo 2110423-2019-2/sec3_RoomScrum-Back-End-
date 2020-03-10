@@ -17,8 +17,8 @@ export class ReportController {
         @Req() req,
         @Body() reportInfo: CreateReportDto,
     ) {
-        const {userId} = req.user;
-        return this.reportService.createReport(userId, reportInfo);
+        const {username} = req.user;
+        return this.reportService.createReport(username, reportInfo);
     }
 
     @Post("/find")
