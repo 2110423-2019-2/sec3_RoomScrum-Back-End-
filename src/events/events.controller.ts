@@ -52,6 +52,9 @@ export class EventsController {
     event.user = {
       userId: req.user.userId
     };
+
+    event.isCancelled = false;
+
     try {
       await this.eventsService.create(event);
       return {
@@ -59,24 +62,31 @@ export class EventsController {
         message: "Create Event OK"
       };
     } catch (err) {
-      // if (err.errno === 1062){
-      //     throw new HttpException('event id error', HttpStatus.BAD_REQUEST);
-      // } else {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
-      // }
     }
   }
 
   @UseGuards(AuthGuard("jwt"))
   @UsePipes(new ValidationPipe())
   @Post("update/:id")
-  async updateEvent(@Body() event: createEventDto, @Req() req, @Param() params): Promise<any> {
+  async updateEvent(@Body() event: createEventDto, @Param() params): Promise<any> {
     try {
       await this.eventsService.updateEvent(params.id, event);
       return {
         status: 200,
         message: "Update Event OK"
       }
+    } catch (err) {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @Get("cancel/:id")
+  cancelEvent(@Param() params) {
+    try {
+      this.eventsService.cancelEvent(params.id);
+      return { status: 200, message: `Cancel Event No. ${params.id}`}
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
     }

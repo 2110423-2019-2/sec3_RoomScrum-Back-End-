@@ -59,6 +59,10 @@ export class EventsService {
     return this.eventRepository.insert(event);
   }
 
+  cancelEvent(eventId: number) {
+    return this.eventRepository.update({"eventId": eventId}, {"isCancelled": true});
+  }
+
   async getEventPicName(id: number) {
     return (await this.eventRepository.findOneOrFail({ eventId: id }))
       .eventImage;
