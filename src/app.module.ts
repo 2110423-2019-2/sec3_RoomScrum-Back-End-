@@ -15,6 +15,8 @@ import config from "src/config";
 import { Hiree } from "./entity/hiree.entity";
 import { NotificationModule } from "./notification/notification.module";
 import { Notification, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo } from "./entity/notification.entity";
+import { ReportModule } from './report/report.module';
+import { Report } from "./entity/report.entity";
 
 @Module({
   imports: [
@@ -26,7 +28,7 @@ import { Notification, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo } f
       username: config.MYSQL_USER,
       password: config.MYSQL_PASSWORD,
       database: config.MYSQL_DATABASE,
-      entities: [User, Hiree, Event, Application,
+      entities: [User, Hiree, Event, Application, Report,
         Notification, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo,
       ],
       synchronize: true,
@@ -39,6 +41,7 @@ import { Notification, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo } f
     AdminModule,
     ApplicationModule,
     NotificationModule,
+    ReportModule
   ],
   controllers: [AppController],
   providers: [AppService]

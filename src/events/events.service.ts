@@ -15,6 +15,10 @@ export class EventsService {
     return this.eventRepository.find();
   }
 
+  findEventById(eventId: number): Promise<Event[]> {
+    return this.eventRepository.find({"eventId": eventId});
+  }
+
   advanceSearch(searchType: string, value: string): Promise<Event[]> {
     if (searchType == "description") {
       return this.eventRepository.find({
@@ -58,5 +62,9 @@ export class EventsService {
   async getEventPicName(id: number) {
     return (await this.eventRepository.findOneOrFail({ eventId: id }))
       .eventImage;
+  }
+
+  async updateEvent(eventId: number, event: createEventDto) { //Edit Event
+    return this.eventRepository.update({ "eventId": eventId }, event);
   }
 }
