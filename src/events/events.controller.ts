@@ -26,9 +26,14 @@ import { diskStorage } from "multer";
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
-  @Get()
+  @Get("all")
   findAllEvents(): Promise<Event[]> {
     return this.eventsService.findAllEvent();
+  }
+
+  @Get()
+  findAvailableEvents(): Promise<Event[]> {
+    return this.eventsService.findAvailableEvent();
   }
 
   @Get(":id")
