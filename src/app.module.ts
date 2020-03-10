@@ -27,7 +27,7 @@ import { Report } from "./entity/report.entity";
       password: config.MYSQL_PASSWORD,
       database: config.MYSQL_DATABASE,
       entities: [User, Hiree, Event, Application, Report],
-      synchronize: true
+      synchronize: true,
       // logging: true,
       // dropSchema:true,
     }),
