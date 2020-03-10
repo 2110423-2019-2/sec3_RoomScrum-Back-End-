@@ -51,6 +51,10 @@ export class Event {
   })
   enddatetime: Date;
 
+  @Column()
+  isCancelled: boolean;
+
+
   /////////////////////////////Event image
   @Column({
     nullable: true
