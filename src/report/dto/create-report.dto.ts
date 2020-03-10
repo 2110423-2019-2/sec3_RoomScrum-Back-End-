@@ -2,11 +2,15 @@ import { IsNumber, IsNotEmpty, IsString } from "class-validator";
 
 export class CreateReportDto {
     
-    @IsNumber()
+    @IsString()
     @IsNotEmpty()
-    offenderId: number;
+    reportTo: string;
 
     @IsString()
     @IsNotEmpty()
-    message: string;
+    description: string;
+
+    @IsString()
+    @IsNotEmpty()
+    topic: string;
 }

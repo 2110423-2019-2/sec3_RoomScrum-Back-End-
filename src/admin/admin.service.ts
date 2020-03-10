@@ -35,7 +35,7 @@ export class AdminService {
   banUser(banInfo: BanUserDto): Promise<UpdateResult> {
     const banDate = new Date();
     banDate.setTime(banDate.getTime() + 1000 * 3600 * 24 * banInfo.banDuration); 
-    return this.userRepository.update(banInfo.userId, {
+    return this.userRepository.update({username: banInfo.username}, {
       banUntil: banDate,
     });
   }

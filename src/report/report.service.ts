@@ -14,11 +14,11 @@ export class ReportService {
     ) {}
 
     
-    createReport(reporterId: number, reportDetail: CreateReportDto) {
+    createReport(reporterUsername: string, reportDetail: CreateReportDto) {
         return this.reportRepo.insert({
-            ...reportDetail, // message & offenderId
+            ...reportDetail, // topic, description, offenderUsername
             timestamp: new Date(),
-            reporterId,
+            reportBy: reporterUsername,
         });
     }
 

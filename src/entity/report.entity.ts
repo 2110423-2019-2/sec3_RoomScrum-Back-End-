@@ -12,21 +12,24 @@ export enum ReportStatus {
 export class Report {
 
     @PrimaryGeneratedColumn()
-    id: number;
+    reportId: number;
 
     @Column({type: "datetime"})
     timestamp: Date;
 
-    @Column({type: "varchar", length: "1023"})
-    message: string;
+    @Column({type: "varchar", length: "255"})
+    topic: string;
+
+    @Column({type: "varchar", length: "2000"})
+    description: string;
 
     @Column()
-    reporterId: number;
+    reportBy: string;
     
     @ManyToOne(type => User)
     @JoinColumn({
-        name: "reporterId",
-        referencedColumnName: "userId",
+        name: "reportBy",
+        referencedColumnName: "username",
     })
     reporter: User;
 
@@ -40,12 +43,12 @@ export class Report {
 
     // person who is reported
     @Column()
-    offenderId: number;
+    reportTo: string;
     
     @ManyToOne(type => User)
     @JoinColumn({
-        name: "offenderId",
-        referencedColumnName: "userId",
+        name: "reportTo",
+        referencedColumnName: "username",
     })
     offender: User;
 }

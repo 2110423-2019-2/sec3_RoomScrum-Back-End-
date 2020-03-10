@@ -31,7 +31,7 @@ export class AdminController {
     return this.adminService.getUnapprovedUsers();
   }
 
-  @Get('/user/ban')
+  @Post('/user/ban')
   async banUser(@Body() userToBan: BanUserDto) {
     return this.adminService.banUser(userToBan);
   }
