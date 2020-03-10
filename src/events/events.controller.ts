@@ -31,6 +31,12 @@ export class EventsController {
     return this.eventsService.findAllEvent();
   }
 
+  @Get(":id")
+  async findEventById(@Param() params): Promise<Event> {
+    return (await this.eventsService.findEventById(params.id))[0];
+  }
+  
+
   @Post("search")
   advanceSearch(@Body() searchParams: searchEventDto): Promise<Event[]> {
     return this.eventsService.advanceSearch(
@@ -50,7 +56,7 @@ export class EventsController {
       await this.eventsService.create(event);
       return {
         status: 200,
-        message: "create event ok"
+        message: "Create Event OK"
       };
     } catch (err) {
       // if (err.errno === 1062){
@@ -58,6 +64,21 @@ export class EventsController {
       // } else {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
       // }
+    }
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @UsePipes(new ValidationPipe())
+  @Post("update/:id")
+  async updateEvent(@Body() event: createEventDto, @Req() req, @Param() params): Promise<any> {
+    try {
+      await this.eventsService.updateEvent(params.id, event);
+      return {
+        status: 200,
+        message: "Update Event OK"
+      }
+    } catch (err) {
+      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
     }
   }
 
