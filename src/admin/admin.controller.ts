@@ -36,4 +36,9 @@ export class AdminController {
     return this.adminService.banUser(userToBan);
   }
 
+  @Get('user/banlist')
+  async getBannedUsers(): Promise<User[]> {
+    return this.adminService.getBannedUsers()
+  }
+
 }

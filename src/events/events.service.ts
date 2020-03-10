@@ -15,6 +15,10 @@ export class EventsService {
     return this.eventRepository.find();
   }
 
+  findAvailableEvent(): Promise<Event[]> {
+    return this.eventRepository.find({isCancelled: false})
+  }
+
   findEventById(eventId: number): Promise<Event[]> {
     return this.eventRepository.find({"eventId": eventId});
   }
@@ -57,6 +61,10 @@ export class EventsService {
 
   async create(event: createEventDto) {
     return this.eventRepository.insert(event);
+  }
+
+  cancelEvent(eventId: number) {
+    return this.eventRepository.update({"eventId": eventId}, {"isCancelled": true});
   }
 
   async getEventPicName(id: number) {
