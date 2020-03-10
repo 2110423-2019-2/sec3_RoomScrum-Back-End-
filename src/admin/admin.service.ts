@@ -40,9 +40,9 @@ export class AdminService {
     });
   }
 
-  // getBannedUser(): Promise<User[]> {
-  //   return this.userRepository.find({
-  //     where: { ban}
-  //   })
-  // }
+  getBannedUsers(): Promise<User[]> {
+    return this.userRepository.find({
+      where: { banUntil: MoreThan(new Date())}
+    })
+  }
 }
