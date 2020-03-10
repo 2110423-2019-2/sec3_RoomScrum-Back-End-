@@ -1,9 +1,9 @@
 import { IsString, IsNotEmpty } from "class-validator";
 
-class searchUserDto {
+class findUserDto {
   @IsNotEmpty()
   @IsString()
   username: string;
 }
 
-export default searchUserDto;
+export default findUserDto;
