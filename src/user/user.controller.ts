@@ -17,8 +17,9 @@ import { UserService } from "./user.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { imageFileFilter, editFileName } from "../utils/file-uploading.utils";
 import { diskStorage } from "multer";
-import createUserDto from "./dto/create-user-dto";
 import { AuthGuard } from "@nestjs/passport";
+import createUserDto from "./dto/create-user-dto";
+import searchUserDto from "./dto/search-user-dto";
 // import { request } from "http";
 
 @Controller("user")
@@ -34,6 +35,11 @@ export class UserController {
   findUserFromId(@Req() req): Promise<User[]> {
     const id = req.Body.id;
     return this.userService.findFromId(id);
+  }
+
+  @Post("search")
+  findUserFromUsername(@Body() searchParam: searchUserDto): Promise<User[]> {
+    return this.userService.findFromUsername(searchParam.username);
   }
 
   @Post("create")
