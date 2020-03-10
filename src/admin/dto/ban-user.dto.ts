@@ -1,8 +1,8 @@
-import { IsInt, Min } from "class-validator";
+import { IsInt, Min, IsString, IsNotEmpty } from "class-validator";
 
 export class BanUserDto {
-    @IsInt()
-    @Min(1)
+    @IsString()
+    @IsNotEmpty()
     username: string;
 
     @IsInt()
