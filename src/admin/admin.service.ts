@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { User, MusicianApprovement, UserType } from "src/entity/user.entity";
-import { Repository, UpdateResult } from "typeorm";
+import { Repository, UpdateResult, MoreThan } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { SelectUserDto } from "./dto/select-user.dto";
 import { BanUserDto } from './dto/ban-user.dto';
@@ -36,7 +36,13 @@ export class AdminService {
     const banDate = new Date();
     banDate.setTime(banDate.getTime() + 1000 * 3600 * 24 * banInfo.banDuration); 
     return this.userRepository.update(banInfo.userId, {
-      banUtil: banDate,
+      banUntil: banDate,
     });
   }
+
+  // getBannedUser(): Promise<User[]> {
+  //   return this.userRepository.find({
+  //     where: { ban}
+  //   })
+  // }
 }

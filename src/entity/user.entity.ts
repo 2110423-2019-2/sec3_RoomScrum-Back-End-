@@ -49,7 +49,7 @@ export class User {
   password: string;
 
   @Column({type: "datetime", default: "1970-01-01 00:00:00"})
-  banUtil: Date;
+  banUntil: Date;
 
   ////////////////////////////// NAME
   @Column({
