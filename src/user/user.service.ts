@@ -1,6 +1,6 @@
 import { Injectable, UploadedFile } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Repository, Like } from "typeorm";
 import { User, UserType } from "src/entity/user.entity";
 import { hash } from "bcrypt";
 import createUserDto from "./dto/create-user-dto";
@@ -26,6 +26,12 @@ export class UserService {
     return this.userRepository.find({
       userId: id
     });
+  }
+
+  findFromUsername(username: string): Promise<User[]> {
+    return this.userRepository.find({
+      where: {username: Like(`%${username}%`)}
+    })
   }
 
   async create(user: createUserDto): Promise<any> {
