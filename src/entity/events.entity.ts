@@ -6,7 +6,6 @@ import {
   JoinColumn
 } from "typeorm";
 import { User } from "./user.entity";
-import { JoinAttribute } from "typeorm/query-builder/JoinAttribute";
 import { Application } from "./application.entity";
 import { OneToMany } from "typeorm";
 

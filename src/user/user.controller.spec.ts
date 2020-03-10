@@ -2,11 +2,14 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { UserController } from "./user.controller";
 
 import config from "src/config";
-import { User } from "src/entity/user.entity";
+import {
+  User,
+  Gender,
+  UserType,
+  MusicianApprovement
+} from "src/entity/user.entity";
 import { UserService } from "./user.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import * as _ from "lodash";
-import { NotImplementedException } from "@nestjs/common";
 import createUserDto from "./dto/create-user-dto";
 
 const baseUser: createUserDto = {
@@ -15,7 +18,20 @@ const baseUser: createUserDto = {
   password: "passw0rd",
   username: "username",
   email: "doge@gmail.com",
-  phoneNumber: "082-111-1234"
+  phoneNumber: "082-111-1234",
+  nationalId: "1234567890123",
+  birthdate: "01-01-1999",
+  address: "foo",
+  subdistrict: "aaaaa",
+  district: "bbbb",
+  cityState: "Bangkok",
+  zipcode: "10000",
+  country: "Thailand",
+  videoUrl: "www.youtube.com",
+  gender: Gender.Male,
+  userType: UserType.Musician,
+  musicianApprovement: MusicianApprovement.NotApproved,
+  bio: "bio"
 };
 
 describe("User Controller", () => {

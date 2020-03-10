@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Get,
-  NotImplementedException
-} from "@nestjs/common";
+import { Controller, Post, Body, Get } from "@nestjs/common";
 import { AdminService } from "./admin.service";
 import { ApproveUserDto } from "./dto/approve-user.dto";
 import { User } from "src/entity/user.entity";

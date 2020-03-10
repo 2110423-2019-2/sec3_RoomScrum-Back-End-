@@ -12,13 +12,12 @@ import {
   UseGuards,
   Req
 } from "@nestjs/common";
-import { Get, Post, Put } from "@nestjs/common";
+import { Get, Post } from "@nestjs/common";
 import { Event } from "src/entity/events.entity";
 import { EventsService } from "./events.service";
 import createEventDto from "./dto/create-event-dto";
 import searchEventDto from "./dto/search-event-dto";
 import { AuthGuard } from "@nestjs/passport";
-import { Request } from "express";
 import { imageFileFilter, editFileName } from "../utils/file-uploading.utils";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
@@ -32,10 +31,12 @@ export class EventsController {
     return this.eventsService.findAllEvent();
   }
 
-
   @Post("search")
   advanceSearch(@Body() searchParams: searchEventDto): Promise<Event[]> {
-    return this.eventsService.advanceSearch(searchParams.searchType, searchParams.value);
+    return this.eventsService.advanceSearch(
+      searchParams.searchType,
+      searchParams.value
+    );
   }
 
   @UseGuards(AuthGuard("jwt"))
@@ -60,7 +61,6 @@ export class EventsController {
     }
   }
 
-  
   @Post("pic")
   @UseGuards(AuthGuard("jwt"))
   @UseInterceptors(

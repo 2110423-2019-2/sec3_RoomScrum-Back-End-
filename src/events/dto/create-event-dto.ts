@@ -1,13 +1,4 @@
-import {
-  IsString,
-  IsNotEmpty,
-  Length,
-  MinLength,
-  IsEmail,
-  IsNumber,
-  IsEmpty,
-  IsDateString
-} from "class-validator";
+import { IsString, IsNotEmpty, IsEmpty, IsDateString } from "class-validator";
 import { User } from "../../entity/user.entity";
 class createEventDto {
   // @IsNotEmpty()

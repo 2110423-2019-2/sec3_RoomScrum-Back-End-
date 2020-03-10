@@ -5,16 +5,13 @@ import {
   Post,
   Req,
   Body,
-  Res,
-  UseInterceptors,
-  UploadedFile,
-  Param
+  Res
 } from "@nestjs/common";
 import { AppService } from "./app.service";
 import { AuthGuard } from "@nestjs/passport";
 import { User } from "src/entity/user.entity";
 import { AuthService } from "./auth/auth.service";
-import { Request, Response } from "express";
+import { Response } from "express";
 
 @Controller()
 export class AppController {

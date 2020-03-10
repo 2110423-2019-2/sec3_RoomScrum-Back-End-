@@ -2,7 +2,6 @@ import { Module } from "@nestjs/common";
 import { UserModule } from "./user/user.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "src/entity/user.entity";
-import { AuthService } from "./auth/auth.service";
 import { AuthModule } from "./auth/auth.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -16,6 +15,7 @@ import config from "src/config";
 import { Hiree } from "./entity/hiree.entity";
 import { ReportModule } from './report/report.module';
 import { from } from "rxjs";
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -37,7 +37,8 @@ import { from } from "rxjs";
     ApplicationModule,
     AdminModule,
     ApplicationModule,
-    ReportModule
+    ReportModule,
+    ProfileModule
   ],
   controllers: [AppController],
   providers: [AppService]

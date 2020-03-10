@@ -5,14 +5,10 @@ import {
   HttpStatus,
   UsePipes,
   ValidationPipe,
-  Res,
   UseGuards,
-  UseInterceptors,
-  UploadedFile,
-  Param,
   Req
 } from "@nestjs/common";
-import { Get, Post, Put } from "@nestjs/common";
+import { Get, Post } from "@nestjs/common";
 import { Application } from "src/entity/application.entity";
 import { ApplicationService } from "./application.service";
 import applyDto from "./dto/apply-dto";
