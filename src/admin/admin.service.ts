@@ -3,7 +3,7 @@ import { User, MusicianApprovement, UserType } from "src/entity/user.entity";
 import { Repository, UpdateResult } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { SelectUserDto } from "./dto/select-user.dto";
-
+import { BanUserDto } from './dto/ban-user.dto';
 @Injectable()
 export class AdminService {
   constructor(
@@ -29,6 +29,14 @@ export class AdminService {
   rejectUser(userToReject: SelectUserDto): Promise<UpdateResult> {
     return this.userRepository.update(userToReject.userId, {
       musicianApprovement: MusicianApprovement.Rejected
+    });
+  }
+
+  banUser(banInfo: BanUserDto): Promise<UpdateResult> {
+    const banDate = new Date();
+    banDate.setTime(banDate.getTime() + 1000 * 3600 * 24 * banInfo.banDuration); 
+    return this.userRepository.update(banInfo.userId, {
+      banUtil: banDate,
     });
   }
 }

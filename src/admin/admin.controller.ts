@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get } from "@nestjs/common";
 import { AdminService } from "./admin.service";
 import { User } from "src/entity/user.entity";
 import { SelectUserDto } from "./dto/select-user.dto";
+import { BanUserDto } from "./dto/ban-user.dto";
 
 @Controller("admin")
 export class AdminController {
@@ -29,4 +30,10 @@ export class AdminController {
   async getUnapprovedUsers(): Promise<User[]> {
     return this.adminService.getUnapprovedUsers();
   }
+
+  @Get('/user/ban')
+  async banUser(@Body() userToBan: BanUserDto) {
+    return this.adminService.banUser(userToBan);
+  }
+
 }
