@@ -11,6 +11,15 @@ import { Application } from "./application.entity";
 import { OneToMany } from "typeorm";
 import { Contract } from "src/entity/contract.entity";
 
+export enum Status {
+  Created = "Created",
+  HaveApplicant = "HaveApplicant",
+  Cancelled = "Cancelled",
+  ContractDrafting = "ContractDrafting",
+  Settle = "Settle",
+  Complete = "Complete"
+}
+
 @Entity()
 export class Event {
   @PrimaryGeneratedColumn()
@@ -53,9 +62,15 @@ export class Event {
   })
   enddatetime: Date;
 
-  @Column()
-  isCancelled: boolean;
+  // @Column()
+  // isCancelled: boolean;
 
+  @Column({
+    type: "enum",
+    enum: Status,
+    default: Status.Created
+  })
+  status: Status;
 
   /////////////////////////////Event image
   @Column({

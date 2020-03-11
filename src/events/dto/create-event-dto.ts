@@ -1,5 +1,6 @@
 import { IsString, IsNotEmpty, IsEmpty, IsDateString } from "class-validator";
 import { User } from "../../entity/user.entity";
+import { Status } from "src/entity/events.entity";
 class createEventDto {
   // @IsNotEmpty()
   // @IsNumber()
@@ -50,7 +51,8 @@ class createEventDto {
   @IsDateString()
   enddatetime: Date;
 
-  isCancelled: boolean;
+  // isCancelled: boolean
+  status: Status
 
   // @IsEmpty()
   // @IsNumber()
