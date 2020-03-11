@@ -2,7 +2,6 @@ import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, OneToOne, JoinCo
 import { Event } from "src/entity/events.entity";
 
 export enum ContractStatus {
-  Empty = "emp",
   Drafting = "DFT",
   Accepted = "ACPT",
   Canceled = "CNC",

@@ -3,6 +3,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Not, Repository } from "typeorm";
 import { Event, Status } from "src/entity/events.entity";
 import createEventDto from "./dto/create-event-dto";
+import { Contract } from "src/entity/contract.entity";
 
 @Injectable()
 export class EventsService {
@@ -62,21 +63,26 @@ export class EventsService {
       });
     }
   }
+  
+  AcceptMusicianToEvent(eventId:number) {
+    return this.eventRepository.update({ eventId }, { status: Status.ContractDrafting });
+  }
 
   async create(event: createEventDto) {
     return this.eventRepository.insert(event);
   }
-
+  
   cancelEvent(eventId: number) {
-    return this.eventRepository.update({eventId}, {status: Status.Cancelled});
+    return this.eventRepository.update({ eventId }, { status: Status.Cancelled });
   }
-
+  
   async getEventPicName(id: number) {
     return (await this.eventRepository.findOneOrFail({ eventId: id }))
-      .eventImage;
+    .eventImage;
   }
-
+  
   async updateEvent(eventId: number, event: createEventDto) { //Edit Event
-    return this.eventRepository.update({eventId }, event);
+    return this.eventRepository.update({ eventId }, event);
   }
+  
 }
