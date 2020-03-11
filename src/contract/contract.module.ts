@@ -7,6 +7,7 @@ import { Contract } from 'src/entity/contract.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Contract])],
   providers: [ContractService],
-  controllers: [ContractController]
+  controllers: [ContractController],
+  exports: [ContractService],
 })
 export class ContractModule {}

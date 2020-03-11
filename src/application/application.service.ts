@@ -6,7 +6,6 @@ import applyDto from "./dto/apply-dto";
 import acceptMusicianDto from "./dto/accept-musician-dto";
 import { EventsService } from "src/events/events.service";
 import { ContractService } from "src/contract/contract.service";
-import { Enti}
 
 @Injectable()
 export class ApplicationService {
@@ -34,10 +33,8 @@ export class ApplicationService {
 
   async acceptUser(acceptDto: acceptMusicianDto) {
     const eventId = acceptDto.eventId;
-    
-    this.contractservice.create(eventId);
     this.eventsService.AcceptMusicianToEvent(eventId);
-
+    //change to wait contract
     return this.applicationRepository.update(acceptDto, {
       status: Status.areAccepted
     });

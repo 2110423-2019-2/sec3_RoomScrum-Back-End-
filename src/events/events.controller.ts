@@ -22,6 +22,7 @@ import { AuthGuard } from "@nestjs/passport";
 import { imageFileFilter, editFileName } from "../utils/file-uploading.utils";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
+import {Contract} from "src/entity/contract.entity";
 
 @Controller("events")
 export class EventsController {
@@ -35,6 +36,12 @@ export class EventsController {
   @Get()
   findAvailableEvents(): Promise<Event[]> {
     return this.eventsService.findAvailableEvent();
+  }
+
+  //TODO delete
+  @Get("fuck")
+  async fuck(): Promise<Event[]> {
+    return await this.eventsService.GetContract(1);
   }
 
   @Get(":id")

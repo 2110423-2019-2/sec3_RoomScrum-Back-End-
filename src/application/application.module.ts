@@ -10,7 +10,7 @@ import { ContractModule } from "src/contract/contract.module";
   imports: [
     TypeOrmModule.forFeature([Application]),
     EventsModule,
-    ContractModule
+    ContractModule,
   ],
   providers: [ApplicationService, ],
   controllers: [ApplicationController]

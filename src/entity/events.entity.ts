@@ -15,6 +15,7 @@ export enum Status {
   Created = "Created",
   HaveApplicant = "HaveApplicant",
   Cancelled = "Cancelled",
+  WaitContractCreate = "WaitContractCreate",
   ContractDrafting = "ContractDrafting",
   Settle = "Settle",
   Complete = "Complete"
