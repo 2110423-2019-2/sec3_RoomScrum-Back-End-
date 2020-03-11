@@ -13,9 +13,7 @@ import { AdminModule } from "./admin/admin.module";
 import { Report } from "src/entity/report.entity";
 import config from "src/config";
 import { Hiree } from "./entity/hiree.entity";
-import { ReportModule } from './report/report.module';
 import { from } from "rxjs";
-import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -36,9 +34,7 @@ import { ProfileModule } from './profile/profile.module';
     EventsModule,
     ApplicationModule,
     AdminModule,
-    ApplicationModule,
-    ReportModule,
-    ProfileModule
+    ApplicationModule
   ],
   controllers: [AppController],
   providers: [AppService]

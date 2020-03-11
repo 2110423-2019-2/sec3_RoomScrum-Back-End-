@@ -9,7 +9,9 @@ import {
   UseGuards,
   Request,
   Req,
-  Res
+  Res,
+  ValidationPipe,
+  UsePipes
 } from "@nestjs/common";
 import { Post, Get } from "@nestjs/common";
 import { User } from "src/entity/user.entity";
@@ -30,12 +32,26 @@ export class UserController {
     return this.userService.find({});
   }
 
-  @Get()
-  findUserFromId(@Req() req): Promise<User[]> {
-    const id = req.Body.id;
-    return this.userService.findFromId(id);
-  }
+  @Get(":id")
+    async findUserById(@Param() params): Promise<User> {
+        return (await this.userService.findUserById(params.id))[0];
+    }
 
+  @UseGuards(AuthGuard("jwt"))
+  @UsePipes(new ValidationPipe())
+  @Post("update/:id")
+  async updateProfile(@Body() user: createUserDto, @Req() req, @Param() params): Promise<any> {
+        try {
+            await this.userService.updateProfile(params.id, user);
+            return {
+                status: 200,
+                message: "Update Profile OK"
+            }
+        } catch (err) {
+            throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+        }
+  }  
+  
   @Post("create")
   async createUser(
     @Body()
