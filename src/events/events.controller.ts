@@ -37,8 +37,13 @@ export class EventsController {
   }
 
   @Get(":id")
-  async findEventById(@Param() params): Promise<Event> {
-    return (await this.eventsService.findEventById(params.id))[0];
+  async findEventByEventId(@Param() params): Promise<Event> {
+    return (await this.eventsService.findEventByEventId(params.id))[0];
+  }
+
+  @Get("find-by-hirerId/:id")
+  async findEventByHirerId(@Param() params): Promise<Event[]> {
+    return this.eventsService.findEventByHirerId(params.id);
   }
   
 
