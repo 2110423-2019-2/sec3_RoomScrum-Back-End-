@@ -20,11 +20,11 @@ export class EventsService {
   }
 
   findEventByEventId(eventId: number): Promise<Event[]> {
-    return this.eventRepository.find({"eventId": eventId});
+    return this.eventRepository.find({eventId});
   }
 
   findEventByHirerId(userId: number): Promise<Event[]> {
-    return this.eventRepository.find({"userId": userId});
+    return this.eventRepository.find({userId});
   }
 
   advanceSearch(searchType: string, value: string): Promise<Event[]> {

@@ -49,8 +49,8 @@ export class EventsController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @Post("find-my-event")
-  async findMyEvent(@Req() req): Promise<Event[]> {
+  @Get("find-my-event")
+  async findMyEvent(@Request() req): Promise<Event[]> {
     const hirerId = req.user.userId;
     return this.eventsService.findEventByHirerId(hirerId);
   }
