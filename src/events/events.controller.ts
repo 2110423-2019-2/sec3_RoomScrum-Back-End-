@@ -38,12 +38,6 @@ export class EventsController {
     return this.eventsService.findAvailableEvent();
   }
 
-  //TODO delete
-  @Get("fuck")
-  async fuck(): Promise<Event[]> {
-    return await this.eventsService.GetContract(1);
-  }
-
   @Get(":id")
   async findEventByEventId(@Param() params): Promise<Event> {
     return (await this.eventsService.findEventByEventId(params.id));

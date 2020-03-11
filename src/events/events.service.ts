@@ -68,11 +68,6 @@ export class EventsService {
     return this.eventRepository.update({ eventId }, { status: Status.ContractDrafting });
   }
 
-  //TODO delete
-  async GetContract(event:number) {
-    return this.eventRepository.find({relations: ["contract"]})
-  }
-
   async create(event: createEventDto) {
     return this.eventRepository.insert(event);
   }

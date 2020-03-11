@@ -32,7 +32,7 @@ export class UserController {
   findAllUsers(): Promise<User[]> {
     return this.userService.find({});
   }
-
+  // TODO refractor
   @Get(":id")
     async findUserById(@Param() params): Promise<User> {
         return (await this.userService.findUserById(params.id))[0];
