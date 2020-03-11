@@ -34,7 +34,7 @@ export class ApplicationService {
   async acceptUser(acceptDto: acceptMusicianDto) {
     const eventId = acceptDto.eventId;
     this.eventsService.AcceptMusicianToEvent(eventId);
-    //change to wait contract
+    
     return this.applicationRepository.update(acceptDto, {
       status: Status.areAccepted
     });

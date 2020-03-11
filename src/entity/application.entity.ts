@@ -1,5 +1,6 @@
 import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
 import { Event } from "./events.entity";
+import { Hiree } from "./hiree.entity";
 export enum Status {
   default = 1,
   isInvited = 2,
@@ -34,14 +35,14 @@ export class Application {
   )
   @JoinColumn({
     name: "eventId", // new name
-    referencedColumnName: "eventId" // field name in user
+    referencedColumnName: "eventId" // field name in application
   })
   event: Event;
 
-  // @ManyToOne(type => Hiree, hiree => hiree.application, )
-  // @JoinColumn({
-  //     name: "hireeId", // new name
-  //     referencedColumnName: "hireeId", // field name in user
-  // })
-  // hiree: Hiree;
+  @ManyToOne(type => Hiree, hiree => hiree.application, )
+  @JoinColumn({
+      name: "hireeId", // new name
+      referencedColumnName: "hireeId", // field name in application
+  })
+  hiree: Hiree;
 }

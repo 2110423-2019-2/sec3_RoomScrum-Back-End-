@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, OneToOne, Column, OneToMany, ManyToOne } from "typeorm";
 import { User } from "./user.entity";
+import { Application } from "./application.entity";
 export enum HireeType {
   Musician = "M",
   Band = "B"
@@ -24,7 +25,8 @@ export class Hiree {
     user => user.hiree
   )
   user: User;
-
-  @OneToMany(type => Application, application => application.hiree.hireeId)
+  
+  @ManyToOne(type => Application, 
+    application => application.hiree)
   application: Application[];
 }

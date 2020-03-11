@@ -1,15 +1,17 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
+import { InjectRepository, qu } from "@nestjs/typeorm";
 import { Like, Not, Repository } from "typeorm";
 import { Event, Status } from "src/entity/events.entity";
 import createEventDto from "./dto/create-event-dto";
 import { Contract } from "src/entity/contract.entity";
+import { Application } from "src/entity/application.entity";
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectRepository(Event)
-    private readonly eventRepository: Repository<Event>
+    private readonly eventRepository: Repository<Event>,
+    private readonly applicationRepository: Repository<Application>
   ) {}
 
   findAllEvent(): Promise<Event[]> {
@@ -26,6 +28,10 @@ export class EventsService {
 
   findEventByHirerId(userId: number): Promise<Event[]> {
     return this.eventRepository.find({userId});
+  }
+
+  async findEventByApplicantId(hireeId: number): Promise<any> {
+    // return await this.eventRepository.find({ application: {hireeId: hireeId}});
   }
 
   advanceSearch(searchType: string, value: string): Promise<Event[]> {
@@ -65,7 +71,7 @@ export class EventsService {
   }
   
   AcceptMusicianToEvent(eventId:number) {
-    return this.eventRepository.update({ eventId }, { status: Status.ContractDrafting });
+    return this.eventRepository.update({ eventId }, { status: Status.WaitContractCreate });
   }
 
   async create(event: createEventDto) {
