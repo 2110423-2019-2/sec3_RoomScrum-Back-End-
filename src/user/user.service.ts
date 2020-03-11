@@ -22,11 +22,13 @@ export class UserService {
     });
   }
 
-  findFromId(id: number): Promise<User[]> {
-    return this.userRepository.find({
-      userId: id
-    });
-  }
+  findUserById(userId: number): Promise<User[]> {
+    return this.userRepository.find({"userId": userId});
+    }
+
+    async updateProfile(userId: number, user: createUserDto){
+        return this.userRepository.update({"userId": userId}, user);
+    }
 
   findFromUsername(username: string): Promise<User[]> {
     return this.userRepository.find({
@@ -54,9 +56,7 @@ export class UserService {
 
   async uploadProfilePic(@UploadedFile() file, userId: number): Promise<any> {
     const imagePath = file.filename;
-
     this.userRepository.update(userId, { profileImage: imagePath });
-
     return;
   }
 
