@@ -48,6 +48,9 @@ export class User {
   })
   password: string;
 
+  @Column({type: "datetime", default: "1970-01-01 00:00:00"})
+  banUntil: Date;
+
   ////////////////////////////// NAME
   @Column({
     length: 255

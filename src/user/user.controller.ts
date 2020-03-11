@@ -19,8 +19,9 @@ import { UserService } from "./user.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { imageFileFilter, editFileName } from "../utils/file-uploading.utils";
 import { diskStorage } from "multer";
-import createUserDto from "./dto/create-user-dto";
 import { AuthGuard } from "@nestjs/passport";
+import createUserDto from "./dto/create-user-dto";
+import searchUserDto from "./dto/find-user-dto";
 // import { request } from "http";
 
 @Controller("user")
@@ -36,6 +37,11 @@ export class UserController {
     async findUserById(@Param() params): Promise<User> {
         return (await this.userService.findUserById(params.id))[0];
     }
+
+  @Post("find-by-username")
+  findUserFromUsername(@Body() searchParam: searchUserDto): Promise<User[]> {
+    return this.userService.findFromUsername(searchParam.username);
+  }
 
   @UseGuards(AuthGuard("jwt"))
   @UsePipes(new ValidationPipe())

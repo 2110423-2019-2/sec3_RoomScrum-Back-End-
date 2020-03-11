@@ -50,6 +50,8 @@ class createEventDto {
   @IsDateString()
   enddatetime: Date;
 
+  isCancelled: boolean;
+
   // @IsEmpty()
   // @IsNumber()
   user: Partial<User>;
@@ -58,6 +60,7 @@ class createEventDto {
   @IsNotEmpty()
   @IsString()
   eventImage: string;
+
 }
 
 export default createEventDto;

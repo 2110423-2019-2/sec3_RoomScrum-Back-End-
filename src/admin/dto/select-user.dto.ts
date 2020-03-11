@@ -1,6 +1,7 @@
 import { IsInt, Min } from "class-validator";
 
-export class RejectUserDto {
+// general dto for api which choose user
+export class SelectUserDto {
   @IsInt()
   @Min(1)
   userId: number;

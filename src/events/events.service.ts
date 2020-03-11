@@ -15,8 +15,16 @@ export class EventsService {
     return this.eventRepository.find();
   }
 
-  findEventById(eventId: number): Promise<Event[]> {
-    return this.eventRepository.find({"eventId": eventId});
+  findAvailableEvent(): Promise<Event[]> {
+    return this.eventRepository.find({isCancelled: false})
+  }
+
+  findEventByEventId(eventId: number): Promise<Event[]> {
+    return this.eventRepository.find({eventId});
+  }
+
+  findEventByHirerId(userId: number): Promise<Event[]> {
+    return this.eventRepository.find({userId});
   }
 
   advanceSearch(searchType: string, value: string): Promise<Event[]> {
@@ -57,6 +65,10 @@ export class EventsService {
 
   async create(event: createEventDto) {
     return this.eventRepository.insert(event);
+  }
+
+  cancelEvent(eventId: number) {
+    return this.eventRepository.update({"eventId": eventId}, {"isCancelled": true});
   }
 
   async getEventPicName(id: number) {
