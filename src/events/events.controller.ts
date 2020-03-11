@@ -39,7 +39,7 @@ export class EventsController {
 
   @Get(":id")
   async findEventByEventId(@Param() params): Promise<Event> {
-    return (await this.eventsService.findEventByEventId(params.id))[0];
+    return (await this.eventsService.findEventByEventId(params.id));
   }
 
   @UseGuards(AuthGuard("jwt"))

@@ -20,8 +20,8 @@ export class EventsService {
     return this.eventRepository.find({status: Not(Status.Cancelled)})
   }
 
-  findEventByEventId(eventId: number): Promise<Event[]> {
-    return this.eventRepository.find({eventId});
+  findEventByEventId(eventId: number): Promise<Event> {
+    return this.eventRepository.findOneOrFail({ where: {eventId: eventId}} );
   }
 
   findEventByHirerId(userId: number): Promise<Event[]> {
@@ -66,6 +66,11 @@ export class EventsService {
   
   AcceptMusicianToEvent(eventId:number) {
     return this.eventRepository.update({ eventId }, { status: Status.ContractDrafting });
+  }
+
+  //TODO delete
+  GetContract(event:number) {
+    
   }
 
   async create(event: createEventDto) {
