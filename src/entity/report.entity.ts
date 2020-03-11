@@ -3,9 +3,8 @@ import { User } from "./user.entity";
 
 
 export enum ReportStatus {
-    PENDING = "PENDING", // review pending by admin
-    ACTION_TAKEN = "ACTION_TAKEN", // offender is banned
-    REJECTED = "REJECTED", // offender is innocent
+    UNREAD = "UNREAD", // review pending by admin
+    READ = "READ"
 }
 
 @Entity()
@@ -36,7 +35,7 @@ export class Report {
     @Column({
         type: "enum",
         enum: ReportStatus,
-        default: ReportStatus.PENDING,
+        default: ReportStatus.UNREAD,
     })
     status: string;
 
