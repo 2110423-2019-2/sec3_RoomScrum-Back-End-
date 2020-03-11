@@ -10,7 +10,6 @@ import { Event } from "src/entity/events.entity";
 import { ApplicationModule } from "./application/application.module";
 import { Application } from "src/entity/application.entity";
 import { AdminModule } from "./admin/admin.module";
-
 import config from "src/config";
 import { Hiree } from "./entity/hiree.entity";
 import { NotificationModule } from "./notification/notification.module";

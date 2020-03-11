@@ -1,9 +1,12 @@
-import { IsInt, Min } from "class-validator";
+import { IsInt, Min, IsString, IsNotEmpty } from "class-validator";
+import { ApiProperty } from "@nestjs/swagger";
 
 export class BanUserDto {
-    @IsInt()
-    @Min(1)
+
+    @IsString()
+    @IsNotEmpty()
     username: string;
+
 
     @IsInt()
     @Min(1)
