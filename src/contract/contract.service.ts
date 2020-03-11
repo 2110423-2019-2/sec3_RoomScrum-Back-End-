@@ -12,7 +12,7 @@ export class ContractService {
     ) {}
     
     findContractById(contractId: number): Promise<Contract> {
-        return this.contractRepository.findOne({where: {contractId: contractId}});
+        return this.contractRepository.findOneOrFail({where: {contractId: contractId}});
     }
 
     async createContract(contract: CreateContractDto) {
@@ -31,7 +31,7 @@ export class ContractService {
         return this.contractRepository.update({ eventId: contractId }, { status: ContractStatus.Rejected});
     }
     //TODO impolement
-    canceledContract(contractId: number) {
+    cancelContract(contractId: number) {
         // cancel event
         return this.contractRepository.update({ eventId: contractId }, { status: ContractStatus.Canceled});
     }

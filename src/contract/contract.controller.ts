@@ -13,7 +13,11 @@ export class ContractController {
     @UseGuards(AuthGuard("jwt"))
     @Get(":id")
     findContractById(@Param() params): Promise<Contract> {
-        return this.contractService.findContractById(params.id);
+        try {
+            return this.contractService.findContractById(params.id);
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @UseGuards(AuthGuard("jwt"))
@@ -37,7 +41,37 @@ export class ContractController {
     @Post("accept/:id")
     async acceptContract(@Param() params, @Request() req): Promise<any> {
         try {
-            //await this.contractService.acceptContract(params);
+            await this.contractService.acceptContract(params.id);
+            return {
+                status: 200,
+                message: "OK"
+            };
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @UseGuards(AuthGuard("jwt"))
+    @Post("reject/:id")
+    async rejectContract(@Param() params, @Request() req): Promise<any> {
+        try {
+            await this.contractService.rejectContract(params.id);
+            return {
+                status: 200,
+                message: "OK"
+            };
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @UseGuards(AuthGuard("jwt"))
+    @Post("cancel/:id")
+    async cancelContract(@Param() params, @Request() req): Promise<any> {
+        try {
+            await this.contractService.cancelContract(params.id);
             return {
                 status: 200,
                 message: "OK"
