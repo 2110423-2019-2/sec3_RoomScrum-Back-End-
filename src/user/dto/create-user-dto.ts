@@ -13,12 +13,12 @@ import {
 import { Gender, UserType, MusicianApprovement } from "src/entity/user.entity";
 
 class createUserDto {
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsString()
   @MinLength(8)
   username: string;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsString()
   @MinLength(8)
   password: string;
@@ -81,7 +81,7 @@ class createUserDto {
   zipcode: string;
 
   ////////////////////////////// User Type
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsEnum(UserType)
   userType: UserType;
 
