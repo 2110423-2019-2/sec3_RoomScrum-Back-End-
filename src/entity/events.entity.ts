@@ -60,8 +60,8 @@ export class Event {
   })
   enddatetime: Date;
 
-  @Column()
-  isCancelled: boolean;
+  // @Column()
+  // isCancelled: boolean;
 
   @Column({
     type: "enum",
