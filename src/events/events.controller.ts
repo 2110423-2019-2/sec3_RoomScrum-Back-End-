@@ -10,7 +10,8 @@ import {
   UploadedFile,
   Param,
   UseGuards,
-  Req
+  Req,
+  Request,
 } from "@nestjs/common";
 import { Get, Post } from "@nestjs/common";
 import { Event } from "src/entity/events.entity";
@@ -45,6 +46,13 @@ export class EventsController {
   @Get("find-by-hirerId/:id")
   async findEventByHirerId(@Param() params): Promise<Event[]> {
     return this.eventsService.findEventByHirerId(params.id);
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @Post("find-my-event")
+  async findMyEvent(@Req() req): Promise<Event[]> {
+    const hirerId = req.user.userId;
+    return this.eventsService.findEventByHirerId(hirerId);
   }
   
 
