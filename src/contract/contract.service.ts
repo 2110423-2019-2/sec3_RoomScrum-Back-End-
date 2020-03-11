@@ -22,6 +22,19 @@ export class ContractService {
             timeStamp: new Date()
         });
     }
+    //TODO impolement
+    acceptContract(contractId: number) {
+        return this.contractRepository.update({eventId: contractId}, {status: ContractStatus.Accepted});
+    }
+    //TODO impolement
+    rejectContract(contractId: number) {
+        return this.contractRepository.update({ eventId: contractId }, { status: ContractStatus.Rejected});
+    }
+    //TODO impolement
+    canceledContract(contractId: number) {
+        // cancel event
+        return this.contractRepository.update({ eventId: contractId }, { status: ContractStatus.Canceled});
+    }
     
 
 }

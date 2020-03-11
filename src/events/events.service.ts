@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { InjectRepository, qu } from "@nestjs/typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Not, Repository } from "typeorm";
 import { Event, Status } from "src/entity/events.entity";
 import createEventDto from "./dto/create-event-dto";
@@ -10,8 +10,7 @@ import { Application } from "src/entity/application.entity";
 export class EventsService {
   constructor(
     @InjectRepository(Event)
-    private readonly eventRepository: Repository<Event>,
-    private readonly applicationRepository: Repository<Application>
+    private readonly eventRepository: Repository<Event>
   ) {}
 
   findAllEvent(): Promise<Event[]> {
@@ -30,8 +29,10 @@ export class EventsService {
     return this.eventRepository.find({userId});
   }
 
+  // TODO real implement
   async findEventByApplicantId(hireeId: number): Promise<any> {
-    // return await this.eventRepository.find({ application: {hireeId: hireeId}});
+    return this.eventRepository.find({});
+    //return await this.eventRepository.find({ application: {hireeId: hireeId}});
   }
 
   advanceSearch(searchType: string, value: string): Promise<Event[]> {

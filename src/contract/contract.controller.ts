@@ -32,4 +32,20 @@ export class ContractController {
         }
 
     }
+
+    @UseGuards(AuthGuard("jwt"))
+    @Post("accept/:id")
+    async acceptContract(@Param() params, @Request() req): Promise<any> {
+        try {
+            //await this.contractService.acceptContract(params);
+            return {
+                status: 200,
+                message: "OK"
+            };
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
 }

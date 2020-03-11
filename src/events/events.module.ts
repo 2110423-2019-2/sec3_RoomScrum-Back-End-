@@ -7,7 +7,7 @@ import { ContractService } from "src/contract/contract.service";
 import { Application } from "src/entity/application.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Event, Application])],
+  imports: [TypeOrmModule.forFeature([Event])],
   providers: [EventsService],
   controllers: [EventsController],
   exports: [EventsService],

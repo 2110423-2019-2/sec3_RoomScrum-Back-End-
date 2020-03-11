@@ -34,7 +34,7 @@ import { ContractModule } from "./contract/contract.module";
       ],
       synchronize: true,
       logging: true,
-      // dropSchema:true,
+      dropSchema:true,
     }),
     AuthModule,
     EventsModule,
