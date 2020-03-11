@@ -6,7 +6,8 @@ import {
   UsePipes,
   ValidationPipe,
   UseGuards,
-  Req
+  Req,
+  Param
 } from "@nestjs/common";
 import { Get, Post } from "@nestjs/common";
 import { Application } from "src/entity/application.entity";
@@ -26,10 +27,11 @@ export class ApplicationController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @Post("event")
-  findApplicationById(@Body() eventId: number): Promise<Application[]> {
-    return this.applicationService.findApplicationById(eventId);
+  @Get("event/:id")
+  findApplicationById(@Param() params): Promise<Application[]> {
+    return this.applicationService.findApplicationById(params.id);
   }
+  
 
   @UsePipes(new ValidationPipe())
   @UseGuards(AuthGuard("jwt"))

@@ -9,6 +9,15 @@ import { User } from "./user.entity";
 import { Application } from "./application.entity";
 import { OneToMany } from "typeorm";
 
+export enum Status {
+  Created = "Created",
+  HaveApplicant = "HaveApplicant",
+  Cancelled = "Cancelled",
+  ContractDrafting = "ContractDrafting",
+  Settle = "Settle",
+  Complete = "Complete"
+}
+
 @Entity()
 export class Event {
   @PrimaryGeneratedColumn()
@@ -54,6 +63,12 @@ export class Event {
   @Column()
   isCancelled: boolean;
 
+  @Column({
+    type: "enum",
+    enum: Status,
+    default: Status.Created
+  })
+  status: Status;
 
   /////////////////////////////Event image
   @Column({
