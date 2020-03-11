@@ -3,11 +3,13 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
-  JoinColumn
+  JoinColumn,
+  OneToOne
 } from "typeorm";
 import { User } from "./user.entity";
 import { Application } from "./application.entity";
 import { OneToMany } from "typeorm";
+import { Contract } from "src/entity/contract.entity";
 
 @Entity()
 export class Event {
@@ -86,4 +88,11 @@ export class Event {
     application => application.event.eventId
   )
   application: Application[];
+
+  @OneToOne(
+    type => Contract,
+    contract => contract.event,
+    { nullable: true }
+  )
+  contract: Contract;
 }

@@ -1,15 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, OneToOne, JoinColumn, ManyToOne, ManyToMany } from "typeorm";
+import { Event } from "src/entity/events.entity";
+
 export enum ContractStatus {
-  drafting,
-  accepted,
-  canceled,
-  sent
+  Empty = "emp",
+  Drafting = "DFT",
+  Accepted = "ACPT",
+  Canceled = "CNC",
+  Sent = "SENT"
 }
 
 @Entity()
 export class Contract {
-  @PrimaryGeneratedColumn()
-  contractId: number;
+  @PrimaryColumn()
+  eventId: number;
 
   @Column({ length: 2000 })
   description: string;
@@ -20,20 +23,22 @@ export class Contract {
   @Column({
     type: "enum",
     enum: ContractStatus,
-    default: ContractStatus.drafting
+    default: ContractStatus.Drafting
   })
   status: string;
 
-  @Column({})
-  eventId: number;
-
-  @Column({})
-  hireeId: number;
-
   @Column({type: "datetime"})
   timeStamp: Date;
-  // @Column({
-  //     type:'set',
-  //     length:50 })
-  // tag: string[];
+
+  @OneToOne(
+    type => Event,
+    event => event.contract,
+    { nullable: false }
+  )
+  @JoinColumn({
+    name: "eventId",
+    referencedColumnName: "eventId"
+  })
+  event: Event;
+
 }
