@@ -51,7 +51,7 @@ class createEventDto {
   @IsDateString()
   enddatetime: Date;
 
-  isCancelled: boolean
+  // isCancelled: boolean
   status: Status
 
   // @IsEmpty()

@@ -72,8 +72,6 @@ export class EventsController {
       userId: req.user.userId
     };
 
-    event.isCancelled = false;
-
     try {
       await this.eventsService.create(event);
       return {

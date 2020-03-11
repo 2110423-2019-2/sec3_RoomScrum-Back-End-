@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Like, Repository } from "typeorm";
-import { Event } from "src/entity/events.entity";
+import { Like, Not, Repository } from "typeorm";
+import { Event, Status } from "src/entity/events.entity";
 import createEventDto from "./dto/create-event-dto";
 
 @Injectable()
@@ -16,7 +16,7 @@ export class EventsService {
   }
 
   findAvailableEvent(): Promise<Event[]> {
-    return this.eventRepository.find({isCancelled: false})
+    return this.eventRepository.find({status: Not(Status.Cancelled)})
   }
 
   findEventByEventId(eventId: number): Promise<Event[]> {
@@ -68,7 +68,7 @@ export class EventsService {
   }
 
   cancelEvent(eventId: number) {
-    return this.eventRepository.update({"eventId": eventId}, {"isCancelled": true});
+    return this.eventRepository.update({eventId}, {status: Status.Cancelled});
   }
 
   async getEventPicName(id: number) {
@@ -77,6 +77,6 @@ export class EventsService {
   }
 
   async updateEvent(eventId: number, event: createEventDto) { //Edit Event
-    return this.eventRepository.update({ "eventId": eventId }, event);
+    return this.eventRepository.update({eventId }, event);
   }
 }
