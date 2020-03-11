@@ -68,7 +68,7 @@ export class EventsService {
   }
 
   cancelEvent(eventId: number) {
-    return this.eventRepository.update({"eventId": eventId}, {"isCancelled": true});
+    return this.eventRepository.update({eventId}, {"isCancelled": true});
   }
 
   async getEventPicName(id: number) {
@@ -77,6 +77,6 @@ export class EventsService {
   }
 
   async updateEvent(eventId: number, event: createEventDto) { //Edit Event
-    return this.eventRepository.update({ "eventId": eventId }, event);
+    return this.eventRepository.update({eventId }, event);
   }
 }
