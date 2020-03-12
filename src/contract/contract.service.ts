@@ -16,6 +16,9 @@ export class ContractService {
     }
 
     async createContract(contract: CreateContractDto) {
+        // TODO delete this
+        contract.price = 1000;
+        contract.description = "This is default contract | The hiree should abide what hirer demand, The hirer should respect hiree";
         contract.status = ContractStatus.Drafting;
         return this.contractRepository.insert({
             ...contract,
