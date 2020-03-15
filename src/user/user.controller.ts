@@ -115,7 +115,7 @@ export class UserController {
   @UseInterceptors(
     FileInterceptor("image", {
       storage: diskStorage({
-        destination: "./files/",
+        destination: "./files/user",
         filename: editFileName
       }),
       fileFilter: imageFileFilter
@@ -137,7 +137,6 @@ export class UserController {
   @Get("profile-pic/:id")
   async getProfilePicture(@Param("id") userId: number, @Res() res) {
     try {
-      // const userId = req.body.userId;
       const imgPath = await this.userService.getProfilePicPath(userId);
       return res.sendFile(imgPath, { root: "./files/user" });
     } catch (err) {
@@ -172,7 +171,6 @@ export class UserController {
   @Get("id-card-pic/:id")
   async getIdPicture(@Param("id") userId: number, @Res() res) {
     try {
-      // const userId = req.body.userId;
       const imgPath = await this.userService.getIdPicPath(userId);
       return res.sendFile(imgPath, { root: "./files/id-card" });
     } catch (err) {
