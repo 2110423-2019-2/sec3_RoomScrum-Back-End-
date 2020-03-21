@@ -29,7 +29,7 @@ export class ApplicationService {
   findMyApplication(hireeId: number): Promise<Application[]> {
     return this.applicationRepository
       .createQueryBuilder("application")
-      .where(`hireeId = ${hireeId}`)
+      .where("hireeId = :id", {id: hireeId})
       .leftJoinAndSelect("application.event", "event")
       .getMany()
   }
