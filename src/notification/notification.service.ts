@@ -3,7 +3,6 @@ import { Repository } from 'typeorm';
 import { Notification, NotificationType, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo} from 'src/entity/notification.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EventInviteDto, EventStateUpdateDto } from './dto/event.dto';
-import { BandInviteDto } from './dto/band.dto';
 
 @Injectable()
 export class NotificationService {
@@ -45,17 +44,6 @@ export class NotificationService {
             type: NotificationType.EventStateUpdate,
             timestamp: new Date(),
             eventStateUpdateInfo: eventUpdateInfo,
-        })
-    }
-
-    async sendBandInviteNotif(inviterId: number, bandInviteDto: BandInviteDto): Promise<any> {
-        const {receiverId} = bandInviteDto;
-        const bandInviteInfo = await this.bandInviteRepo.save({id: null, inviterId });
-        return this.notificationRepo.insert({
-            receiver: {userId: receiverId},
-            type: NotificationType.BandInvitation,
-            timestamp: new Date(),
-            bandInviteInfo: bandInviteInfo,
         })
     }
 }

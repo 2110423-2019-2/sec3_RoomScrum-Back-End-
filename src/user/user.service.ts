@@ -4,16 +4,11 @@ import { Repository, Like } from "typeorm";
 import { User, UserType } from "src/entity/user.entity";
 import { hash } from "bcrypt";
 import createUserDto from "./dto/create-user-dto";
-import createHireeDto from "src/hiree/dto/create-hiree-dto";
-import { HireeService } from "src/hiree/hiree.service";
-import { Hiree } from "src/entity/hiree.entity";
-
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    private readonly hireeService: HireeService
+    private readonly userRepository: Repository<User>
   ) {}
 
   find(user: Partial<User>): Promise<User[]> {
@@ -41,14 +36,6 @@ export class UserService {
     user.password = hashedPassword;
 
     const userEntity: User = await this.userRepository.create(user);
-
-    if (
-      user.userType == UserType.Musician ||
-      user.userType == UserType.PremiumMusician
-    ) {
-      const hiree: Hiree = await this.hireeService.create(new createHireeDto());
-      userEntity.hiree = hiree;
-    }
 
     await this.userRepository.save(userEntity);
     return userEntity;

@@ -39,10 +39,6 @@ class createEventDto {
   @IsString()
   zipcode: string;
 
-  // @IsNotEmpty()
-  // @IsString()
-  // tag: string[]
-
   @IsNotEmpty()
   @IsDateString()
   startdatetime: Date;
