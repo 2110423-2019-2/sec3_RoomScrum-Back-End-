@@ -1,5 +1,6 @@
 import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
 import { Event } from "./events.entity";
+import { User } from "./user.entity";
 export enum Status {
   isInvited = "isInvited",
   isApplied = "isApplied",
@@ -38,11 +39,16 @@ export class Application {
   })
   event: Event;
 
-  // @ManyToOne(
-  //   type => User,
-  //   user => application.event,
-  //   {
-  //     eager: true,
-  //   }
-  // )
+  @ManyToOne(
+    type => User,
+    hiree => hiree.application,
+    {
+      eager: true,
+    }
+  )
+  @JoinColumn({
+    name: "hireeId",
+    referencedColumnName: "userId"
+  })
+  hiree: User;
 }
