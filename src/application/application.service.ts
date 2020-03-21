@@ -26,6 +26,14 @@ export class ApplicationService {
     });
   }
 
+  findMyApplication(hireeId: number): Promise<Application[]> {
+    return this.applicationRepository
+      .createQueryBuilder("application")
+      .where("hireeId = :id", {id: hireeId})
+      .leftJoinAndSelect("application.event", "event")
+      .getMany()
+  }
+
   async applyEvent(application: applyDto) {
     return this.applicationRepository.insert(application);
   }
