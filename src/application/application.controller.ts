@@ -39,6 +39,12 @@ export class ApplicationController {
     return this.applicationService.findApplicationById(params.eventId,req.user.userId);
   }
 
+  @UseGuards(AuthGuard("jwt"))
+  @Get("my-application")
+  findMyApplication(@Req() req): Promise<Application[]> {
+    return this.applicationService.findMyApplication(req.user.userId);
+  }
+
   @UsePipes(new ValidationPipe())
   @UseGuards(AuthGuard("jwt"))
   @Post("apply")
