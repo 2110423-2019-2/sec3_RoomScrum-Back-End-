@@ -28,10 +28,16 @@ export class ApplicationController {
 
   @UseGuards(AuthGuard("jwt"))
   @Get("event/:id")
-  findApplicationById(@Param() params): Promise<Application[]> {
-    return this.applicationService.findApplicationById(params.id);
+  findApplicationByEventId(@Param() params): Promise<Application[]> {
+    return this.applicationService.findApplicationByEventId(params.id);
   }
-  
+
+  @UseGuards(AuthGuard("jwt"))
+  @Get(":eventId/my-application")
+  findApplicationById(@Param() params, @Req() req): Promise<Application[]> {
+    console.log(params.eventId,req.user.userId);
+    return this.applicationService.findApplicationById(params.eventId,req.user.userId);
+  }
 
   @UsePipes(new ValidationPipe())
   @UseGuards(AuthGuard("jwt"))
