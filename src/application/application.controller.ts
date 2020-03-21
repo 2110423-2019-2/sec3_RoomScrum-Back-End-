@@ -34,7 +34,7 @@ export class ApplicationController {
 
   @UseGuards(AuthGuard("jwt"))
   @Get(":eventId/my-application")
-  findApplicationById(@Param() params, @Req() req): Promise<Application[]> {
+  findApplicationById(@Param() params, @Req() req): Promise<Application> {
     console.log(params.eventId,req.user.userId);
     return this.applicationService.findApplicationById(params.eventId,req.user.userId);
   }
