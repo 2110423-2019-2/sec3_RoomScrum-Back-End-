@@ -10,7 +10,6 @@ export enum NotificationType {
     BandInvitation = 11,
 }
 
-
 @Entity()
 export class EventInviteInfo {
     @PrimaryGeneratedColumn()

@@ -7,28 +7,24 @@ import {
   JoinColumn
 } from "typeorm";
 import { Event } from "./events.entity";
-import { Hiree } from "src/entity/hiree.entity";
-// import { Join } from "./join.entity";
-// import { join } from "path";
 
 export enum Gender {
-  Male = 1,
-  Female = 2,
-  Other = 3
+  Male = "Male",
+  Female = "Female",
+  Other = "Other"
 }
 
 export enum UserType {
-  Hirer = "H",
-  PremiumHirer = "PH",
-  Musician = "M",
-  PremiumMusician = "PM",
-  Admin = "A"
+  Hirer = "Hirer",
+  Musician = "Musician",
+  Band = "Band",
+  Admin = "Admin"
 }
 
 export enum MusicianApprovement {
-  NotApproved = "NA",
-  Approved = "A",
-  Rejected = "R"
+  NotApproved = "NotApproved",
+  Approved = "Approved",
+  Rejected = "Rejected"
 }
 
 @Entity()
@@ -169,20 +165,9 @@ export class User {
   })
   videoUrl: string;
 
-  @OneToOne(
-    type => Hiree,
-    hiree => hiree.user,
-    { cascade: true }
-  )
-  @JoinColumn()
-  hiree: Hiree;
-
   @OneToMany(
     type => Event,
     event => event.user.userId
   )
   event: Event[];
-
-  // @OneToMany(type => Join, join => join.user.userId)
-  // join: Join[];
 }

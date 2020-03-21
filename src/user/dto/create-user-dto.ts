@@ -88,29 +88,23 @@ class createUserDto {
   ////////////////////////////// Musician Shit
   @ValidateIf(
     o =>
-      o.userType === UserType.Musician ||
-      o.userType === UserType.PremiumMusician
+      o.userType === UserType.Musician || o.userType === UserType.Band
   )
   @IsString()
   bio: string;
 
   @ValidateIf(
     o =>
-      o.userType === UserType.Musician ||
-      o.userType === UserType.PremiumMusician
+      o.userType === UserType.Musician || o.userType === UserType.Band
   )
   @IsEmpty()
   musicianApprovement: MusicianApprovement;
 
   @ValidateIf(
     o =>
-      o.userType === UserType.Musician ||
-      o.userType === UserType.PremiumMusician
+      o.userType === UserType.Musician || o.userType === UserType.Band
   )
   videoUrl: string;
-
-  @IsEmpty()
-  hireeId?: number;
 }
 
 export default createUserDto;

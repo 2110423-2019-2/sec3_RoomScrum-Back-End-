@@ -1,15 +1,15 @@
 import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
 import { Event } from "./events.entity";
 export enum Status {
-  default = 1,
-  isInvited = 2,
-  isApplied = 3,
-  areAccepted = 4
+  isInvited = "isInvited",
+  isApplied = "isApplied",
+  applicationRejected = "applicationRejected",
+  isAccepted = "isAccepted",
 }
 
 @Entity()
 export class Application {
-  //This is a table for map event_id -> hiree_id
+  //This is a table for map event_id -> user_id
   @Column({ primary: true })
   eventId: number;
 
@@ -24,7 +24,7 @@ export class Application {
   @Column({
     type: "enum",
     enum: Status,
-    default: Status.default
+    default: Status.isApplied
   })
   status: Status;
 
@@ -38,10 +38,11 @@ export class Application {
   })
   event: Event;
 
-  // @ManyToOne(type => Hiree, hiree => hiree.application, )
-  // @JoinColumn({
-  //     name: "hireeId", // new name
-  //     referencedColumnName: "hireeId", // field name in user
-  // })
-  // hiree: Hiree;
+  // @ManyToOne(
+  //   type => User,
+  //   user => application.event,
+  //   {
+  //     eager: true,
+  //   }
+  // )
 }
