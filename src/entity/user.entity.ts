@@ -8,7 +8,6 @@ import {
 } from "typeorm";
 import { Event } from "./events.entity";
 import { Application } from "./application.entity";
-import { application } from "express";
 
 export enum Gender {
   Male = "Male",
