@@ -7,23 +7,18 @@ import {
   IsISO8601,
   IsEmpty,
   IsNumberString,
-  IsDate,
-  IsInt,
   IsEnum,
-  ValidateIf,
-  IsUrl,
-  IsDateString
+  ValidateIf
 } from "class-validator";
 import { Gender, UserType, MusicianApprovement } from "src/entity/user.entity";
-import { Column } from "typeorm";
 
 class createUserDto {
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsString()
   @MinLength(8)
   username: string;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsString()
   @MinLength(8)
   password: string;
@@ -86,36 +81,30 @@ class createUserDto {
   zipcode: string;
 
   ////////////////////////////// User Type
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsEnum(UserType)
   userType: UserType;
 
   ////////////////////////////// Musician Shit
   @ValidateIf(
     o =>
-      o.userType === UserType.Musician ||
-      o.userType === UserType.PremiumMusician
+      o.userType === UserType.Musician || o.userType === UserType.Band
   )
   @IsString()
   bio: string;
 
   @ValidateIf(
     o =>
-      o.userType === UserType.Musician ||
-      o.userType === UserType.PremiumMusician
+      o.userType === UserType.Musician || o.userType === UserType.Band
   )
   @IsEmpty()
   musicianApprovement: MusicianApprovement;
 
   @ValidateIf(
     o =>
-      o.userType === UserType.Musician ||
-      o.userType === UserType.PremiumMusician
+      o.userType === UserType.Musician || o.userType === UserType.Band
   )
   videoUrl: string;
-
-  @IsEmpty()
-  hireeId: number;
 }
 
 export default createUserDto;

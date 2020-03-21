@@ -5,14 +5,11 @@ import {
   HttpStatus,
   UsePipes,
   ValidationPipe,
-  Res,
   UseGuards,
-  UseInterceptors,
-  UploadedFile,
-  Param,
-  Req
+  Req,
+  Param
 } from "@nestjs/common";
-import { Get, Post, Put } from "@nestjs/common";
+import { Get, Post } from "@nestjs/common";
 import { Application } from "src/entity/application.entity";
 import { ApplicationService } from "./application.service";
 import applyDto from "./dto/apply-dto";
@@ -30,10 +27,11 @@ export class ApplicationController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @Post("event")
-  findApplicationById(@Body() eventId: number): Promise<Application[]> {
-    return this.applicationService.findApplicationById(eventId);
+  @Get("event/:id")
+  findApplicationById(@Param() params): Promise<Application[]> {
+    return this.applicationService.findApplicationById(params.id);
   }
+  
 
   @UsePipes(new ValidationPipe())
   @UseGuards(AuthGuard("jwt"))
@@ -42,8 +40,6 @@ export class ApplicationController {
     application.status = Status.isApplied;
     application.hireeId = req.user.userId;
     try {
-      // application.status = Status.isApplied;
-      // application.hireeId = req.user.userId;
       console.log(application);
       await this.applicationService.applyEvent(application);
       return {
@@ -52,7 +48,7 @@ export class ApplicationController {
       };
     } catch (err) {
       console.log(err);
-      throw new HttpException("Duplicate data", HttpStatus.BAD_REQUEST);
+      throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
 

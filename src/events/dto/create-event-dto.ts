@@ -1,14 +1,6 @@
-import {
-  IsString,
-  IsNotEmpty,
-  Length,
-  MinLength,
-  IsEmail,
-  IsNumber,
-  IsEmpty,
-  IsDateString
-} from "class-validator";
+import { IsString, IsNotEmpty, IsEmpty, IsDateString } from "class-validator";
 import { User } from "../../entity/user.entity";
+import { Status } from "src/entity/events.entity";
 class createEventDto {
   // @IsNotEmpty()
   // @IsNumber()
@@ -47,10 +39,6 @@ class createEventDto {
   @IsString()
   zipcode: string;
 
-  // @IsNotEmpty()
-  // @IsString()
-  // tag: string[]
-
   @IsNotEmpty()
   @IsDateString()
   startdatetime: Date;
@@ -58,6 +46,9 @@ class createEventDto {
   @IsNotEmpty()
   @IsDateString()
   enddatetime: Date;
+
+  // isCancelled: boolean
+  status: Status
 
   // @IsEmpty()
   // @IsNumber()
@@ -67,6 +58,7 @@ class createEventDto {
   @IsNotEmpty()
   @IsString()
   eventImage: string;
+
 }
 
 export default createEventDto;

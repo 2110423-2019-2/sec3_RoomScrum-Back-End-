@@ -2,7 +2,6 @@ import { Module } from "@nestjs/common";
 import { UserModule } from "./user/user.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "src/entity/user.entity";
-import { AuthService } from "./auth/auth.service";
 import { AuthModule } from "./auth/auth.module";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
@@ -11,9 +10,11 @@ import { Event } from "src/entity/events.entity";
 import { ApplicationModule } from "./application/application.module";
 import { Application } from "src/entity/application.entity";
 import { AdminModule } from "./admin/admin.module";
-
 import config from "src/config";
-import { Hiree } from "./entity/hiree.entity";
+import { NotificationModule } from "./notification/notification.module";
+import { Notification, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo } from "./entity/notification.entity";
+import { ReportModule } from './report/report.module';
+import { Report } from "./entity/report.entity";
 
 @Module({
   imports: [
@@ -25,7 +26,9 @@ import { Hiree } from "./entity/hiree.entity";
       username: config.MYSQL_USER,
       password: config.MYSQL_PASSWORD,
       database: config.MYSQL_DATABASE,
-      entities: [User, Hiree, Event, Application],
+      entities: [User, Event, Application, Report,
+        Notification, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo,
+      ],
       synchronize: true,
       // logging: true,
       // dropSchema:true,
@@ -34,7 +37,9 @@ import { Hiree } from "./entity/hiree.entity";
     EventsModule,
     ApplicationModule,
     AdminModule,
-    ApplicationModule
+    ApplicationModule,
+    NotificationModule,
+    ReportModule
   ],
   controllers: [AppController],
   providers: [AppService]

@@ -1,5 +1,4 @@
 import { extname } from "path";
-import { Request } from "express";
 
 export const imageFileFilter = (req, file, callback) => {
   if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {

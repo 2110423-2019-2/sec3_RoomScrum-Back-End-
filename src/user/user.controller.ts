@@ -9,7 +9,9 @@ import {
   UseGuards,
   Request,
   Req,
-  Res
+  Res,
+  ValidationPipe,
+  UsePipes
 } from "@nestjs/common";
 import { Post, Get } from "@nestjs/common";
 import { User } from "src/entity/user.entity";
@@ -17,8 +19,9 @@ import { UserService } from "./user.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { imageFileFilter, editFileName } from "../utils/file-uploading.utils";
 import { diskStorage } from "multer";
-import createUserDto from "./dto/create-user-dto";
 import { AuthGuard } from "@nestjs/passport";
+import createUserDto from "./dto/create-user-dto";
+import searchUserDto from "./dto/find-user-dto";
 // import { request } from "http";
 
 @Controller("user")
@@ -30,19 +33,38 @@ export class UserController {
     return this.userService.find({});
   }
 
-  @Get()
-  findUserFromId(@Req() req): Promise<User[]> {
-    const id = req.Body.id;
-    return this.userService.findFromId(id);
+  @Get(":id")
+    async findUserById(@Param() params): Promise<User> {
+        return (await this.userService.findUserById(params.id))[0];
+    }
+
+  @Post("find-by-username")
+  findUserFromUsername(@Body() searchParam: searchUserDto): Promise<User[]> {
+    return this.userService.findFromUsername(searchParam.username);
   }
 
+  @UseGuards(AuthGuard("jwt"))
+  @UsePipes(new ValidationPipe())
+  @Post("update/:id")
+  async updateProfile(@Body() user: createUserDto, @Req() req, @Param() params): Promise<any> {
+        try {
+            await this.userService.updateProfile(params.id, user);
+            return {
+                status: 200,
+                message: "Update Profile OK"
+            }
+        } catch (err) {
+            throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+        }
+  }  
+  
   @Post("create")
   async createUser(
     @Body()
     user: createUserDto
   ): Promise<any> {
     try {
-      const result = await this.userService.create(user);
+      await this.userService.create(user);
       return {
         status: 200,
         message: "ok"
@@ -93,7 +115,7 @@ export class UserController {
   @UseInterceptors(
     FileInterceptor("image", {
       storage: diskStorage({
-        destination: "./files/",
+        destination: "./files/user",
         filename: editFileName
       }),
       fileFilter: imageFileFilter
@@ -115,7 +137,6 @@ export class UserController {
   @Get("profile-pic/:id")
   async getProfilePicture(@Param("id") userId: number, @Res() res) {
     try {
-      // const userId = req.body.userId;
       const imgPath = await this.userService.getProfilePicPath(userId);
       return res.sendFile(imgPath, { root: "./files/user" });
     } catch (err) {
@@ -150,7 +171,6 @@ export class UserController {
   @Get("id-card-pic/:id")
   async getIdPicture(@Param("id") userId: number, @Res() res) {
     try {
-      // const userId = req.body.userId;
       const imgPath = await this.userService.getIdPicPath(userId);
       return res.sendFile(imgPath, { root: "./files/id-card" });
     } catch (err) {
