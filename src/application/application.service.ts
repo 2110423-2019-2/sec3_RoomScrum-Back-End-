@@ -2,7 +2,6 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Application, Status } from "src/entity/application.entity";
-import { Event } from "src/entity/events.entity";
 import applyDto from "./dto/apply-dto";
 import acceptMusicianDto from "./dto/accept-musician-dto";
 
