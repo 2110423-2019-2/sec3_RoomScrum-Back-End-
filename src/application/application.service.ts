@@ -16,8 +16,8 @@ export class ApplicationService {
     return this.applicationRepository.find();
   }
 
-  findApplicationById(eventId: number, hireeId: number): Promise<Application[]> {
-    return this.applicationRepository.find( {eventId, hireeId} );
+  findApplicationById(eventId: number, hireeId: number): Promise<Application> {
+    return this.applicationRepository.findOne( {eventId, hireeId} );
   }
 
   findApplicationByEventId(eventId: number): Promise<Application[]> {
