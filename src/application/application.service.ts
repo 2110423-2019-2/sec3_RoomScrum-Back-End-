@@ -28,7 +28,7 @@ export class ApplicationService {
 
   async acceptUser(user: acceptMusicianDto) {
     return this.applicationRepository.update(user, {
-      status: Status.areAccepted
+      status: Status.isAccepted
     });
   }
 }

@@ -40,8 +40,6 @@ export class ApplicationController {
     application.status = Status.isApplied;
     application.hireeId = req.user.userId;
     try {
-      // application.status = Status.isApplied;
-      // application.hireeId = req.user.userId;
       console.log(application);
       await this.applicationService.applyEvent(application);
       return {
@@ -50,7 +48,7 @@ export class ApplicationController {
       };
     } catch (err) {
       console.log(err);
-      throw new HttpException("Duplicate data", HttpStatus.BAD_REQUEST);
+      throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
 
