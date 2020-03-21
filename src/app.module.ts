@@ -31,7 +31,7 @@ import { Report } from "./entity/report.entity";
       ],
       synchronize: true,
       // logging: true,
-      dropSchema:true,
+      // dropSchema:true,
     }),
     AuthModule,
     EventsModule,

@@ -7,6 +7,7 @@ import {
   JoinColumn
 } from "typeorm";
 import { Event } from "./events.entity";
+import { Application } from "./application.entity";
 
 export enum Gender {
   Male = "Male",
@@ -170,4 +171,11 @@ export class User {
     event => event.user.userId
   )
   event: Event[];
+
+  @OneToMany(
+    type => Application,
+    application => application.hiree
+  )
+  application: Application[];
+  
 }

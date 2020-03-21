@@ -128,7 +128,7 @@ export class EventsController {
     }
   }
 
-  @Get("pic/:id")
+  @Get(":id/pic")
   async getEventPicture(@Param("id") userId: number, @Res() res) {
     try {
       // const userId = req.body.userId;
