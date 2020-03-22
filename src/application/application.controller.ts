@@ -82,7 +82,7 @@ export class ApplicationController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @Delete("/cancel-my-application/:eventId")
+  @Delete("/:eventId/cancel-my-application")
   async cancelMyApplication(@Param() params,@Req() req): Promise<any> {
     try{
       await this.applicationService.cancelMyApplication(req.user.userId, params.eventId);
