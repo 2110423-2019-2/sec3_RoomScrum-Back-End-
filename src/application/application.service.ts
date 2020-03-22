@@ -1,9 +1,11 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Repository, createQueryBuilder } from "typeorm";
 import { Application, Status } from "src/entity/application.entity";
 import applyDto from "./dto/apply-dto";
 import acceptMusicianDto from "./dto/accept-musician-dto";
+import { Event } from "src/entity/events.entity";
+import { User } from "src/entity/user.entity";
 
 @Injectable()
 export class ApplicationService {
@@ -26,12 +28,33 @@ export class ApplicationService {
     });
   }
 
-  findMyApplication(hireeId: number): Promise<Application[]> {
-    return this.applicationRepository
-      .createQueryBuilder("application")
+  async findMyApplication(hireeId: number): Promise<Application[]> {
+  
+    const applications = await this.applicationRepository
+      .createQueryBuilder('application')
       .where("hireeId = :id", {id: hireeId})
       .leftJoinAndSelect("application.event", "event")
       .getMany()
+
+    // join on user id
+    const hirerIds = applications.map(app => app.event.userId);
+
+    const users = await createQueryBuilder()
+      .select("user")
+      .from(User, "user")
+      .where('user.userId IN (:...userIds)', {userIds: hirerIds})
+      .getMany();
+
+    const usersMap = new Map<Number, User>();
+    users.forEach(user => {
+      usersMap.set(user.userId, user);
+    });
+
+    applications.forEach(app => {
+      app.event.user = usersMap.get(app.event.userId);
+    })
+    
+    return applications;
   }
 
   async applyEvent(application: applyDto) {
