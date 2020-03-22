@@ -7,7 +7,8 @@ import {
   ValidationPipe,
   UseGuards,
   Req,
-  Param
+  Param,
+  Delete
 } from "@nestjs/common";
 import { Get, Post } from "@nestjs/common";
 import { Application } from "src/entity/application.entity";
@@ -78,5 +79,11 @@ export class ApplicationController {
     } catch (err) {
       throw new HttpException("IDK", HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @Delete("/cancel-my-application/:eventId")
+  cancelMyApplication(@Param() params,@Req() req): Promise<any> {
+    return this.applicationService.cancelMyApplication(req.user.userId, params.eventId);
   }
 }

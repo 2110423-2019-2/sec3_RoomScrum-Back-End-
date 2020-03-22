@@ -74,4 +74,8 @@ export class ApplicationService {
       status: Status.isAccepted
     });
   }
+
+  cancelMyApplication(hireeId:number, eventId: number){
+    return this.applicationRepository.delete({hireeId, eventId})
+  }
 }
