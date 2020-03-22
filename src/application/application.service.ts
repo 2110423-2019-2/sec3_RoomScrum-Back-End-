@@ -74,7 +74,7 @@ export class ApplicationService {
     });
   }
 
-  cancelMyApplication(hireeId:number, eventId: number){
+  async cancelMyApplication(hireeId:number, eventId: number){
     return this.applicationRepository.delete({hireeId, eventId})
   }
 }
