@@ -49,6 +49,7 @@ export class ApplicationController {
   @UseGuards(AuthGuard("jwt"))
   @Post("apply")
   async applyEvent(@Body() application: applyDto, @Req() req): Promise<any> {
+    application.timestamp = new Date();
     application.status = Status.isApplied;
     application.hireeId = req.user.userId;
     try {
