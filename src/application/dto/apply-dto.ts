@@ -10,8 +10,7 @@ class applyDto {
   @IsEmpty()
   hireeId: number;
 
-  @IsNotEmpty()
-  @IsDateString()
+  @IsEmpty()
   timestamp: Date;
 
   // @IsNotEmpty()

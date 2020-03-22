@@ -14,6 +14,7 @@ import { Application } from "src/entity/application.entity";
 import { ApplicationService } from "./application.service";
 import applyDto from "./dto/apply-dto";
 import acceptMusicianDto from "./dto/accept-musician-dto";
+import findMyApplicationDto from "./dto/find-my-application-dto";
 import { AuthGuard } from "@nestjs/passport";
 import { Status } from "../entity/application.entity";
 
@@ -40,15 +41,16 @@ export class ApplicationController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @Get("my-application")
-  findMyApplication(@Req() req): Promise<Application[]> {
-    return this.applicationService.findMyApplication(req.user.userId);
+  @Post("my-application")
+  findMyApplication(@Body() params: findMyApplicationDto, @Req() req): Promise<Application[]> {
+    return this.applicationService.findMyApplication(req.user.userId, params);
   }
 
   @UsePipes(new ValidationPipe())
   @UseGuards(AuthGuard("jwt"))
   @Post("apply")
   async applyEvent(@Body() application: applyDto, @Req() req): Promise<any> {
+    application.timestamp = new Date();
     application.status = Status.isApplied;
     application.hireeId = req.user.userId;
     try {
