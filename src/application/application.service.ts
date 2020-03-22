@@ -31,15 +31,16 @@ export class ApplicationService {
 
   async findMyApplication(hireeId: number, params: findMyApplicationDto): Promise<Application[]> {
     
+    if (!params.status.length) {
+      params.status = ["isInvited", "isApplied", "applicationRejected", "isAccepted"]
+    }
+
     const applications = await this.applicationRepository
       .createQueryBuilder('application')
-      .where(new Brackets(qb => {
-          params.status.forEach((status,idx) => qb.orWhere("application.status = :st"+idx, {["st"+idx]: status}))
-        }))
+      .where("application.status IN (:...status)", {status: params.status})
       .andWhere("hireeId = :id", {id: hireeId})
       .leftJoinAndSelect("application.event", "event")
       .getMany() 
-
     
     if (!applications.length) return applications;
 
