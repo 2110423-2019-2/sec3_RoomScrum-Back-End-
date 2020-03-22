@@ -5,7 +5,6 @@ import { Application, Status } from "src/entity/application.entity";
 import applyDto from "./dto/apply-dto";
 import acceptMusicianDto from "./dto/accept-musician-dto";
 import findMyApplicationDto from "./dto/find-my-application-dto";
-import { Event } from "src/entity/events.entity";
 import { User } from "src/entity/user.entity";
 
 @Injectable()
