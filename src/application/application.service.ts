@@ -73,6 +73,13 @@ export class ApplicationService {
       status: Status.isAccepted
     });
   }
+  
+  async acceptInvitation(hireeId: number, eventId: number) {
+    return this.applicationRepository.update({hireeId, eventId, status: Status.isInvited}, {
+      status: Status.isApplied,
+      timestamp: new Date(),
+    });
+  }
 
   async cancelMyApplication(hireeId:number, eventId: number){
     return this.applicationRepository.delete({hireeId, eventId})

@@ -8,7 +8,7 @@ import {
   UseGuards,
   Req,
   Param,
-  Delete
+  Delete,
 } from "@nestjs/common";
 import { Get, Post } from "@nestjs/common";
 import { Application } from "src/entity/application.entity";
@@ -88,11 +88,24 @@ export class ApplicationController {
       await this.applicationService.cancelMyApplication(req.user.userId, params.eventId);
       return {
         status: 200,
-        message: "delete myapplication ok"
+        message: "delete my application ok"
       };
     } catch (err) {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
+  }
 
+  @UseGuards(AuthGuard("jwt"))
+  @Post("/:eventId/accept-invitation")
+  async acceptEventInvitation(@Param() params, @Req() req): Promise<any> {
+    try {
+      await this.applicationService.acceptInvitation(req.user.userId, params.eventId);
+      return {
+        status: 200,
+        message: "accept invitation ok",
+      }
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
