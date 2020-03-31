@@ -1,46 +1,32 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn } from "typeorm";
+
+enum ContractStatus {
+  NotActive = 'NotActive',
+  Drafting = 'Drafting',
+  Accepted = 'Accept',
+  Cancelled = 'Cancelled',
+  Rejected = 'Rejected',
+  Sent = 'Sent'
+}
 
 @Entity()
 export class Contract {
-  @PrimaryGeneratedColumn()
-  contractId: number;
+  @PrimaryColumn()
+  eventId: number;
 
   @Column({ length: 2000 })
   description: string;
 
-  @Column({ length: 1000 })
-  address: string;
+  @Column()
+  price: number;
 
-  @Column({ length: 255 })
-  subdistrict: string;
+  @Column()
+  status: ContractStatus;
 
-  @Column({ length: 255 })
-  district: string;
+  @Column()
+  hireeId: number;
 
-  @Column({ length: 255 })
-  province: string;
+  @Column()
+  timestamp: Date;
 
-  @Column({ length: 255 })
-  country: string;
-
-  @Column({
-    type: "char",
-    length: 5
-  })
-  zipcode: string;
-
-  @Column({
-    type: "datetime"
-  })
-  startdatetime: string;
-
-  @Column({
-    type: "datetime"
-  })
-  enddatetime: string;
-
-  // @Column({
-  //     type:'set',
-  //     length:50 })
-  // tag: string[];
 }

@@ -9,4 +9,9 @@ export class ContractService {
         @InjectRepository(Contract)
         private readonly contractRepository: Repository<Contract>
     ) { }
+
+    getContractById() : Contract
+    {
+        return new Contract();
+    }
 }
