@@ -46,10 +46,11 @@ export class UserController {
 
   @UseGuards(AuthGuard("jwt"))
   @UsePipes(new ValidationPipe())
-  @Post("update/:id")
+  @Post("update/")
   async updateProfile(@Body() user: updateUserDto, @Req() req, @Param() params): Promise<any> {
         try {
-            await this.userService.updateProfile(params.id, user);
+            const userId : number =  req.user.userId;
+            await this.userService.updateProfile(userId, user);
             return {
                 status: 200,
                 message: "Update Profile OK"
