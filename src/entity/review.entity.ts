@@ -6,16 +6,13 @@ export class Review {
     reviewId: number;
 
     @Column()
-    userId: number;
+    reviewerId: number;
 
     @Column()
-    hireeId: number;
+    targetId: number;
 
     @Column()
     timeStamp: Date;
-
-    @Column()
-    score: Date;
     
     @Column()
     description: string;

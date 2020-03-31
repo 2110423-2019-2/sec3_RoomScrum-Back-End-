@@ -16,6 +16,7 @@ import { Notification, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo } f
 import { ReportModule } from './report/report.module';
 import { Report } from "./entity/report.entity";
 import { Review } from "src/entity/review.entity";
+import { ReviewModule } from "./review/review.module";
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import { Review } from "src/entity/review.entity";
     AdminModule,
     ApplicationModule,
     NotificationModule,
-    ReportModule
+    ReportModule,
+    ReviewModule
   ],
   controllers: [AppController],
   providers: [AppService]
