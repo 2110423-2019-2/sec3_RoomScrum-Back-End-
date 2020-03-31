@@ -22,6 +22,7 @@ import { diskStorage } from "multer";
 import { AuthGuard } from "@nestjs/passport";
 import createUserDto from "./dto/create-user-dto";
 import searchUserDto from "./dto/find-user-dto";
+import updateUserDto from "./dto/update-user-dto";
 // import { request } from "http";
 
 @Controller("user")
@@ -45,10 +46,11 @@ export class UserController {
 
   @UseGuards(AuthGuard("jwt"))
   @UsePipes(new ValidationPipe())
-  @Post("update/:id")
-  async updateProfile(@Body() user: createUserDto, @Req() req, @Param() params): Promise<any> {
+  @Post("update/")
+  async updateProfile(@Body() user: updateUserDto, @Req() req, @Param() params): Promise<any> {
         try {
-            await this.userService.updateProfile(params.id, user);
+            const userId : number =  req.user.userId;
+            await this.userService.updateProfile(userId, user);
             return {
                 status: 200,
                 message: "Update Profile OK"

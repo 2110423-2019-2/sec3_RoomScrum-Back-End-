@@ -22,6 +22,8 @@ export class UserService {
     }
 
     async updateProfile(userId: number, user: createUserDto){
+      const hashedPassword = await hash(user.password, 8);
+      user.password = hashedPassword;
         return this.userRepository.update({"userId": userId}, user);
     }
 
