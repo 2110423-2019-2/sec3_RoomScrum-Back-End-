@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository, createQueryBuilder, Brackets } from "typeorm";
-import { Application, Status } from "src/entity/application.entity";
+import { Application, ApplicationStatus } from "src/entity/application.entity";
 import applyDto from "./dto/apply-dto";
 import acceptMusicianDto from "./dto/accept-musician-dto";
 import findMyApplicationDto from "./dto/find-my-application-dto";
@@ -30,7 +30,7 @@ export class ApplicationService {
 
   findApplicationByEventId(eventId: number): Promise<Application[]> {
     return this.applicationRepository.find({
-      where: { eventId, status: Status.isApplied }
+      where: { eventId, status: ApplicationStatus.isApplied }
     });
   }
 
@@ -78,7 +78,7 @@ export class ApplicationService {
 
   async acceptUser(user: acceptMusicianDto) {
     const res1 = this.applicationRepository.update(user, {
-      status: Status.isAccepted
+      status: ApplicationStatus.isAccepted
     });
     const res2 = this.eventRepository.update(user.eventId, { status: EventStatus.ContractDrafting});
     const res3 = this.contractRepository.update(user.eventId, { 

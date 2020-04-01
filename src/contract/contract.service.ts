@@ -3,9 +3,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository, Like, createQueryBuilder } from "typeorm";
 import { Contract, ContractStatus } from "src/entity/contract.entity";
 import { User } from "src/entity/user.entity";
-import { Event } from 'src/entity/events.entity'
+import { Event, EventStatus } from 'src/entity/events.entity'
 import { UpdateContractDto } from "./dto/update-contract-dto";
-import { Application } from "src/entity/application.entity";
+import { Application, ApplicationStatus } from "src/entity/application.entity";
 
 
 @Injectable()
@@ -49,10 +49,12 @@ export class ContractService {
             .getOne();
         const userId = (await this.eventRepository.findOne({eventId:eventId})).userId;
         const hirer: User = await this.userRepository.findOne({userId: userId});
+        const hiree: User = await this.userRepository.findOne({ userId: contract.hireeId });
         
         const detailContract = {
             ...contract,
             hirer: hirer,
+            hiree: hiree
         }
         return detailContract;
     }
@@ -117,9 +119,13 @@ export class ContractService {
         if (userId == event.userId) {
             if (contract.status == ContractStatus.Sent) {
 
-                return await this.contractRepository.update(
+                let res1 = this.contractRepository.update(
                     eventId, { status: ContractStatus.Accepted, }
                 )
+                let res2 = this.eventRepository.update(
+                    eventId, { status: EventStatus.PaymentPending, }
+                )
+                return await [res1, res2]
             } else {
                 throw "not in correct state current =>" + contract.status;
             }
@@ -137,10 +143,20 @@ export class ContractService {
             if (contract.status == ContractStatus.Drafting ||
                 contract.status == ContractStatus.Sent ||
                 contract.status == ContractStatus.Rejected) {
-
-                return await this.contractRepository.update(
+                
+                const res1 = this.applicationRepository
+                    .createQueryBuilder()
+                    .update(Application)
+                    .set({status: ApplicationStatus.isApplied})
+                    .where({eventId:eventId, status: ApplicationStatus.isAccepted})
+                    .execute();
+                    
+                const res2 = this.contractRepository.update(
                     eventId, { status: ContractStatus.Cancelled, }
                 )
+
+                return await [res1, res2];
+                
             } else {
                 throw "not in correct state current =>" + contract.status;
             }

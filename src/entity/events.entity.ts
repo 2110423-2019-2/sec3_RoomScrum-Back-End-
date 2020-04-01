@@ -18,7 +18,8 @@ export enum EventStatus {
   Cancelled = "Cancelled",
   ContractDrafting = "ContractDrafting",
   Settle = "Settle",
-  Complete = "Complete"
+  Complete = "Complete",
+  PaymentPending = "PaymentPending"
 }
 
 @Entity()

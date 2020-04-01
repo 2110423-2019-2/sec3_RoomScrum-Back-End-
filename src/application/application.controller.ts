@@ -17,7 +17,7 @@ import applyDto from "./dto/apply-dto";
 import acceptMusicianDto from "./dto/accept-musician-dto";
 import findMyApplicationDto from "./dto/find-my-application-dto";
 import { AuthGuard } from "@nestjs/passport";
-import { Status } from "../entity/application.entity";
+import { ApplicationStatus } from "../entity/application.entity";
 
 @Controller("application")
 export class ApplicationController {
@@ -52,7 +52,7 @@ export class ApplicationController {
   @Post("apply")
   async applyEvent(@Body() application: applyDto, @Req() req): Promise<any> {
     application.timestamp = new Date();
-    application.status = Status.isApplied;
+    application.status = ApplicationStatus.isApplied;
     application.hireeId = req.user.userId;
     try {
       console.log(application);
