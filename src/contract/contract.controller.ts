@@ -92,7 +92,7 @@ export class ContractController
     }
 
     @UseGuards(AuthGuard("jwt"))
-    @Get("/reject/:id")
+    @Get("/cancel/:id")
     async cancelContract(@Param('id') eventId, @Req() req): Promise<any> {
         const userId = req.user.userId;
         // contract + event name

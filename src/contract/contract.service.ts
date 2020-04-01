@@ -134,7 +134,9 @@ export class ContractService {
         const event: Event = await this.eventRepository.findOne({ eventId: eventId });
 
         if (userId == event.userId || userId == contract.hireeId) {
-            if (contract.status == ContractStatus.Sent) {
+            if (contract.status == ContractStatus.Drafting ||
+                contract.status == ContractStatus.Sent ||
+                contract.status == ContractStatus.Rejected) {
 
                 return await this.contractRepository.update(
                     eventId, { status: ContractStatus.Cancelled, }
