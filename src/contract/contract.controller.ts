@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from "@nestjs/common";
+import { Controller, Get, Post, Param, HttpException, HttpStatus } from "@nestjs/common";
 import { ContractService } from "./contract.service";
 
 @Controller('contract')
@@ -10,13 +10,19 @@ export class ContractController
 
     @Get("/dummy")
     createDummyContract() {
-        this.createDummyContract();
+        return this.contractService.createDummyContract();
     }
 
     @Get("/:id")
-    async getDetailContractById() {
+    async getDetailContractById(@Param('id') eventId): Promise<any> {
         // contract + event name
-        return await this.contractService.getDetailContractById()
+        try {
+            return await this.contractService.getDetailContractById(eventId);
+
+        } catch (err)
+        {
+            throw new HttpException(err,HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Get("/reject/:id")
