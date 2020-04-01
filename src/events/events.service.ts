@@ -1,14 +1,17 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Not, Repository } from "typeorm";
-import { Event, Status } from "src/entity/events.entity";
+import { Event, EventStatus } from "src/entity/events.entity";
 import createEventDto from "./dto/create-event-dto";
+import {Application} from 'src/entity/application.entity';
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectRepository(Event)
-    private readonly eventRepository: Repository<Event>
+    private readonly eventRepository: Repository<Event>,
+    @InjectRepository(Application)
+    private readonly applicationRepositoru: Repository<Application>
   ) {}
 
   findAllEvent(): Promise<Event[]> {
@@ -78,5 +81,9 @@ export class EventsService {
 
   async updateEvent(eventId: number, event: createEventDto) { //Edit Event
     return this.eventRepository.update({eventId }, event);
+  }
+
+  async updateStatus(eventId: number, status: EventStatus){
+
   }
 }

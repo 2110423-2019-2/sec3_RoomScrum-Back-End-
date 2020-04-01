@@ -6,12 +6,15 @@ import applyDto from "./dto/apply-dto";
 import acceptMusicianDto from "./dto/accept-musician-dto";
 import findMyApplicationDto from "./dto/find-my-application-dto";
 import { User } from "src/entity/user.entity";
+import { Event } from 'src/entity/events.entity';
 
 @Injectable()
 export class ApplicationService {
   constructor(
     @InjectRepository(Application)
-    private readonly applicationRepository: Repository<Application>
+    private readonly applicationRepository: Repository<Application>,
+    @InjectRepository(Event)
+    private readonly eventRepository: Repository<Event>,
   ) {}
 
   findAllApplications(): Promise<Application[]> {
@@ -65,6 +68,7 @@ export class ApplicationService {
   }
 
   async applyEvent(application: applyDto) {
+    
     return this.applicationRepository.insert(application);
   }
 
