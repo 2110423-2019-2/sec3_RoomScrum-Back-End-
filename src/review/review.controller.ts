@@ -1,7 +1,9 @@
-import { Controller, Post, Req, Get, Param } from '@nestjs/common';
+import { Controller, Body, Post, Req, Get, Param, Catch, HttpException, HttpStatus, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Review } from 'src/entity/review.entity';
 import { ReviewService } from './review.service';
 import { UserService } from 'src/user/user.service';
+import { CreateReviewDto } from './dto/create-review-dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('review')
 export class ReviewController {
@@ -11,18 +13,25 @@ export class ReviewController {
     
 
     @Get('of-user/:id')
-    async getReviewByTargetId(@Req() req): Promise<Review[]> {
+    async getReviewByTargetId(@Param('id') targetId): Promise<Review[]> {
         
-        return this.reviewService.getReviewByTargetId();
+        return this.reviewService.getReviewByTargetId(targetId);
     }
 
-    @Get(':id')
-    getReviewById(@Param('id') id): Review {
-        return this.reviewService.getReviewById();
+    @Get('/:id')
+    async getReviewById(@Param('id') id): Promise<Review> {
+        try {
+            return await this.reviewService.getReviewById(id);
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
     }
 
+    @UseGuards(AuthGuard("jwt"))
+    @UsePipes(new ValidationPipe())
     @Post()
-    createReview(){
-        return 
+    async createReview(@Body() createReview: CreateReviewDto, @Req() req): Promise<any> {
+        const reviewerId = req.user.userId;
+        return this.reviewService.createReview(reviewerId, createReview);
     }
 }

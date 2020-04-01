@@ -11,19 +11,17 @@ export class CreateReviewDto {
     @IsEmpty()
     reviewId: number;
 
-    @IsNumber()
-    reviewerId: number;
-
-    @IsNumber()
-    targetId: number;
-
     @IsEmpty()
-    timeStamp: Date;
+    reviewerId: number;
 
     @IsNotEmpty()
     @IsString()
     description: string;
+
+    @IsNotEmpty()
+    @IsNumber()
+    eventId: number;
 }
 
 
-export default updateUserDto;
+export default CreateReviewDto;

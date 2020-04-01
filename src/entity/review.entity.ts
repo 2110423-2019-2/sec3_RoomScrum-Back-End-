@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, Timestamp } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, Timestamp, ManyToOne, JoinColumn } from "typeorm";
+import { User } from 'src/entity/user.entity';
 
 @Entity()
 export class Review {
@@ -8,8 +9,34 @@ export class Review {
     @Column()
     reviewerId: number;
 
+    @ManyToOne(
+        type => User, 
+        reviewer => reviewer.myReviews, 
+        {
+            eager: true,
+            nullable: false
+        })
+    @JoinColumn({
+        name: "reviewerId",
+        referencedColumnName: "userId"
+    })
+    reviewers: User;
+
     @Column()
     targetId: number;
+
+    @ManyToOne(
+        type => User, 
+        target => target.aboutMeReviews,
+        {
+            eager: true,
+            nullable: false
+        })
+    @JoinColumn({
+        name: "targetId",
+        referencedColumnName: "userId"
+    })
+    targets: User;
 
     @Column()
     timeStamp: Date;

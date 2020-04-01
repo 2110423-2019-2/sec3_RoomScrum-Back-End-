@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm';
+import { Repository, createQueryBuilder } from 'typeorm';
 import { Review } from 'src/entity/review.entity';
+import { Event } from 'src/entity/events.entity';
 import { CreateReviewDto } from 'src/review/dto/create-review-dto';
 
 
@@ -12,26 +13,44 @@ export class ReviewService {
         private readonly reviewRepository: Repository<Review>
     ) {}
 
-    async getReviewByTargetId(): Promise<Review[]> {
-        return [{
-            reviewId: 1, reviewerId: 1, targetId: 2,
-            timeStamp: new Date(), description: "verygood"
-        }, {
-            reviewId: 2, reviewerId: 3, targetId: 2,
-            timeStamp: new Date(), description: "very suck he's so horny"
-        }];
-        return ;
+    async getReviewByTargetId(targetId): Promise<Review[]> {
+        // const review:Review = await this.reviewRepository
+        //     .createQueryBuilder('review')
+        //     .where('review.reviewId = :id', { id: targetId })
+        //     .getMany();
+        return this.reviewRepository.find({targetId:targetId});
     }
 
-    async createReview(review:CreateReviewDto ) {
+
+    async createReview(reviewerId, reviewDto:CreateReviewDto ) {
         
+        //TODO
+        const event: Event = await createQueryBuilder()
+            .select('event.userId')
+            .from(Event,'event')
+            .where('event.eventId = :id', {id:reviewDto.eventId})
+            .getOne()
+
+        const review = {
+            reviewerId: reviewerId,
+            targetId: reviewerId,
+            description: reviewDto.description,
+            timeStamp: Date(),
+            
+        }
+
+        return this.reviewRepository
+            .createQueryBuilder()
+            .insert()
+            .into(Review)
+            .values(review)
+            .execute();
     }
 
-    getReviewById(): Review {
-        return {
-            reviewId: 10, reviewerId: 1, targetId: 2,
-            timeStamp: new Date(), description: "verygood"
-        };
-        return ;
+    async getReviewById(reviewId: number): Promise<Review> {
+        return await this.reviewRepository
+            .createQueryBuilder('review')
+            .where('review.reviewId = :id', {id: reviewId})
+            .getOne();
     }
 }
