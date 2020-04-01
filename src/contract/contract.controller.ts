@@ -1,5 +1,7 @@
-import { Controller, Get, Post, Param, HttpException, HttpStatus } from "@nestjs/common";
+import { Controller, Get, Post, Param, HttpException, HttpStatus, UseGuards, UsePipes, ValidationPipe, Body } from "@nestjs/common";
 import { ContractService } from "./contract.service";
+import { UpdateContractDto } from "./dto/update-contract-dto";
+import { AuthGuard } from "@nestjs/passport";
 
 @Controller('contract')
 export class ContractController
@@ -25,13 +27,24 @@ export class ContractController
         }
     }
 
-    @Get("/reject/:id")
+    // @Get("/reject/:id")
     
-    @Get("/accept/:id")
+    // @Get("/accept/:id")
 
+    @UseGuards(AuthGuard("jwt"))
+    @UsePipes(new ValidationPipe())
     @Post("/:id")
-    editContract() {
-        return
+    async editContract(@Param('id') eventId, @Body() editContract: UpdateContractDto ): Promise<any> {
+        try {
+            await this.contractService.editContract(eventId, editContract);
+            return {
+                status: 200,
+                message: "ok"
+            };
+        } catch (err)
+        {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
     }
     
 }

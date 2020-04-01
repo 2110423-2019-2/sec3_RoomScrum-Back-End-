@@ -4,6 +4,8 @@ import { Repository, Like, createQueryBuilder } from "typeorm";
 import { Contract, ContractStatus } from "src/entity/contract.entity";
 import { User } from "src/entity/user.entity";
 import { eventNames } from "cluster";
+import { UpdateContractDto } from "./dto/update-contract-dto";
+
 
 @Injectable()
 export class ContractService {
@@ -40,5 +42,22 @@ export class ContractService {
         contract.musician = {'firstName':'musician first', 'lastName':'musiciain last'};
 
         return contract;
+    }
+
+    async editContract( eventId:number, editedContract:UpdateContractDto)
+    {   
+        const contract: Contract = await this.contractRepository.findOne({eventId: editedContract.eventId})
+        if (contract.status == ContractStatus.Drafting || 
+            contract.status == ContractStatus.Rejected ||
+            contract.status == ContractStatus.WaitForStartDrafting )
+        {
+            return await this.contractRepository.update(
+                1, editedContract
+            );
+            
+        } else {
+            throw new console.error("not in editable state");
+        }
+        
     }
 }
