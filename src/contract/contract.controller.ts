@@ -1,4 +1,4 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Post } from "@nestjs/common";
 import { ContractService } from "./contract.service";
 
 @Controller('contract')
@@ -8,16 +8,24 @@ export class ContractController
         private readonly contractService: ContractService,
     ) {}
 
+    @Get("/dummy")
+    createDummyContract() {
+        this.createDummyContract();
+    }
+
     @Get("/:id")
-    getContractById() {
-        return {
-            eventId: 1,
-            description: 'I perform after 4 AM and need food',
-            price: 100023.2,
-            status: 'Drafting',
-            hireeId: 1,
-            timestamp: new Date()
-        }
+    async getDetailContractById() {
+        // contract + event name
+        return await this.contractService.getDetailContractById()
+    }
+
+    @Get("/reject/:id")
+    
+    @Get("/accept/:id")
+
+    @Post("/:id")
+    editContract() {
+        return
     }
     
 }
