@@ -6,7 +6,7 @@ import {
 } from "class-validator";
 import { Gender, UserType, MusicianApprovement } from "src/entity/user.entity";
 
-export class Review {
+export class CreateReviewDto {
 
     @IsEmpty()
     reviewId: number;

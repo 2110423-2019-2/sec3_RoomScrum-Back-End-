@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm';
-import { Review } from 'src/entity/review.entity'
+import { Review } from 'src/entity/review.entity';
+import { CreateReviewDto } from 'src/review/dto/create-review-dto';
 
 
 @Injectable()
@@ -20,6 +21,10 @@ export class ReviewService {
             timeStamp: new Date(), description: "very suck he's so horny"
         }];
         return ;
+    }
+
+    async createReview(review:CreateReviewDto ) {
+        
     }
 
     getReviewById(): Review {
