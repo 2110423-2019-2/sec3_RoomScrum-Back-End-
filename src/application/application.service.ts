@@ -6,7 +6,8 @@ import applyDto from "./dto/apply-dto";
 import acceptMusicianDto from "./dto/accept-musician-dto";
 import findMyApplicationDto from "./dto/find-my-application-dto";
 import { User } from "src/entity/user.entity";
-import { Event } from 'src/entity/events.entity';
+import { Event, EventStatus } from 'src/entity/events.entity';
+import { Contract, ContractStatus } from "src/entity/contract.entity";
 
 @Injectable()
 export class ApplicationService {
@@ -15,6 +16,8 @@ export class ApplicationService {
     private readonly applicationRepository: Repository<Application>,
     @InjectRepository(Event)
     private readonly eventRepository: Repository<Event>,
+    @InjectRepository(Contract)
+    private readonly contractRepository: Repository<Contract>,
   ) {}
 
   findAllApplications(): Promise<Application[]> {
@@ -66,16 +69,24 @@ export class ApplicationService {
     
     return applications;
   }
-
+  // THIS IS A HACK
   async applyEvent(application: applyDto) {
-    
-    return this.applicationRepository.insert(application);
+    const res1 = this.applicationRepository.insert(application);
+    const res2 =  this.eventRepository.update(application.eventId, {status: EventStatus.HaveApplicant});
+    return await [res1, res2];
   }
 
   async acceptUser(user: acceptMusicianDto) {
-    return this.applicationRepository.update(user, {
+    const res1 = this.applicationRepository.update(user, {
       status: Status.isAccepted
     });
+    const res2 = this.eventRepository.update(user.eventId, { status: EventStatus.ContractDrafting});
+    const res3 = this.contractRepository.update(user.eventId, { 
+      status: ContractStatus.WaitForStartDrafting, 
+      hireeId: user.hireeId,
+      description: 'MUSICIAN, DRAFT YOUR CONTRACT HERE'});
+    
+    return await [res1, res2, res3];
   }
 
   async cancelMyApplication(hireeId:number, eventId: number){

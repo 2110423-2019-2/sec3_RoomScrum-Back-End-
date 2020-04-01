@@ -3,15 +3,23 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository, Like, createQueryBuilder } from "typeorm";
 import { Contract, ContractStatus } from "src/entity/contract.entity";
 import { User } from "src/entity/user.entity";
-import { eventNames } from "cluster";
+import { Event } from 'src/entity/events.entity'
 import { UpdateContractDto } from "./dto/update-contract-dto";
+import { Application } from "src/entity/application.entity";
 
 
 @Injectable()
 export class ContractService {
     constructor(
         @InjectRepository(Contract)
-        private readonly contractRepository: Repository<Contract>
+        private readonly contractRepository: Repository<Contract>,
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
+        @InjectRepository(Application)
+        private readonly applicationRepository: Repository<Application>,
+        @InjectRepository(Event)
+        private readonly eventRepository: Repository<Event>,
+
     ) { }
 
     async createDummyContract() {
@@ -26,22 +34,27 @@ export class ContractService {
             price: 100023.2,
             status: ContractStatus.WaitForStartDrafting,
             hireeId: hiree.userId,
-            timestamp: new Date()
+            timeStamp: new Date()
         })
     }
 
-
+    // HACK
     async getDetailContractById(eventId: number) : Promise<any>
     {
-        const contract = <any>await this.contractRepository
-            .createQueryBuilder('Contract')
-            .where('contract.eventId = :eventId', { eventId: 1 })
+        // hirerId hirerName hireeName eventName
+        const contract: Contract = await this.contractRepository
+            .createQueryBuilder('contract')
+            .innerJoinAndSelect('contract.event','event')
+            .where('contract.eventId = :eventId', {eventId: eventId})
             .getOne();
-        contract.event = { 'eventName': 'event number 1'};
-        contract.hirer = { 'userId':1,'firstName': 'musician first', 'lastName':'musiciain last'};
-        contract.musician = {'firstName':'musician first', 'lastName':'musiciain last'};
-
-        return contract;
+        const userId = (await this.eventRepository.findOne({eventId:eventId})).userId;
+        const hirer: User = await this.userRepository.findOne({userId: userId});
+        
+        const detailContract = {
+            ...contract,
+            hirer: hirer,
+        }
+        return detailContract;
     }
 
     async editContract( eventId:number, editedContract:UpdateContractDto)

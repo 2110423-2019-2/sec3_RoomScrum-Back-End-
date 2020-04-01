@@ -1,9 +1,10 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Inject } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Not, Repository } from "typeorm";
 import { Event, EventStatus } from "src/entity/events.entity";
 import createEventDto from "./dto/create-event-dto";
-import {Application} from 'src/entity/application.entity';
+import {Application, Status} from 'src/entity/application.entity';
+import { Contract, ContractStatus } from "src/entity/contract.entity";
 
 @Injectable()
 export class EventsService {
@@ -11,7 +12,9 @@ export class EventsService {
     @InjectRepository(Event)
     private readonly eventRepository: Repository<Event>,
     @InjectRepository(Application)
-    private readonly applicationRepositoru: Repository<Application>
+    private readonly applicationRepository: Repository<Application>,
+    @InjectRepository(Contract)
+    private readonly contractRepository: Repository<Contract>
   ) {}
 
   findAllEvent(): Promise<Event[]> {
@@ -65,9 +68,17 @@ export class EventsService {
       });
     }
   }
-
+  // THIS IS A HACK
   async create(event: createEventDto) {
-    return this.eventRepository.insert(event);
+    const createEventRes = await this.eventRepository.insert(event);
+    const eventId = createEventRes.generatedMaps[0].eventId; 
+    const createContractRes = this.contractRepository.insert({
+        eventId: eventId,
+        description: 'CONTRACT NOT ACTIVE',
+        price: 9999999
+      });
+    const contract: Contract = <Contract> (await createContractRes).generatedMaps[0]; 
+    return this.eventRepository.update(eventId, {contract: contract});
   }
 
   cancelEvent(eventId: number) {
@@ -81,9 +92,5 @@ export class EventsService {
 
   async updateEvent(eventId: number, event: createEventDto) { //Edit Event
     return this.eventRepository.update({eventId }, event);
-  }
-
-  async updateStatus(eventId: number, status: EventStatus){
-
   }
 }

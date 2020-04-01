@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, OneToOne, JoinTable } from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToOne, JoinTable, OneToMany, JoinColumn } from "typeorm";
 import { Event } from 'src/entity/events.entity';
 import { User } from 'src/entity/user.entity';
 
@@ -32,12 +32,22 @@ export class Contract {
     default: ContractStatus.NotActive,
   })
   status: string;
-  
-  @Column()
-  hireeId: number;
 
-  @Column()
-  timestamp: Date;
+  @Column({
+    nullable: true
+  })
+  hireeId: number;
+  
+  @OneToMany(type=>User, user => user.contract, {nullable:true, eager: true})
+  @JoinColumn({
+    name: "hireeId"
+  })
+  hiree: User;
+
+  @Column({
+    nullable: true
+  })
+  timeStamp: Date;
 
 }
 

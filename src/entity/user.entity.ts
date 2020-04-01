@@ -4,11 +4,13 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   OneToOne,
-  JoinColumn
+  JoinColumn,
+  ManyToOne
 } from "typeorm";
 import { Event } from "./events.entity";
 import { Application } from "./application.entity";
 import { Review } from "./review.entity";
+import { Contract } from "./contract.entity";
 
 export enum Gender {
   Male = "Male",
@@ -179,6 +181,13 @@ export class User {
   )
   application: Application[];
 
+  @ManyToOne(
+    type => Contract,
+    contract => contract.hiree
+  )
+  contract: Contract[];
+
+  ///////////////////////////// Review
   @OneToMany(
     type => Review,
     review => review.reviewers

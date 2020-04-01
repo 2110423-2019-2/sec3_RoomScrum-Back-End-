@@ -4,7 +4,8 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
-  OneToOne
+  OneToOne,
+  JoinTable
 } from "typeorm";
 import { User } from "./user.entity";
 import { Application } from "./application.entity";
@@ -105,7 +106,9 @@ export class Event {
   application: Application[];
 
   ///////////////////////////// Contract
-  @OneToOne(type => Contract, contract => contract.event)
+  
+    //TODO workaround
+  @OneToOne(type => Contract, contract => contract.event, {nullable:true})
   @JoinColumn()
   contract: Contract;
 
