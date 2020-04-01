@@ -6,7 +6,7 @@ export enum ContractStatus {
   NotActive = 'NotActive',
   WaitForStartDrafting = 'WaitForStartDrafting',
   Drafting = 'Drafting',
-  Accepted = 'Accept',
+  Accepted = 'Accepted',
   Cancelled = 'Cancelled',
   Rejected = 'Rejected',
   Sent = 'Sent'

@@ -13,10 +13,12 @@ import {
     IsNumber
 } from "class-validator";
 
+//TODO change to edit
 export class UpdateContractDto {
-    @IsOptional()
+    @IsOptional() //as post parameter instead
+    @IsNumber()
     eventId: number;
-
+    
     @IsOptional()
     @IsString()
     description: string;

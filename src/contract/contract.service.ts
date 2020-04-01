@@ -65,12 +65,12 @@ export class ContractService {
             contract.status == ContractStatus.WaitForStartDrafting )
         {
             return await this.contractRepository.update(
-                1, editedContract
+                eventId,
+                editedContract
             );
             
         } else {
-            throw new console.error("not in editable state");
+            throw "not in editable state";
         }
-        
     }
 }
