@@ -24,7 +24,7 @@ export class EventsService {
   }
 
   findEventByHirerId(userId: number): Promise<Event[]> {
-    return this.eventRepository.find({userId});
+    return this.eventRepository.find({userId, status: Not(Status.Cancelled)});
   }
 
   advanceSearch(searchType: string, value: string): Promise<Event[]> {
