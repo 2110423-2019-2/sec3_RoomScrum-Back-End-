@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, HttpException, HttpStatus, UseGuards, UsePipes, ValidationPipe, Body } from "@nestjs/common";
+import { Controller, Get, Post, Param, HttpException, HttpStatus, UseGuards, UsePipes, ValidationPipe, Body, Req } from "@nestjs/common";
 import { ContractService } from "./contract.service";
 import { UpdateContractDto } from "./dto/update-contract-dto";
 import { AuthGuard } from "@nestjs/passport";
@@ -27,10 +27,22 @@ export class ContractController
         }
     }
 
+    @UseGuards(AuthGuard("jwt"))
+    @Get("/send/:id")
+    async sendContract(@Param('id') eventId, @Req() req): Promise<any> {
+        const userId = req.user.userId;
+        // contract + event name
+        try {
+            return await this.contractService.sendContractById( eventId,userId );
+
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
+    }
     // @Get("/reject/:id")
     
     // @Get("/accept/:id")
-
+    // TODO check if editor is user
     @UseGuards(AuthGuard("jwt"))
     @UsePipes(new ValidationPipe())
     @Post("/:id")

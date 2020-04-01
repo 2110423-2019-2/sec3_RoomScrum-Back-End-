@@ -38,7 +38,7 @@ export class ContractService {
         })
     }
 
-    // HACK
+    // HACK should use more query builder or eager join
     async getDetailContractById(eventId: number) : Promise<any>
     {
         // hirerId hirerName hireeName eventName
@@ -57,20 +57,38 @@ export class ContractService {
         return detailContract;
     }
 
-    async editContract( eventId:number, editedContract:UpdateContractDto)
+    
+    async editContract(eventId: number, editedContract: UpdateContractDto): Promise<any>
     {   
-        const contract: Contract = await this.contractRepository.findOne({eventId: editedContract.eventId})
+        const contract: Contract = await this.contractRepository.findOne({eventId: eventId})
         if (contract.status == ContractStatus.Drafting || 
             contract.status == ContractStatus.Rejected ||
-            contract.status == ContractStatus.WaitForStartDrafting )
-        {
+            contract.status == ContractStatus.WaitForStartDrafting ) {
             return await this.contractRepository.update(
-                eventId,
-                editedContract
+                eventId,{
+                    ...editedContract,
+                    status: ContractStatus.Drafting
+                }
             );
             
         } else {
             throw "not in editable state";
         }
     }
+
+    
+    async sendContractById( eventId:number, userId:number ): Promise<any>
+    {
+        const contract: Contract = await this.contractRepository.findOne({ eventId: eventId });
+        if (userId == contract.hireeId && contract.status == ContractStatus.Drafting) {
+            return await this.contractRepository.update(
+                eventId, {
+                    status: ContractStatus.Sent,
+                }
+            )
+        } else {
+            throw "not authorize or Contract is waiting for consideration"
+        }
+    }
+    
 }
