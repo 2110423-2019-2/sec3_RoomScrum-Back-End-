@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 import { Event } from "./events.entity";
 import { Application } from "./application.entity";
+import { Review } from "./review.entity";
 
 export enum Gender {
   Male = "Male",
@@ -177,5 +178,18 @@ export class User {
     application => application.hiree
   )
   application: Application[];
+
+  @OneToMany(
+    type => Review,
+    review => review.reviewers
+  )
+  myReviews: Review[];
+
+  @OneToMany(
+    type => Review,
+    review => review.targets
+  )
+  aboutMeReviews: Review[];
+
   
 }
