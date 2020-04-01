@@ -93,7 +93,9 @@ export class ContractService {
 
     async rejectContractById(eventId: number, userId: number): Promise<any> {
         const contract: Contract = await this.contractRepository.findOne({ eventId: eventId });
-        if (userId == contract.hireeId) {
+        const event: Event = await this.eventRepository.findOne({ eventId: eventId });
+
+        if (userId == event.userId) {
             if (contract.status == ContractStatus.Sent) {
                     
                 return await this.contractRepository.update(
@@ -110,11 +112,32 @@ export class ContractService {
 
     async acceptContractById(eventId: number, userId: number): Promise<any> {
         const contract: Contract = await this.contractRepository.findOne({ eventId: eventId });
-        if (userId == contract.hireeId) {
+        const event: Event = await this.eventRepository.findOne({ eventId: eventId });
+
+        if (userId == event.userId) {
             if (contract.status == ContractStatus.Sent) {
 
                 return await this.contractRepository.update(
                     eventId, { status: ContractStatus.Accepted, }
+                )
+            } else {
+                throw "not in correct state current =>" + contract.status;
+            }
+
+        } else {
+            throw "not authorize"
+        }
+    }
+    
+    async cancelContractById(eventId: number, userId: number): Promise<any> {
+        const contract: Contract = await this.contractRepository.findOne({ eventId: eventId });
+        const event: Event = await this.eventRepository.findOne({ eventId: eventId });
+
+        if (userId == event.userId || userId == contract.hireeId) {
+            if (contract.status == ContractStatus.Sent) {
+
+                return await this.contractRepository.update(
+                    eventId, { status: ContractStatus.Cancelled, }
                 )
             } else {
                 throw "not in correct state current =>" + contract.status;

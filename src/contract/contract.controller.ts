@@ -91,6 +91,22 @@ export class ContractController
         }
     }
 
+    @UseGuards(AuthGuard("jwt"))
+    @Get("/reject/:id")
+    async cancelContract(@Param('id') eventId, @Req() req): Promise<any> {
+        const userId = req.user.userId;
+        // contract + event name
+        try {
+            await this.contractService.cancelContractById(eventId, userId);
+            return {
+                status: 200,
+                message: "ok"
+            };
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     
     
 }
