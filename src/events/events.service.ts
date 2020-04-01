@@ -1,4 +1,4 @@
-import { Injectable, Inject } from "@nestjs/common";
+import { Injectable, Inject, Param } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Not, Repository } from "typeorm";
 import { Event, EventStatus } from "src/entity/events.entity";
@@ -92,5 +92,14 @@ export class EventsService {
 
   async updateEvent(eventId: number, event: createEventDto) { //Edit Event
     return this.eventRepository.update({eventId }, event);
+  }
+
+  async updateEventStatus(eventId: number, status: EventStatus){
+    return this.eventRepository.update({eventId}, {status: status});
+  }
+
+  async receivePayment(eventId:number)
+  {
+    return this.eventRepository.update({eventId}, {status: EventStatus.Complete});
   }
 }

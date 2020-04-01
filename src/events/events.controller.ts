@@ -148,4 +148,21 @@ export class EventsController {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
+
+  //TODO check member of event
+  @UseGuards(AuthGuard("jwt"))
+  @Get("/receive-payment/:id")
+  async receivePayment(@Param('id') eventId)
+  {
+    try {
+      await this.eventsService.receivePayment(eventId);
+      return {
+        status: 200,
+        message: "Update Event OK"
+      }
+    } catch (err)
+    {
+      throw new HttpException(err, HttpStatus.BAD_REQUEST);
+    }
+  }
 }
