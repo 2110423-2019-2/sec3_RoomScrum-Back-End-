@@ -90,5 +90,39 @@ export class ContractService {
             throw "not authorize or Contract is waiting for consideration"
         }
     }
+
+    async rejectContractById(eventId: number, userId: number): Promise<any> {
+        const contract: Contract = await this.contractRepository.findOne({ eventId: eventId });
+        if (userId == contract.hireeId) {
+            if (contract.status == ContractStatus.Sent) {
+                    
+                return await this.contractRepository.update(
+                    eventId,{status: ContractStatus.Rejected,}
+                )
+            } else {
+                throw "not in correct state current =>" + contract.status;
+            }
+            
+        } else {
+            throw "not authorize"
+        }
+    }
+
+    async acceptContractById(eventId: number, userId: number): Promise<any> {
+        const contract: Contract = await this.contractRepository.findOne({ eventId: eventId });
+        if (userId == contract.hireeId) {
+            if (contract.status == ContractStatus.Sent) {
+
+                return await this.contractRepository.update(
+                    eventId, { status: ContractStatus.Accepted, }
+                )
+            } else {
+                throw "not in correct state current =>" + contract.status;
+            }
+
+        } else {
+            throw "not authorize"
+        }
+    }
     
 }

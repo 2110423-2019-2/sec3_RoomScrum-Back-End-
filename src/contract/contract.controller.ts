@@ -33,15 +33,47 @@ export class ContractController
         const userId = req.user.userId;
         // contract + event name
         try {
-            return await this.contractService.sendContractById( eventId,userId );
-
+            await this.contractService.sendContractById( eventId,userId );
+            return {
+                status: 200,
+                message: "ok"
+            };
         } catch (err) {
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
         }
     }
-    // @Get("/reject/:id")
-    
-    // @Get("/accept/:id")
+
+    @UseGuards(AuthGuard("jwt"))
+    @Get("/accept/:id")
+    async acceptContract(@Param('id') eventId, @Req() req): Promise<any> {
+        const userId = req.user.userId;
+        // contract + event name
+        try {
+            await this.contractService.acceptContractById(eventId, userId);
+            return {
+                status: 200,
+                message: "ok"
+            };
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @UseGuards(AuthGuard("jwt"))
+    @Get("/reject/:id")
+    async rejectContract(@Param('id') eventId, @Req() req): Promise<any> {
+        const userId = req.user.userId;
+        // contract + event name
+        try {
+            await this.contractService.rejectContractById(eventId, userId);
+            return {
+                status: 200,
+                message: "ok"
+            };
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
+    }
     // TODO check if editor is user
     @UseGuards(AuthGuard("jwt"))
     @UsePipes(new ValidationPipe())
@@ -58,5 +90,7 @@ export class ContractController
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
         }
     }
+
+    
     
 }
