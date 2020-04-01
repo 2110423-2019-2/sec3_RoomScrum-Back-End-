@@ -3,11 +3,13 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
-  JoinColumn
+  JoinColumn,
+  OneToOne
 } from "typeorm";
 import { User } from "./user.entity";
 import { Application } from "./application.entity";
 import { OneToMany } from "typeorm";
+import { Contract } from "./contract.entity";
 
 export enum Status {
   Created = "Created",
@@ -101,4 +103,10 @@ export class Event {
     application => application.event.eventId
   )
   application: Application[];
+
+  ///////////////////////////// Contract
+  @OneToOne(type => Contract, contract => contract.event)
+  @JoinColumn()
+  contract: Contract;
+
 }
