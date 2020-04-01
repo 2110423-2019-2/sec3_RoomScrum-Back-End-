@@ -14,8 +14,11 @@ export class ReviewController {
 
     @Get('of-user/:id')
     async getReviewByTargetId(@Param('id') targetId): Promise<Review[]> {
-        
-        return this.reviewService.getReviewByTargetId(targetId);
+        try {
+            return this.reviewService.getReviewByTargetId(targetId);
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Get('/:id')
@@ -32,6 +35,14 @@ export class ReviewController {
     @Post()
     async createReview(@Body() createReview: CreateReviewDto, @Req() req): Promise<any> {
         const reviewerId = req.user.userId;
-        return this.reviewService.createReview(reviewerId, createReview);
+        try {
+            await this.reviewService.createReview(reviewerId, createReview);
+            return {
+                status: 200,
+                message: "OK"
+            };
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
     }
 }
