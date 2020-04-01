@@ -11,7 +11,7 @@ import { Application } from "./application.entity";
 import { OneToMany } from "typeorm";
 import { Contract } from "./contract.entity";
 
-export enum Status {
+export enum EventStatus {
   Created = "Created",
   HaveApplicant = "HaveApplicant",
   Cancelled = "Cancelled",
@@ -67,10 +67,10 @@ export class Event {
 
   @Column({
     type: "enum",
-    enum: Status,
-    default: Status.Created
+    enum: EventStatus,
+    default: EventStatus.Created
   })
-  status: Status;
+  status: EventStatus;
 
   /////////////////////////////Event image
   @Column({

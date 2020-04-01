@@ -19,7 +19,7 @@ export class EventsService {
   }
 
   findAvailableEvent(): Promise<Event[]> {
-    return this.eventRepository.find({status: Not(Status.Cancelled)})
+    return this.eventRepository.find({status: Not(EventStatus.Cancelled)})
   }
 
   findEventByEventId(eventId: number): Promise<Event[]> {
@@ -27,7 +27,7 @@ export class EventsService {
   }
 
   findEventByHirerId(userId: number): Promise<Event[]> {
-    return this.eventRepository.find({userId, status: Not(Status.Cancelled)});
+    return this.eventRepository.find({userId, status: Not(EventStatus.Cancelled)});
   }
 
   advanceSearch(searchType: string, value: string): Promise<Event[]> {
@@ -71,7 +71,7 @@ export class EventsService {
   }
 
   cancelEvent(eventId: number) {
-    return this.eventRepository.update({eventId}, {status: Status.Cancelled});
+    return this.eventRepository.update({eventId}, {status: EventStatus.Cancelled});
   }
 
   async getEventPicName(id: number) {
