@@ -14,7 +14,7 @@ import {
   Request,
 } from "@nestjs/common";
 import { Get, Post } from "@nestjs/common";
-import { Event } from "src/entity/events.entity";
+import { Event, EventStatus } from "src/entity/events.entity";
 import { EventsService } from "./events.service";
 import createEventDto from "./dto/create-event-dto";
 import searchEventDto from "./dto/search-event-dto";
@@ -136,6 +136,33 @@ export class EventsController {
       return res.sendFile(imgPath, { root: "./files/event" });
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @Post('/debug')
+  async debug(@Body() input) :Promise<any> {
+    try {
+      return null;
+    } catch (err)
+    {
+      throw new HttpException(err, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  //TODO check member of event
+  @UseGuards(AuthGuard("jwt"))
+  @Get("/receive-payment/:id")
+  async receivePayment(@Param('id') eventId)
+  {
+    try {
+      await this.eventsService.receivePayment(eventId);
+      return {
+        status: 200,
+        message: "Update Event OK"
+      }
+    } catch (err)
+    {
+      throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
 }

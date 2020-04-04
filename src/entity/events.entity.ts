@@ -3,19 +3,23 @@ import {
   Column,
   PrimaryGeneratedColumn,
   ManyToOne,
-  JoinColumn
+  JoinColumn,
+  OneToOne,
+  JoinTable
 } from "typeorm";
 import { User } from "./user.entity";
 import { Application } from "./application.entity";
 import { OneToMany } from "typeorm";
+import { Contract } from "./contract.entity";
 
-export enum Status {
+export enum EventStatus {
   Created = "Created",
   HaveApplicant = "HaveApplicant",
   Cancelled = "Cancelled",
   ContractDrafting = "ContractDrafting",
   Settle = "Settle",
-  Complete = "Complete"
+  Complete = "Complete",
+  PaymentPending = "PaymentPending"
 }
 
 @Entity()
@@ -65,10 +69,10 @@ export class Event {
 
   @Column({
     type: "enum",
-    enum: Status,
-    default: Status.Created
+    enum: EventStatus,
+    default: EventStatus.Created
   })
-  status: Status;
+  status: EventStatus;
 
   /////////////////////////////Event image
   @Column({
@@ -101,4 +105,12 @@ export class Event {
     application => application.event.eventId
   )
   application: Application[];
+
+  ///////////////////////////// Contract
+  
+    //TODO workaround
+  @OneToOne(type => Contract, contract => contract.event, {nullable:true})
+  @JoinColumn()
+  contract: Contract;
+
 }

@@ -15,6 +15,10 @@ import { NotificationModule } from "./notification/notification.module";
 import { Notification, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo } from "./entity/notification.entity";
 import { ReportModule } from './report/report.module';
 import { Report } from "./entity/report.entity";
+import { Contract } from "./entity/contract.entity"
+import { ContractModule } from "./contract/contract.module";
+import { Review } from "src/entity/review.entity";
+import { ReviewModule } from "./review/review.module";
 
 @Module({
   imports: [
@@ -28,6 +32,7 @@ import { Report } from "./entity/report.entity";
       database: config.MYSQL_DATABASE,
       entities: [User, Event, Application, Report,
         Notification, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo,
+        Contract, Review,
       ],
       synchronize: true,
       // logging: true,
@@ -39,7 +44,9 @@ import { Report } from "./entity/report.entity";
     AdminModule,
     ApplicationModule,
     NotificationModule,
-    ReportModule
+    ReportModule,
+    ContractModule,
+    ReviewModule
   ],
   controllers: [AppController],
   providers: [AppService]

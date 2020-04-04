@@ -1,7 +1,7 @@
 import { Entity, Column, ManyToOne, JoinColumn } from "typeorm";
 import { Event } from "./events.entity";
 import { User } from "./user.entity";
-export enum Status {
+export enum ApplicationStatus {
   isInvited = "isInvited",
   isApplied = "isApplied",
   applicationRejected = "applicationRejected",
@@ -24,10 +24,10 @@ export class Application {
 
   @Column({
     type: "enum",
-    enum: Status,
-    default: Status.isApplied
+    enum: ApplicationStatus,
+    default: ApplicationStatus.isApplied
   })
-  status: Status;
+  status: ApplicationStatus;
 
   @ManyToOne(
     type => Event,

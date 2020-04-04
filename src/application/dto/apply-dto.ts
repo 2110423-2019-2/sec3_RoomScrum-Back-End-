@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsNumber, IsEmpty, IsDateString } from "class-validator";
-import { Status } from "src/entity/application.entity";
+import { ApplicationStatus } from "src/entity/application.entity";
 class applyDto {
   @IsNotEmpty()
   @IsNumber()
@@ -16,7 +16,7 @@ class applyDto {
   // @IsNotEmpty()
   // @IsEnum(Status)
   @IsEmpty()
-  status: Status;
+  status: ApplicationStatus;
 }
 
 export default applyDto;
