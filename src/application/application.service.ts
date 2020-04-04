@@ -90,8 +90,8 @@ export class ApplicationService {
   }
   
   async acceptInvitation(hireeId: number, eventId: number) {
-    return this.applicationRepository.update({hireeId, eventId, status: Status.isInvited}, {
-      status: Status.isApplied,
+    return this.applicationRepository.update({hireeId, eventId, status: ApplicationStatus.isInvited}, {
+      status: ApplicationStatus.isApplied,
       timestamp: new Date(),
     });
   }
