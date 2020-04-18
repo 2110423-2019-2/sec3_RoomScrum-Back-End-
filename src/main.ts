@@ -21,16 +21,17 @@ async function bootstrap() {
   if (config.ALLOW_CORS === "true") {
     app.use((req: Request, res: Response, next) => {
       res.setHeader("Access-Control-Allow-Credentials", "true");
-      res.setHeader("Access-Control-Allow-Origin", config.CORS_HOST);
-      res.setHeader(
-        "Access-Control-Allow-Methods",
-        "POST, GET, OPTIONS, DELETE, PUT"
-      );
+      // res.setHeader("Access-Control-Allow-Origin", config.CORS_HOST);
+      // res.setHeader(
+      //   "Access-Control-Allow-Methods",
+      //   "POST, GET, OPTIONS, DELETE, PUT"
+      // );
       next();
     });
 
-    app.use(cors(corsOptions));
   }
+  console.log(config.CORS_HOST);
+  app.use(cors(corsOptions));
   const options = new DocumentBuilder()
     .setTitle("Room scrum")
     .setDescription("A musician and hirer matching service")
