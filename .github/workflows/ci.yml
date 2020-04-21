@@ -4,6 +4,7 @@ on:
     branches:
       - master
       - dev
+      - test # for testing CI w/o messing up dev branch
   
 jobs:   
   deploy:
@@ -16,11 +17,11 @@ jobs:
         APPNAME: "se-project-backend"
         BRANCH: ${GITHUB_REF/refs\/heads\//}    
       run: |
-        echo "$KEY" >> private_key.cer;
-        chmod 600 private_key.cer;
-        ssh -oStrictHostKeyChecking=no -i private_key.cer "
-          KEY=$KEY
-          APPNAME=se-project-backend
-          BRANCH=$BRANCH
-          cd ~/Projects/$APPNAME-$BRANCH
+        echo "$KEY" >> private_key.cer &&
+        chmod 600 private_key.cer &&
+        ssh -oStrictHostKeyChecking=no -i private_key.cer 52.220.252.160 \ 
+        "
+          export APPNAME=$APPNAME;
+          export BRANCH=$BRANCH;
+          bash --login -i -c $(cat build.sh);
         " 
