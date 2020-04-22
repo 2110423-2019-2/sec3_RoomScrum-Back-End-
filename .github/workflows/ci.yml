@@ -20,23 +20,29 @@ jobs:
       env:
         KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         ADDRESS: ${{ secrets.EC2_CONNECTION_STRING }}
-        PROJECT_DIR: ~/Projects/room-scrum-backend
 
       run: |
         export BRANCH=${GITHUB_REF/refs\/heads\//};
+        export PROJECT_DIR="~/Projects/se-backend-$BRANCH"
+        
         echo "$KEY" >> private_key.cer &&
         chmod 600 private_key.cer &&
+
         # shell and run cmd
+        
         ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS "
-          export APPNAME=$APPNAME;
-          export BRANCH=$BRANCH;
-          
+          # export APPNAME=$APPNAME;
+          # export BRANCH=$BRANCH;
+          # export PROJECT_DIR=$PROJECT_DIR;
+    
           bash --login -i '
             mkdir -p $PROJECT_DIR &&
             cd $PROJECT_DIR &&
             git checkout $BRANCH && git pull &&
-            . .env &&
-            docker-compose build &&
+            set -a;
+            . .env;
+            set +a;
+            docker build . -t se-backend-$BRANCH
             docker-compose up backend;
           ';
         " 
