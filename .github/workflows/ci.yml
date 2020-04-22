@@ -23,7 +23,8 @@ jobs:
         APPNAME: "se-project-backend"
         
       run: |
-        export BRANCH=${GITHUB_REF/refs\/heads\//}    
+        export BRANCH=${GITHUB_REF/refs\/heads\//}
+        env    
         echo "$KEY" >> private_key.cer &&
         chmod 600 private_key.cer &&
         ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS \ 
