@@ -40,7 +40,7 @@ jobs:
             cd $PROJECT_DIR &&
             git checkout $BRANCH && git pull &&
             set -a;
-            . .env;
+            . .env.production;
             set +a;
             docker build . -t se-backend-$BRANCH
             docker-compose up -d backend;
