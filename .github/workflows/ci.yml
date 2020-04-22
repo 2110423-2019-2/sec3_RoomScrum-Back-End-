@@ -19,7 +19,7 @@ jobs:
       run: |
         echo "$KEY" >> private_key.cer &&
         chmod 600 private_key.cer &&
-        ssh -oStrictHostKeyChecking=no -i private_key.cer 52.220.252.160 \ 
+        ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS \ 
         "
           echo "connecting";
           export APPNAME=$APPNAME;
