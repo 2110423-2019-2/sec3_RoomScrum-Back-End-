@@ -12,6 +12,9 @@ jobs:
 
 
     steps:
+    - name: checkout
+      uses: actions/checkout@v2
+
     - name: EC2 deploy
       working-directory: ${{ env.working-directory }}
       env:
@@ -20,7 +23,7 @@ jobs:
         APPNAME: "se-project-backend"
         BRANCH: ${GITHUB_REF/refs\/heads\//}    
       run: |
-        ls .. -R ;
+        ls ..;
         # cat build.sh;
         pwd;
         # echo "$KEY" >> private_key.cer &&
