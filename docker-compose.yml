@@ -1,7 +1,7 @@
 version: '3'
 services:
   backend:
-    image: se-backend:latest
+    image: ${RS_IMAGE:-se-backend:latest}
     ports:
       - 3002:3002
     # environment,overrideable with env var
@@ -13,7 +13,7 @@ services:
       MYSQL_DATABASE: ${RS_MYSQL_DATABASE:-room_scrum}
       MYSQL_HOST: ${RS_MYSQL_HOST:-mysql}
       MYSQL_PORT: ${RS_MYSQL_PORT:-3306}
-      MYSQL_TEST_DATAVASE: ${RS_MYSQL_TEST_DB:-test_db}
+      MYSQL_TEST_DATABASE: ${RS_MYSQL_TEST_DB:-test_db}
       PORT: ${RS_PORT:-3002}
       JWT_SECRET: ${RS_JWT_SECRET:-secret1234}
   mysql:

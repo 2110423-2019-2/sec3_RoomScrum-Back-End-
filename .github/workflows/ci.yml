@@ -16,20 +16,26 @@ jobs:
       uses: actions/checkout@v2
 
     - name: EC2 deploy
-      working-directory: ${{ env.working-directory }}
       env:
         KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         ADDRESS: ${{ secrets.EC2_CONNECTION_STRING }}
-        APPNAME: "se-project-backend"
-        
+        PROJECT_DIR: ~/Projects/room-scrum-backend
+
       run: |
-        export BRANCH=${GITHUB_REF/refs\/heads\//}
+        export BRANCH=${GITHUB_REF/refs\/heads\//};
         echo "$KEY" >> private_key.cer &&
         chmod 600 private_key.cer &&
-        scp -oStrictHostKeyChecking=no -i private_key.cer ./build.sh $ADDRESS:/tmp/build.sh && 
-        ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS"
-          echo "connecting";
+        # shell and run cmd
+        ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS "
           export APPNAME=$APPNAME;
           export BRANCH=$BRANCH;
-          bash --login -i /tmp/build.sh;
+          
+          bash --login -i '
+            mkdir -p $PROJECT_DIR &&
+            cd $PROJECT_DIR &&
+            git checkout $BRANCH && git pull &&
+            . .env &&
+            docker-compose build &&
+            docker-compose up backend;
+          ';
         " 
