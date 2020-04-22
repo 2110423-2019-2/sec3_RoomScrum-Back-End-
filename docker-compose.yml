@@ -1,25 +1,22 @@
 version: '3'
 services:
-  
   backend:
-    image: node:12.14-slim
-    working_dir: /home/node/app
-    restart: unless-stopped
-    volumes:
-      - .:/home/node/app
-    entrypoint: ["sh", "-c", "yarn start:dev"]
+    build:
+      context: . 
+      dockerfile: Dockerfile
     ports:
       - 3002:3002
+    # environment,overrideable with env var
     environment:
-      ALLOW_CORS: "true"
-      CORS_HOST: "http://localhost:3000"
-      MYSQL_USER: "admin"
-      MYSQL_PASSWORD: "12345678"
-      MYSQL_DATABASE: "room_scrum"
-      MYSQL_HOST: "mysql"
-      MYSQL_PORT: "3306"
-      PORT: "3002"
-      JWT_SECRET: "secret1234"
+      ALLOW_CORS: ${RS_ALLOW_CORS:-true}
+      CORS_HOST: ${RS_CORS_HOST:-http://localhost:3000}
+      MYSQL_USER: ${RS_MYSQL_USER:-admin}
+      MYSQL_PASSWORD: ${RS_MYSQL_PASSWORD:-12345678}
+      MYSQL_DATABASE: ${RS_MYSQL_DATABASE:-room_scrum}
+      MYSQL_HOST: ${RS_MYSQL_HOST:-mysql}
+      MYSQL_PORT: ${RS_MYSQL_PORT:-3306}
+      PORT: ${RS_PORT:-3002}
+      JWT_SECRET: ${RS_JWT_SECRET:-secret1234}
   mysql:
     image: mysql:8.0.19
     volumes:
