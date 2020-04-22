@@ -3,7 +3,7 @@ services:
   backend:
     image: ${RS_IMAGE:-se-backend:latest}
     ports:
-      - 3002:3002
+      - ${RS_PORT:-3002}:${RS_PORT:-3002}
     # environment,overrideable with env var
     environment:
       ALLOW_CORS: ${RS_ALLOW_CORS:-true}
