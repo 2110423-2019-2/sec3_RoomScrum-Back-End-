@@ -21,9 +21,9 @@ jobs:
         KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         ADDRESS: ${{ secrets.EC2_CONNECTION_STRING }}
         APPNAME: "se-project-backend"
-        BRANCH: ${GITHUB_REF/refs\/heads\//}    
+        
       run: |
-        env && 
+        export BRANCH=${GITHUB_REF/refs\/heads\//}    
         echo "$KEY" >> private_key.cer &&
         chmod 600 private_key.cer &&
         ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS \ 
