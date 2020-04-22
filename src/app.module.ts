@@ -12,7 +12,7 @@ import { Application } from "src/entity/application.entity";
 import { AdminModule } from "./admin/admin.module";
 import config from "src/config";
 import { NotificationModule } from "./notification/notification.module";
-import { Notification, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo } from "./entity/notification.entity";
+import { Notification } from "./entity/notification.entity";
 import { ReportModule } from './report/report.module';
 import { Report } from "./entity/report.entity";
 import { Contract } from "./entity/contract.entity"
@@ -31,7 +31,7 @@ import { ReviewModule } from "./review/review.module";
       password: config.MYSQL_PASSWORD,
       database: config.MYSQL_DATABASE,
       entities: [User, Event, Application, Report,
-        Notification, EventInviteInfo, BandInviteInfo, EventStateUpdateInfo,
+        Notification,
         Contract, Review,
       ],
       synchronize: true,

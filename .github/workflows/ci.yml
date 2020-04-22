@@ -4,23 +4,32 @@ on:
     branches:
       - master
       - dev
-  
+      - test # for testing CI w/o messing up dev branch
+    
 jobs:   
   deploy:
     runs-on: ubuntu-latest
+
+
     steps:
+    - name: checkout
+      uses: actions/checkout@v2
+
     - name: EC2 deploy
+      working-directory: ${{ env.working-directory }}
       env:
         KEY: ${{ secrets.EC2_PRIVATE_KEY }}
         ADDRESS: ${{ secrets.EC2_CONNECTION_STRING }}
         APPNAME: "se-project-backend"
-        BRANCH: ${GITHUB_REF/refs\/heads\//}    
+        
       run: |
-        echo "$KEY" >> private_key.cer;
-        chmod 600 private_key.cer;
-        ssh -oStrictHostKeyChecking=no -i private_key.cer "
-          KEY=$KEY
-          APPNAME=se-project-backend
-          BRANCH=$BRANCH
-          cd ~/Projects/$APPNAME-$BRANCH
+        export BRANCH=${GITHUB_REF/refs\/heads\//}
+        echo "$KEY" >> private_key.cer &&
+        chmod 600 private_key.cer &&
+        scp -oStrictHostKeyChecking=no -i private_key.cer ./build.sh $ADDRESS:/tmp/build.sh && 
+        ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS"
+          echo "connecting";
+          export APPNAME=$APPNAME;
+          export BRANCH=$BRANCH;
+          bash --login -i /tmp/build.sh;
         " 
