@@ -35,7 +35,7 @@ jobs:
           # export BRANCH=$BRANCH;
           # export PROJECT_DIR=$PROJECT_DIR;
     
-          bash --login -i '
+          bash --login -i -c '
             mkdir -p $PROJECT_DIR &&
             cd $PROJECT_DIR &&
             git checkout $BRANCH && git pull &&
