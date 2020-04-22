@@ -9,8 +9,6 @@ on:
 jobs:   
   deploy:
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./
 
 
     steps:
@@ -22,7 +20,7 @@ jobs:
         APPNAME: "se-project-backend"
         BRANCH: ${GITHUB_REF/refs\/heads\//}    
       run: |
-        ls -R ;
+        ls .. -R ;
         # cat build.sh;
         pwd;
         # echo "$KEY" >> private_key.cer &&
