@@ -25,12 +25,12 @@ jobs:
         ls -R ;
         cat build.sh;
         pwd;
-        echo "$KEY" >> private_key.cer &&
-        chmod 600 private_key.cer &&
-        ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS \ 
-        "
-          echo "connecting";
-          export APPNAME=$APPNAME;
-          export BRANCH=$BRANCH;
-          bash --login -i -c $(cat build.sh);
-        " 
+        # echo "$KEY" >> private_key.cer &&
+        # chmod 600 private_key.cer &&
+        # ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS \ 
+        # "
+        #   echo "connecting";
+        #   export APPNAME=$APPNAME;
+        #   export BRANCH=$BRANCH;
+        #   bash --login -i -c $(cat build.sh);
+        # " 
