@@ -43,6 +43,6 @@ jobs:
             . .env;
             set +a;
             docker build . -t se-backend-$BRANCH
-            docker-compose up backend;
+            docker-compose up -d backend;
           ';
         " 
