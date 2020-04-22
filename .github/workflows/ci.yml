@@ -26,7 +26,7 @@ jobs:
         export BRANCH=${GITHUB_REF/refs\/heads\//}
         echo "$KEY" >> private_key.cer &&
         chmod 600 private_key.cer &&
-        scp -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS:/tmp/build.sh && 
+        scp -oStrictHostKeyChecking=no -i private_key.cer ./build.sh $ADDRESS:/tmp/build.sh && 
         ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS"
           echo "connecting";
           export APPNAME=$APPNAME;
