@@ -5,6 +5,7 @@ on:
       - master
       - dev
       - test # for testing CI w/o messing up dev branch
+      - ci 
     
 jobs:   
   deploy:
