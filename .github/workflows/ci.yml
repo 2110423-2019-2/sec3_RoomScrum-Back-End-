@@ -32,5 +32,5 @@ jobs:
           echo "connecting";
           export APPNAME=$APPNAME;
           export BRANCH=$BRANCH;
-          bash --login -i -c $(cat build.sh);
+          bash --login -i -c '$(cat build.sh)';
         " 
