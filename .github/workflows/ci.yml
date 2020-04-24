@@ -1,0 +1,48 @@
+name: CI
+on:
+  push:
+    branches:
+      - master
+      - dev
+      - test # for testing CI w/o messing up dev branch
+      - ci 
+    
+jobs:   
+  deploy:
+    runs-on: ubuntu-latest
+
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+
+    - name: EC2 deploy
+      env:
+        KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+        ADDRESS: ${{ secrets.EC2_CONNECTION_STRING }}
+
+      run: |
+        export BRANCH=${GITHUB_REF/refs\/heads\//};
+        export PROJECT_DIR="~/Projects/se-backend-$BRANCH"
+        
+        echo "$KEY" >> private_key.cer &&
+        chmod 600 private_key.cer &&
+
+        # shell and run cmd
+        
+        ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS "
+          # export APPNAME=$APPNAME;
+          # export BRANCH=$BRANCH;
+          # export PROJECT_DIR=$PROJECT_DIR;
+    
+          bash --login -i -c '
+            mkdir -p $PROJECT_DIR &&
+            cd $PROJECT_DIR &&
+            git checkout $BRANCH && git pull &&
+            set -a;
+            . .env.production;
+            set +a;
+            docker build . -t se-backend-$BRANCH
+            docker-compose up -d backend;
+          ';
+        " 
