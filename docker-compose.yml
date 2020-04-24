@@ -3,7 +3,7 @@ services:
   backend:
     image: ${RS_IMAGE:-se-backend:latest}
     ports:
-      - ${RS_PORT:-3002}:${RS_PORT:-3002}
+      - ${RS_PORT:-3002}:3002
     # environment,overrideable with env var
     environment:
       ALLOW_CORS: ${RS_ALLOW_CORS:-true}
@@ -14,7 +14,7 @@ services:
       MYSQL_HOST: ${RS_MYSQL_HOST:-mysql}
       MYSQL_PORT: ${RS_MYSQL_PORT:-3306}
       MYSQL_TEST_DATABASE: ${RS_MYSQL_TEST_DB:-test_db}
-      PORT: ${RS_PORT:-3002}
+      PORT: 3002
       JWT_SECRET: ${RS_JWT_SECRET:-secret1234}
   mysql:
     image: mysql:8.0.19
@@ -27,3 +27,8 @@ services:
       MYSQL_PASSWORD: "12345678"
       MYSQL_DATABASE: "room_scrum"
       MYSQL_ROOT_PASSWORD: "1238943ujflefennace" 
+networks:
+  default:
+    external:
+      name: ${RS_NETWORK:-se-network}
+
