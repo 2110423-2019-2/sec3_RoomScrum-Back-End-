@@ -36,14 +36,13 @@ jobs:
           # export PROJECT_DIR=$PROJECT_DIR;
     
           bash --login -i -c '
-            mkdir -p $PROJECT_DIR &&
             cd $PROJECT_DIR &&
             git checkout $BRANCH && git pull &&
             set -a;
             . .env.production;
             set +a;
-            docker build . -t se-backend-$BRANCH
-            docker network create se-network-$BRANCH || true; # prevent fail
+            docker build . -t $RS_IMAGE
+            docker network create $RS_NETWORK || true; # prevent fail
             docker-compose up -d backend;
           ';
         " 
