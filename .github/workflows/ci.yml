@@ -40,11 +40,11 @@ jobs:
         "
         echo $CMD;
         
-        # ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS "
-        #   # export APPNAME=$APPNAME;
-        #   # export BRANCH=$BRANCH;
-        #   # export PROJECT_DIR=$PROJECT_DIR;
+        ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS "
+          # export APPNAME=$APPNAME;
+          # export BRANCH=$BRANCH;
+          # export PROJECT_DIR=$PROJECT_DIR;
 
   
-        #   bash --login -i -c '$CMD';
-        # " 
+          bash --login -i -c echo '$CMD';
+        " 
