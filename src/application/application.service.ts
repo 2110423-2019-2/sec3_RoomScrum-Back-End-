@@ -4,6 +4,7 @@ import { Repository, createQueryBuilder, Brackets } from "typeorm";
 import { Application, ApplicationStatus } from "src/entity/application.entity";
 import applyDto from "./dto/apply-dto";
 import acceptMusicianDto from "./dto/accept-musician-dto";
+import inviteMusicianDto from "./dto/invite-musician-dto";
 import findMyApplicationDto from "./dto/find-my-application-dto";
 import { User } from "src/entity/user.entity";
 import { Event, EventStatus } from 'src/entity/events.entity';
@@ -87,6 +88,16 @@ export class ApplicationService {
       description: 'MUSICIAN, DRAFT YOUR CONTRACT HERE'});
     
     return await [res1, res2, res3];
+  }
+
+  async inviteMusicianById(application: inviteMusicianDto){
+    const checkResult = await this.applicationRepository.findOne({eventId: application.eventId, hireeId: application.hireeId});
+    if (!checkResult){
+      return this.applicationRepository.insert(application);
+    } 
+    else {
+      throw "User already applied";
+    }
   }
   
   async acceptInvitation(hireeId: number, eventId: number) {
