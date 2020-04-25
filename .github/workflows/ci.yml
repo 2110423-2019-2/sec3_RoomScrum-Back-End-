@@ -31,11 +31,11 @@ jobs:
         CMD="
           cd $PROJECT_DIR &&
           git checkout $BRANCH && git pull &&
-          set -a;
-          source .env.production;
-          set +a;
-          docker build . -t \$RS_IMAGE
-          docker network create \$RS_NETWORK || true; # prevent fail
+          set -a &&
+          source .env.production &&
+          set +a &&
+          docker build . -t \$RS_IMAGE &&
+          (docker network create \$RS_NETWORK || true) &&  # prevent fail
           docker-compose up -d backend;
         "
         echo $CMD;
@@ -44,7 +44,6 @@ jobs:
           # export APPNAME=$APPNAME;
           # export BRANCH=$BRANCH;
           # export PROJECT_DIR=$PROJECT_DIR;
-
-  
+          echo '$CMD';
           bash --login -i -c echo '$CMD';
         " 
