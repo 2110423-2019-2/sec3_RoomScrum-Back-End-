@@ -2,6 +2,7 @@ version: '3'
 services:
   backend:
     image: ${RS_IMAGE:-se-backend:latest}
+    restart: unless-stopped
     ports:
       - ${RS_PORT:-3002}:3002
     # environment,overrideable with env var
