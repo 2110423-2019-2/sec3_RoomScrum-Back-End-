@@ -38,12 +38,7 @@ jobs:
           (docker network create \$RS_NETWORK || true) &&  # prevent fail
           docker-compose up -d backend;
         "
-        echo $CMD;
         
         ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS "
-          # export APPNAME=$APPNAME;
-          # export BRANCH=$BRANCH;
-          # export PROJECT_DIR=$PROJECT_DIR;
-          echo '$CMD';
-          bash --login -i -c echo '$CMD';
+          bash --login -i -c '$CMD';
         " 
