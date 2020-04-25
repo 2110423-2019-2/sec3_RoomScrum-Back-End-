@@ -62,10 +62,13 @@ export class ApplicationService {
     users.forEach(user => {
       usersMap.set(user.userId, user);
     });
-
-    applications.forEach(app => {
+    
+    for (const app of applications) {
       app.event.user = usersMap.get(app.event.userId);
-    })
+      if (app.status == ApplicationStatus.isAccepted) {
+        app.event.contract = await this.contractRepository.findOne({eventId: app.eventId});
+      }
+    }
     
     return applications;
   }
