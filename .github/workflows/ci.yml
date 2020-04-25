@@ -28,21 +28,23 @@ jobs:
         echo "$KEY" >> private_key.cer &&
         chmod 600 private_key.cer &&
 
-        # shell and run cmd
+        CMD="
+          cd $PROJECT_DIR &&
+          git checkout $BRANCH && git pull &&
+          set -a;
+          source .env.production;
+          set +a;
+          docker build . -t \$RS_IMAGE
+          docker network create \$RS_NETWORK || true; # prevent fail
+          docker-compose up -d backend;
+        "
+        echo $CMD;
         
         ssh -oStrictHostKeyChecking=no -i private_key.cer $ADDRESS "
           # export APPNAME=$APPNAME;
           # export BRANCH=$BRANCH;
           # export PROJECT_DIR=$PROJECT_DIR;
-    
-          bash --login -i -c '
-            cd $PROJECT_DIR &&
-            git checkout $BRANCH && git pull &&
-            set -a;
-            . .env.production;
-            set +a;
-            docker build . -t \$RS_IMAGE
-            docker network create \$RS_NETWORK || true; # prevent fail
-            docker-compose up -d backend;
-          ';
+
+  
+          bash --login -i -c '$CMD';
         " 
