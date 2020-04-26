@@ -5,7 +5,7 @@ class searchEventDto {
   @IsString()
   searchType: string;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsString()
   value: string;
 }

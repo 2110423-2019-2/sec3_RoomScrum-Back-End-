@@ -16,6 +16,7 @@ import { ApplicationService } from "./application.service";
 import applyDto from "./dto/apply-dto";
 import acceptMusicianDto from "./dto/accept-musician-dto";
 import findMyApplicationDto from "./dto/find-my-application-dto";
+import inviteMusicianDto from "./dto/invite-musician-dto";
 import { AuthGuard } from "@nestjs/passport";
 import { ApplicationStatus } from "../entity/application.entity";
 
@@ -68,7 +69,23 @@ export class ApplicationController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @Post("accept")
+  @Post("invite-musician")
+  async inviteMusician(@Body() application: inviteMusicianDto): Promise<any> {
+    application.timestamp = new Date();
+    application.status = ApplicationStatus.isInvited;
+    try{
+      await this.applicationService.inviteMusicianById(application)
+      return {
+        status: 200,
+        message: "invite musician ok"
+      };
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @Post("accept-applied-musician")
   async acceptMusician(@Body() application: acceptMusicianDto): Promise<any> {
     try {
       await this.applicationService.acceptUser(application);
@@ -94,6 +111,8 @@ export class ApplicationController {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
+
+
 
   @UseGuards(AuthGuard("jwt"))
   @Post("/:eventId/accept-invitation")
