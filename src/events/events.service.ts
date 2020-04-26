@@ -1,10 +1,11 @@
 import { Injectable, Inject, Param, UploadedFile } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Like, Not, Repository } from "typeorm";
+import { Like, Not, Repository, createQueryBuilder } from "typeorm";
 import { Event, EventStatus } from "src/entity/events.entity";
 import createEventDto from "./dto/create-event-dto";
 import {Application, ApplicationStatus} from 'src/entity/application.entity';
 import { Contract, ContractStatus } from "src/entity/contract.entity";
+import { User } from "src/entity/user.entity"
 
 @Injectable()
 export class EventsService {
@@ -30,9 +31,14 @@ export class EventsService {
   }
 
   async findEventByHirerId(userId: number): Promise<Event[]> {
-    //TODO left join 
-    console.log('find event' + userId)
-    return this.eventRepository.find({userId, status: Not(EventStatus.Cancelled)});
+    const events = await this.eventRepository.find({ userId, status: Not(EventStatus.Cancelled) });
+    // Hack
+    for (const event of events ){
+      event.contract.hiree = await createQueryBuilder()
+        .select('hiree')
+        .from(User, 'hiree').getOne() ;
+    }
+    return events;
   }
 
   advanceSearch(searchType: string, value: string): Promise<Event[]> {
