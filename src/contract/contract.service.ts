@@ -38,7 +38,6 @@ export class ContractService {
         })
     }
 
-    // HACK should use more query builder or eager join
     async getDetailContractById(eventId: number) : Promise<any>
     {
         // hirerId hirerName hireeName eventName
@@ -104,7 +103,7 @@ export class ContractService {
                     eventId,{status: ContractStatus.Rejected,}
                 )
             } else {
-                throw "not in correct state current =>" + contract.status;
+                throw "not in correct state current => " + contract.status;
             }
             
         } else {
@@ -127,7 +126,7 @@ export class ContractService {
                 )
                 return await [res1, res2]
             } else {
-                throw "not in correct state current =>" + contract.status;
+                throw "not in correct state current => " + contract.status;
             }
 
         } else {
@@ -158,7 +157,7 @@ export class ContractService {
                 return await [res1, res2];
                 
             } else {
-                throw "not in correct state current =>" + contract.status;
+                throw "not in correct state current => " + contract.status;
             }
 
         } else {
