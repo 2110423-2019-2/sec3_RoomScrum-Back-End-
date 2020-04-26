@@ -123,8 +123,9 @@ export class EventsController {
   )
   async uploadEventPicture(@UploadedFile() file, @Param() params,@Req() req) {
     try {
-      await this.eventsService.uploadEventPic(file, params.eventId);
+      const res = await this.eventsService.uploadEventPic(file, params.eventId);
       return {
+        imageName: res.imageName,
         status: 200,
         message: "OK"
       };
