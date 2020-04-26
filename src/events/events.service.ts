@@ -29,7 +29,9 @@ export class EventsService {
     return this.eventRepository.find({eventId});
   }
 
-  findEventByHirerId(userId: number): Promise<Event[]> {
+  async findEventByHirerId(userId: number): Promise<Event[]> {
+    //TODO left join 
+    console.log('find event' + userId)
     return this.eventRepository.find({userId, status: Not(EventStatus.Cancelled)});
   }
 
@@ -68,7 +70,8 @@ export class EventsService {
       });
     }
   }
-  // THIS IS A HACK
+  
+  // THIS IS A HACK TODO role permission
   async create(event: createEventDto) {
     const createEventRes = await this.eventRepository.insert(event);
     const eventId = createEventRes.generatedMaps[0].eventId; 

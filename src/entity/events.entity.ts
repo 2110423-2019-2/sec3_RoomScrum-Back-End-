@@ -91,7 +91,7 @@ export class Event {
     type => User,
     user => user.event,
     {
-      // eager: true,
+      eager: true,
     }
   )
   @JoinColumn({
