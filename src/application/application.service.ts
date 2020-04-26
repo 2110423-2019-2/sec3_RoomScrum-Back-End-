@@ -108,7 +108,6 @@ export class ApplicationService {
   }
   
   async acceptInvitation(hireeId: number, eventId: number) {
-    //TODO: add trigger to change Event State to haveApplicants
     const res1 = this.applicationRepository.update({hireeId, eventId, status: ApplicationStatus.isInvited}, {
       status: ApplicationStatus.isApplied,
       timestamp: new Date(),
