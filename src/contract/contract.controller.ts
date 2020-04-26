@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Param, HttpException, HttpStatus, UseGuards, UsePipes, ValidationPipe, Body, Req } from "@nestjs/common";
 import { ContractService } from "./contract.service";
-import { UpdateContractDto } from "./dto/update-contract-dto";
+import { EditContractDto } from "./dto/edit-contract-dto";
 import { AuthGuard } from "@nestjs/passport";
 
 @Controller('contract')
@@ -9,11 +9,6 @@ export class ContractController
     constructor (
         private readonly contractService: ContractService,
     ) {}
-
-    @Get("/dummy")
-    createDummyContract() {
-        return this.contractService.createDummyContract();
-    }
 
     @Get("/:id")
     async getDetailContractById(@Param('id') eventId): Promise<any> {
@@ -78,7 +73,7 @@ export class ContractController
     @UseGuards(AuthGuard("jwt"))
     @UsePipes(new ValidationPipe())
     @Post("/:id")
-    async editContract(@Param('id') eventId, @Body() editContract: UpdateContractDto ): Promise<any> {
+    async editContract(@Param('id') eventId, @Body() editContract: EditContractDto ): Promise<any> {
         try {
             await this.contractService.editContract(eventId, editContract);
             return {

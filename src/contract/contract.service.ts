@@ -4,7 +4,7 @@ import { Repository, Like, createQueryBuilder } from "typeorm";
 import { Contract, ContractStatus } from "src/entity/contract.entity";
 import { User } from "src/entity/user.entity";
 import { Event, EventStatus } from 'src/entity/events.entity'
-import { UpdateContractDto } from "./dto/update-contract-dto";
+import { EditContractDto } from "./dto/edit-contract-dto";
 import { Application, ApplicationStatus } from "src/entity/application.entity";
 
 
@@ -59,7 +59,7 @@ export class ContractService {
     }
 
     
-    async editContract(eventId: number, editedContract: UpdateContractDto): Promise<any>
+    async editContract(eventId: number, editedContract: EditContractDto): Promise<any>
     {   
         const contract: Contract = await this.contractRepository.findOne({eventId: eventId})
         if (contract.status == ContractStatus.Drafting || 

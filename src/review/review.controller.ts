@@ -34,9 +34,9 @@ export class ReviewController {
     @UsePipes(new ValidationPipe())
     @Post()
     async createReview(@Body() createReview: CreateReviewDto, @Req() req): Promise<any> {
-        const reviewerId = req.user.userId;
+        const reviewer = req.user;
         try {
-            await this.reviewService.createReview(reviewerId, createReview);
+            await this.reviewService.createReview(reviewer, createReview);
             return {
                 status: 200,
                 message: "OK"

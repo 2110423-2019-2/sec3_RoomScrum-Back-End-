@@ -93,7 +93,7 @@ export class EventsService {
       .eventImage;
   }
 
-  async updateEvent(eventId: number, event: createEventDto) { //Edit Event
+  async updateEvent(eventId: number, event: createEventDto) { //Edit Event only when no one apply
     return this.eventRepository.update({eventId }, event);
   }
 
