@@ -55,7 +55,7 @@ class createEventDto {
   user: Partial<User>;
   // user: Number;
 
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsString()
   eventImage: string;
 
