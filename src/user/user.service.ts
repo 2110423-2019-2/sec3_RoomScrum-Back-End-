@@ -4,6 +4,7 @@ import { Repository, Like } from "typeorm";
 import { User, UserType } from "src/entity/user.entity";
 import { hash } from "bcrypt";
 import createUserDto from "./dto/create-user-dto";
+import updateUserDto from "./dto/update-user-dto";
 @Injectable()
 export class UserService {
   constructor(
@@ -21,11 +22,13 @@ export class UserService {
     return this.userRepository.find({"userId": userId});
     }
 
-    async updateProfile(userId: number, user: createUserDto){
+  async updateProfile(userId: number, user: updateUserDto){
+    if (user.password){
       const hashedPassword = await hash(user.password, 8);
       user.password = hashedPassword;
-        return this.userRepository.update({"userId": userId}, user);
     }
+    return this.userRepository.update({"userId": userId}, user);
+  }
 
   findFromUsername(username: string): Promise<User[]> {
     return this.userRepository.find({
