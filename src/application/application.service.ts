@@ -66,9 +66,20 @@ export class ApplicationService {
     
     for (const app of applications) {
       app.event.user = usersMap.get(app.event.userId);
-      if (app.status == ApplicationStatus.isAccepted) {
-        app.event.contract = await this.contractRepository.findOne({eventId: app.eventId});
-      }
+      // if (app.status == ApplicationStatus.isAccepted) {
+      app.event.contract = await this.contractRepository.findOne({eventId: app.eventId});
+      app.event.contract.hiree = await createQueryBuilder()
+        .select('hiree')
+        .from(User, 'hiree')
+        .getOne()
+      //   // app.event.contract = await this.contractRepository
+      //   //   .createQueryBuilder('contract')
+      //   //   .where('contract.eventId = (:eventId)', { eventId: app.eventId })
+      //   //   .andWhere('contract.hireeId = user.userId')
+      //   //   .leftJoinAndSelect('contract.hiree','user')
+      //   //   .getOne();
+        
+      // }
     }
     
     return applications;
