@@ -38,7 +38,6 @@ export class ContractService {
         })
     }
 
-    // HACK should use more query builder or eager join
     async getDetailContractById(eventId: number) : Promise<any>
     {
         // hirerId hirerName hireeName eventName
