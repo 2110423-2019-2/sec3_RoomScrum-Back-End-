@@ -117,7 +117,7 @@ export class Event {
   @Column({ default: false })
   isHirerReview: boolean;
 
-  @Column()
+  @Column({default: false})
   isMusicianReview: boolean;
 
 }
