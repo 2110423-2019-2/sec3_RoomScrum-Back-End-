@@ -149,6 +149,13 @@ export class ContractService {
                     .set({status: ApplicationStatus.isApplied})
                     .where({eventId:eventId, status: ApplicationStatus.isAccepted})
                     .execute();
+
+                const res4 = this.applicationRepository
+                    .createQueryBuilder()
+                    .update(Application)
+                    .set({ status: ApplicationStatus.isApplied })
+                    .where({ eventId: eventId, status: ApplicationStatus.applicationRejected })
+                    .execute();
                     
                 const res2 = this.contractRepository.update(
                     eventId, { status: ContractStatus.Cancelled,}
@@ -158,7 +165,7 @@ export class ContractService {
                     eventId, { status: EventStatus.HaveApplicant,}
                 )
 
-                return await [res1, res2];
+                return await [res1, res2, res3, res4];
                 
             } else {
                 throw "not in correct state current => " + contract.status;
