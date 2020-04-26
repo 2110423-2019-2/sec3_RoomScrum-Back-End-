@@ -103,7 +103,7 @@ export class ContractService {
                     eventId,{status: ContractStatus.Rejected,}
                 )
             } else {
-                throw "not in correct state current =>" + contract.status;
+                throw "not in correct state current => " + contract.status;
             }
             
         } else {
