@@ -19,7 +19,7 @@ export enum EventStatus {
   ContractDrafting = "ContractDrafting",
   Settle = "Settle",
   Complete = "Complete",
-  PaymentPending = "PaymentPending"
+  PaymentPending = "PaymentPending",
 }
 
 @Entity()
@@ -108,9 +108,16 @@ export class Event {
 
   ///////////////////////////// Contract
   
-    //TODO workaround
+    //TODO workaround should not be nullable
   @OneToOne(type => Contract, contract => contract.event, {nullable:true})
   @JoinColumn()
   contract: Contract;
+
+  ///////////////////////////// Contract
+  @Column({ default: false })
+  isHirerReview: boolean;
+
+  @Column()
+  isMusicianReview: boolean;
 
 }
