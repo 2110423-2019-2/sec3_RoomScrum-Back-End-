@@ -126,7 +126,7 @@ export class ContractService {
                 )
                 return await [res1, res2]
             } else {
-                throw "not in correct state current =>" + contract.status;
+                throw "not in correct state current => " + contract.status;
             }
 
         } else {
@@ -157,7 +157,7 @@ export class ContractService {
                 return await [res1, res2];
                 
             } else {
-                throw "not in correct state current =>" + contract.status;
+                throw "not in correct state current => " + contract.status;
             }
 
         } else {
