@@ -20,7 +20,7 @@ export class Review {
         name: "reviewerId",
         referencedColumnName: "userId"
     })
-    reviewers: User;
+    reviewer: User;
 
     @Column()
     targetId: number;
@@ -36,7 +36,7 @@ export class Review {
         name: "targetId",
         referencedColumnName: "userId"
     })
-    targets: User;
+    target: User;
 
     @Column()
     timeStamp: Date;

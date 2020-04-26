@@ -190,13 +190,13 @@ export class User {
   ///////////////////////////// Review
   @OneToMany(
     type => Review,
-    review => review.reviewers
+    review => review.reviewer
   )
   myReviews: Review[];
 
   @OneToMany(
     type => Review,
-    review => review.targets
+    review => review.target
   )
   aboutMeReviews: Review[];
 
