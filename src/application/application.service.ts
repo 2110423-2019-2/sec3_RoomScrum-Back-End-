@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository, createQueryBuilder, Brackets } from "typeorm";
+import { Repository, createQueryBuilder, Brackets, Not } from "typeorm";
 import { Application, ApplicationStatus } from "src/entity/application.entity";
 import applyDto from "./dto/apply-dto";
 import acceptMusicianDto from "./dto/accept-musician-dto";
@@ -84,18 +84,18 @@ export class ApplicationService {
     const res1 = this.applicationRepository.update(user, {
       status: ApplicationStatus.isAccepted
     });
-    const res2 = this.eventRepository.update(user.eventId, { status: EventStatus.ContractDrafting});
-    const res3 = this.contractRepository.update(user.eventId, { 
+    const res2 = this.applicationRepository.update({eventId: user.eventId, status: Not(ApplicationStatus.isAccepted)},{
+      status: ApplicationStatus.applicationRejected
+    });
+    const res3 = this.eventRepository.update(user.eventId, { status: EventStatus.ContractDrafting});
+    const res4 = this.contractRepository.update(user.eventId, { 
       status: ContractStatus.WaitForStartDrafting, 
       hireeId: user.hireeId,
       description: 'MUSICIAN, DRAFT YOUR CONTRACT HERE'});
     
-    return await [res1, res2, res3];
+    return await [res1, res2, res3, res4];
   }
 
-  async rejectUser(user: acceptMusicianDto) {
-    return this.applicationRepository.delete(user);
-  }
 
   async inviteMusicianById(application: inviteMusicianDto){
     const checkResult = await this.applicationRepository.findOne({eventId: application.eventId, hireeId: application.hireeId});
