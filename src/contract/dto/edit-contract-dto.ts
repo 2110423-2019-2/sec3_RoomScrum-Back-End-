@@ -14,7 +14,7 @@ import {
 } from "class-validator";
 
 //TODO change to edit
-export class UpdateContractDto {
+export class EditContractDto {
     @IsOptional() //as post parameter instead
     @IsNumber()
     eventId: number;

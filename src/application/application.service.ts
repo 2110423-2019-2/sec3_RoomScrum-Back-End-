@@ -72,7 +72,7 @@ export class ApplicationService {
     
     return applications;
   }
-  // THIS IS A HACK
+  // THIS IS A HACK TODO role permission
   async applyEvent(application: applyDto) {
     const res1 = this.applicationRepository.insert(application);
     const res2 =  this.eventRepository.update(application.eventId, {status: EventStatus.HaveApplicant});
