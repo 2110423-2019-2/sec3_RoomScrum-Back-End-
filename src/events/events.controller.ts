@@ -109,7 +109,7 @@ export class EventsController {
     }
   }
 
-  @Post("pic")
+  @Post("event-pic/:eventId")
   @UseGuards(AuthGuard("jwt"))
   @UseInterceptors(
     FileInterceptor("image", {
@@ -120,11 +120,15 @@ export class EventsController {
       fileFilter: imageFileFilter
     })
   )
-  async uploadEventPicture(@UploadedFile() file, @Req() req) {
+  async uploadEventPicture(@UploadedFile() file, @Param() params,@Req() req) {
     try {
-      return { imageName: file.filename };
+      await this.eventsService.uploadEventPic(file, params.eventId);
+      return {
+        status: 200,
+        message: "OK"
+      };
     } catch (err) {
-      throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
 
