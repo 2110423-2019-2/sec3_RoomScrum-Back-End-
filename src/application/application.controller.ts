@@ -85,7 +85,7 @@ export class ApplicationController {
   }
 
   @UseGuards(AuthGuard("jwt"))
-  @Post("accept")
+  @Post("accept-applied-musician")
   async acceptMusician(@Body() application: acceptMusicianDto): Promise<any> {
     try {
       await this.applicationService.acceptUser(application);
@@ -95,6 +95,20 @@ export class ApplicationController {
       };
     } catch (err) {
       throw new HttpException("IDK", HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @UseGuards(AuthGuard("jwt"))
+  @Post("reject-applied-musician")
+  async rejectMusician(@Body() application: acceptMusicianDto): Promise<any> {
+    try{
+      await this.applicationService.rejectUser(application);
+      return {
+        status: 200,
+        message: "reject user ok"
+      };
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
 
