@@ -109,7 +109,7 @@ export class Event {
   ///////////////////////////// Contract
   
     //TODO workaround should not be nullable
-  @OneToOne(type => Contract, contract => contract.event, {nullable:true})
+  @OneToOne(type => Contract, contract => contract.event, {nullable:true, eager:true})
   @JoinColumn()
   contract: Contract;
 
