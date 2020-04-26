@@ -151,7 +151,11 @@ export class ContractService {
                     .execute();
                     
                 const res2 = this.contractRepository.update(
-                    eventId, { status: ContractStatus.Cancelled, }
+                    eventId, { status: ContractStatus.Cancelled,}
+                )
+
+                const res3 = this.eventRepository.update(
+                    eventId, { status: EventStatus.HaveApplicant,}
                 )
 
                 return await [res1, res2];
