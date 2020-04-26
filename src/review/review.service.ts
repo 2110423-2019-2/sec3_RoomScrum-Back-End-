@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository, createQueryBuilder } from 'typeorm';
+import { Repository, createQueryBuilder, QueryBuilder } from 'typeorm';
 import { Review } from 'src/entity/review.entity';
 import { Event } from 'src/entity/events.entity';
 import { CreateReviewDto } from 'src/review/dto/create-review-dto';
@@ -16,11 +16,9 @@ export class ReviewService {
     ) {}
 
     async getReviewByTargetId(targetId): Promise<Review[]> {
-        // const review:Review = await this.reviewRepository
-        //     .createQueryBuilder('review')
-        //     .where('review.reviewId = :id', { id: targetId })
-        //     .getMany();
-        return this.reviewRepository.find({targetId:targetId});
+
+        return this.reviewRepository.find({targetId: targetId});
+
     }
 
     async createReview(reviewer: Partial<User>, reviewDto:CreateReviewDto ) {
