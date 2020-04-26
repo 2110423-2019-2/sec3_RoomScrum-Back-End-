@@ -1,4 +1,4 @@
-import { Injectable, Inject, Param } from "@nestjs/common";
+import { Injectable, Inject, Param, UploadedFile } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Not, Repository } from "typeorm";
 import { Event, EventStatus } from "src/entity/events.entity";
@@ -91,6 +91,12 @@ export class EventsService {
   async getEventPicName(id: number) {
     return (await this.eventRepository.findOneOrFail({ eventId: id }))
       .eventImage;
+  }
+
+  async uploadEventPic(@UploadedFile() file, eventId: number): Promise<any> {
+    const imagePath = file.filename;
+    this.eventRepository.update(eventId, {eventImage: imagePath});
+    return;
   }
 
   async updateEvent(eventId: number, event: createEventDto) { //Edit Event only when no one apply
