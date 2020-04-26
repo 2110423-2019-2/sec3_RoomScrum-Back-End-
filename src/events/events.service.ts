@@ -81,7 +81,8 @@ export class EventsService {
         price: 9999999
       });
     const contract: Contract = <Contract> (await createContractRes).generatedMaps[0]; 
-    return this.eventRepository.update(eventId, {contract: contract});
+    const updateContract = this.eventRepository.update(eventId, {contract: contract});
+    return eventId;
   }
 
   cancelEvent(eventId: number) {

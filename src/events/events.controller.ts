@@ -66,17 +66,18 @@ export class EventsController {
 
   @UseGuards(AuthGuard("jwt"))
   @UsePipes(new ValidationPipe())
-  @Post()
+  @Post("create-event")
   async createEvent(@Body() event: createEventDto, @Req() req): Promise<any> {
     event.user = {
       userId: req.user.userId
     };
 
     try {
-      await this.eventsService.create(event);
+      const eventId = await this.eventsService.create(event);
       return {
         status: 200,
-        message: "Create Event OK"
+        message: "Create Event OK",
+        eventId
       };
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
