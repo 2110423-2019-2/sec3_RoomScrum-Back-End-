@@ -93,6 +93,10 @@ export class ApplicationService {
     return await [res1, res2, res3];
   }
 
+  async rejectUser(user: acceptMusicianDto) {
+    return this.applicationRepository.delete(user);
+  }
+
   async inviteMusicianById(application: inviteMusicianDto){
     const checkResult = await this.applicationRepository.findOne({eventId: application.eventId, hireeId: application.hireeId});
     if (!checkResult){
