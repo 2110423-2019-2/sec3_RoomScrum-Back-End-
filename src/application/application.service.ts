@@ -137,9 +137,15 @@ export class ApplicationService {
   }
 
 
-  async inviteMusicianById(application: inviteMusicianDto){
+  async inviteMusicianById(application: inviteMusicianDto, userId: number){
     const checkResult = await this.applicationRepository.findOne({eventId: application.eventId, hireeId: application.hireeId});
     if (!checkResult){
+      await this.notificationService.createNotification({
+        type: NotificationType.ContractCancelledByMusician,
+        senderId: userId,
+        receiverId: application.hireeId,
+        eventId: application.eventId
+      })
       return this.applicationRepository.insert(application);
     } 
     else {

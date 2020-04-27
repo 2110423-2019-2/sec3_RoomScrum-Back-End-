@@ -195,6 +195,22 @@ export class ContractService {
                     eventId, { status: EventStatus.HaveApplicant,}
                 )
 
+                if (userId == contract.hireeId){
+                    await this.notificationService.createNotification({
+                        type: NotificationType.ContractCancelledByMusician,
+                        senderId: userId,
+                        receiverId: event.userId,
+                        eventId: eventId
+                    })
+                } else {
+                    await this.notificationService.createNotification({
+                        type: NotificationType.ContractCancelledByHirer,
+                        senderId: userId,
+                        receiverId: contract.hireeId,
+                        eventId: eventId
+                    })
+                }
+
                 return await [res1, res2, res3, res4];
                 
             } else {

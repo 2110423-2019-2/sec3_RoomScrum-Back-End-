@@ -6,6 +6,8 @@ import createEventDto from "./dto/create-event-dto";
 import {Application, ApplicationStatus} from 'src/entity/application.entity';
 import { Contract, ContractStatus } from "src/entity/contract.entity";
 import { User } from "src/entity/user.entity"
+import { NotificationService } from "src/notification/notification.service";
+import { NotificationType } from "src/entity/notification.entity";
 
 @Injectable()
 export class EventsService {
@@ -15,7 +17,8 @@ export class EventsService {
     @InjectRepository(Application)
     private readonly applicationRepository: Repository<Application>,
     @InjectRepository(Contract)
-    private readonly contractRepository: Repository<Contract>
+    private readonly contractRepository: Repository<Contract>,
+    private readonly notificationService: NotificationService
   ) {}
 
   findAllEvent(): Promise<Event[]> {
@@ -89,12 +92,23 @@ export class EventsService {
         price: 9999999
       });
     const contract: Contract = <Contract> (await createContractRes).generatedMaps[0]; 
-    const updateContract = this.eventRepository.update(eventId, {contract: contract});
+    const updateContract = await this.eventRepository.update(eventId, {contract: contract});
     return eventId;
   }
 
-  cancelEvent(eventId: number) {
-    return this.eventRepository.update({eventId}, {status: EventStatus.Cancelled});
+  async cancelEvent(eventId: number, userId: number) {
+    const res = await this.eventRepository.update({ eventId }, { status: EventStatus.Cancelled });
+    const cancelApps = await this.applicationRepository.find({ eventId: eventId });
+    
+    for (const app of cancelApps ) {
+      await this.notificationService.createNotification({
+        type: NotificationType.EventCancelled,
+        senderId: userId,
+        receiverId: app.hireeId,
+        eventId: eventId
+      })
+    }
+    return res;
   }
 
   async getEventPicName(id: number) {
@@ -116,8 +130,24 @@ export class EventsService {
     return this.eventRepository.update({eventId}, {status: status});
   }
 
-  async receivePayment(eventId:number)
+  async receivePayment(eventId:number, userId:number)
   {
+    const event = await this.eventRepository.findOne({eventId: eventId});
+
+    await this.notificationService.createNotification({
+      type: NotificationType.EventCompleted,
+      senderId: userId,
+      receiverId: event.userId,
+      eventId: eventId
+    })
+    await this.notificationService.createNotification({
+      type: NotificationType.EventCompleted,
+      senderId: event.userId,
+      receiverId: userId,
+      eventId: eventId
+    })
+
+    
     return this.eventRepository.update({eventId}, {status: EventStatus.Complete});
   }
 }

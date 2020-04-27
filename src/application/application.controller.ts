@@ -79,11 +79,11 @@ export class ApplicationController {
 
   @UseGuards(AuthGuard("jwt"))
   @Post("invite-musician")
-  async inviteMusician(@Body() application: inviteMusicianDto): Promise<any> {
+  async inviteMusician(@Body() application: inviteMusicianDto, @Req() req): Promise<any> {
     application.timestamp = new Date();
     application.status = ApplicationStatus.isInvited;
     try{
-      await this.applicationService.inviteMusicianById(application)
+      await this.applicationService.inviteMusicianById(application, req.user.userId)
       return {
         status: 200,
         message: "invite musician ok"
