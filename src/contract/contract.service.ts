@@ -87,18 +87,19 @@ export class ContractService {
         const contract: Contract = await this.contractRepository.findOne({ eventId: eventId });
         const event: Event = await this.eventRepository.findOne({ eventId: eventId });
         if (userId == contract.hireeId && contract.status == ContractStatus.Drafting) {
-
+            const res = await this.contractRepository.update(
+                eventId, {
+                status: ContractStatus.Sent,
+            });
+            
             await this.notificationService.createNotification({
                 type: NotificationType.ContractSent,
                 senderId: userId,
                 receiverId: event.userId,
                 eventId: eventId
-            })
-            return await this.contractRepository.update(
-                eventId, {
-                    status: ContractStatus.Sent,
-                }
-            )
+            });
+            return res;
+            
         } else {
             throw "not authorize or Contract is waiting for consideration"
         }
@@ -110,10 +111,18 @@ export class ContractService {
 
         if (userId == event.userId) {
             if (contract.status == ContractStatus.Sent) {
-                    
-                return await this.contractRepository.update(
-                    eventId,{status: ContractStatus.Rejected,}
-                )
+                const res = await this.contractRepository.update(
+                    eventId, { status: ContractStatus.Rejected, }
+                );
+                await this.notificationService.createNotification({
+                    type: NotificationType.ContractRejected,
+                    senderId: userId,
+                    receiverId: contract.hireeId,
+                    eventId: eventId
+                })
+
+
+                return res;
             } else {
                 throw "not in correct state current => " + contract.status;
             }
@@ -129,14 +138,23 @@ export class ContractService {
 
         if (userId == event.userId) {
             if (contract.status == ContractStatus.Sent) {
-                
+
                 let res1 = this.contractRepository.update(
                     eventId, { status: ContractStatus.Accepted, }
                 )
                 let res2 = this.eventRepository.update(
                     eventId, { status: EventStatus.PaymentPending, }
                 )
+
+                await this.notificationService.createNotification({
+                        type: NotificationType.ContractAccepted,
+                        senderId: userId,
+                        receiverId: contract.hireeId,
+                        eventId: eventId
+                    })
+
                 return await [res1, res2]
+
             } else {
                 throw "not in correct state current => " + contract.status;
             }

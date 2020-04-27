@@ -21,6 +21,7 @@ export class ApplicationService {
     private readonly eventRepository: Repository<Event>,
     @InjectRepository(Contract)
     private readonly contractRepository: Repository<Contract>,
+    private readonly notificationService: NotificationService,
   ) {}
 
   findAllApplications(): Promise<Application[]> {
@@ -95,6 +96,14 @@ export class ApplicationService {
   async applyEvent(application: applyDto) {
     const res1 = this.applicationRepository.insert(application);
     const res2 =  this.eventRepository.update(application.eventId, {status: EventStatus.HaveApplicant});
+    const event: Event = await this.eventRepository.findOne({ eventId: application.eventId });
+
+    await this.notificationService.createNotification({
+      type: NotificationType.MusicianApplied,
+      senderId: application.hireeId,
+      receiverId: event.userId,
+      eventId: application.eventId
+    })
     return await [res1, res2];
   }
 
