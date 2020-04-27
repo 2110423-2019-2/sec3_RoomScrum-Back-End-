@@ -159,7 +159,13 @@ export class ApplicationService {
       timestamp: new Date(),
     });
     const res2 =  this.eventRepository.update(eventId, {status: EventStatus.HaveApplicant});
-
+    const event = this.eventRepository.findOne({eventId: eventId});
+    await this.notificationService.createNotification({
+      type: NotificationType.MusicianApplied,
+      senderId: hireeId,
+      receiverId: (await event).userId,
+      eventId: eventId
+    })
     return await[res1, res2];
   }
 
