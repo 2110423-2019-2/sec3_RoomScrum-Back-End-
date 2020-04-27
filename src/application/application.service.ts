@@ -35,6 +35,10 @@ export class ApplicationService {
     });
   }
 
+  findAcceptedHiree(eventId: number): Promise<Application> {
+    return this.applicationRepository.findOne({eventId, status:ApplicationStatus.isAccepted});
+  }
+
   async findMyApplication(hireeId: number, params: findMyApplicationDto): Promise<Application[]> {
     
     if (!params.status.length) {
