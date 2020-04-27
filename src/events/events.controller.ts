@@ -101,9 +101,9 @@ export class EventsController {
 
   @UseGuards(AuthGuard("jwt"))
   @Get("cancel/:id")
-  cancelEvent(@Param() params) {
+  async cancelEvent(@Param() params, @Req() req) {
     try {
-      this.eventsService.cancelEvent(params.id);
+      await this.eventsService.cancelEvent(params.id, req.user.userId);
       return { status: 200, message: `Cancel Event No. ${params.id}`}
     } catch (err) {
       throw new HttpException(err.message, HttpStatus.BAD_REQUEST);
@@ -158,10 +158,10 @@ export class EventsController {
   //TODO check member of event
   @UseGuards(AuthGuard("jwt"))
   @Get("/receive-payment/:id")
-  async receivePayment(@Param('id') eventId)
+  async receivePayment(@Param('id') eventId, @Req() req)
   {
     try {
-      await this.eventsService.receivePayment(eventId);
+      await this.eventsService.receivePayment(eventId, req.user.userId);
       return {
         status: 200,
         message: "Update Event OK"
