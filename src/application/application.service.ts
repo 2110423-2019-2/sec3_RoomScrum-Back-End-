@@ -141,7 +141,7 @@ export class ApplicationService {
     const checkResult = await this.applicationRepository.findOne({eventId: application.eventId, hireeId: application.hireeId});
     if (!checkResult){
       await this.notificationService.createNotification({
-        type: NotificationType.ContractCancelledByMusician,
+        type: NotificationType.InvitationReceived,
         senderId: userId,
         receiverId: application.hireeId,
         eventId: application.eventId
