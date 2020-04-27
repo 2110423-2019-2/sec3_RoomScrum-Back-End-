@@ -115,7 +115,7 @@ export class ApplicationService {
     const res2 = await this.applicationRepository.update({eventId: user.eventId, status: Not(ApplicationStatus.isAccepted)},{
       status: ApplicationStatus.applicationRejected
     });
-    const rejectApplications = await this.applicationRepository.find({eventId: user.eventId, status: ApplicationStatus.isApplied});
+    const rejectApplications = await this.applicationRepository.find({eventId: user.eventId, status: ApplicationStatus.applicationRejected});
     for (const app of rejectApplications){
       await this.notificationService.createNotification({
         type: NotificationType.ApplicationRejected,
