@@ -43,6 +43,12 @@ export class ApplicationController {
   }
 
   @UseGuards(AuthGuard("jwt"))
+  @Get(":eventId/accepted-hiree")
+  findAcceptedHiree(@Param() params, @Req() req): Promise<Application>{
+    return this.applicationService.findAcceptedHiree(params.eventId);
+  }
+
+  @UseGuards(AuthGuard("jwt"))
   @Post("my-application")
   findMyApplication(@Body() params: findMyApplicationDto, @Req() req): Promise<Application[]> {
     return this.applicationService.findMyApplication(req.user.userId, params);
