@@ -107,14 +107,26 @@ export class ApplicationService {
     return await [res1, res2];
   }
 
-  async acceptUser(user: acceptMusicianDto) {
+  async acceptUser(user: acceptMusicianDto, userId: number) {
 
     const res1 = this.applicationRepository.update(user, {
       status: ApplicationStatus.isAccepted
     });
-    const res2 = this.applicationRepository.update({eventId: user.eventId, status: Not(ApplicationStatus.isAccepted)},{
+    const res2 = await this.applicationRepository.update({eventId: user.eventId, status: Not(ApplicationStatus.isAccepted)},{
       status: ApplicationStatus.applicationRejected
     });
+    const rejectApplications = await this.applicationRepository.find({eventId: user.eventId, status: ApplicationStatus.isApplied});
+    for (const app of rejectApplications){
+      await this.notificationService.createNotification({
+        type: NotificationType.ApplicationRejected,
+        senderId: userId,
+        receiverId: app.hireeId,
+        eventId: user.eventId
+      })
+    }
+    
+    console.log(res2);
+
     const res3 = this.eventRepository.update(user.eventId, { status: EventStatus.ContractDrafting});
     const res4 = this.contractRepository.update(user.eventId, { 
       status: ContractStatus.WaitForStartDrafting, 

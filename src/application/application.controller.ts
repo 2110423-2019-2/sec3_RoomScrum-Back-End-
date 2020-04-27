@@ -98,7 +98,7 @@ export class ApplicationController {
   async acceptMusician(@Body() application: acceptMusicianDto, @Req() req): Promise<any> {
     try {
       
-      await this.applicationService.acceptUser(application);
+      await this.applicationService.acceptUser(application, req.user.userId);
       await this.notificationService.createNotification({
         type: NotificationType.ApplicationAccepted,
         senderId: req.user,
