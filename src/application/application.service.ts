@@ -71,7 +71,6 @@ export class ApplicationService {
       app.event.contract.hiree = await createQueryBuilder()
         .select('hiree')
         .from(User, 'hiree')
-        .where('hiree.userId = :id', {id: app.event.contract.hireeId})
         .getOne()
       //   // app.event.contract = await this.contractRepository
       //   //   .createQueryBuilder('contract')

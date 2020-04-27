@@ -32,7 +32,7 @@ export class EventsService {
 
   async findEventByHirerId(userId: number): Promise<Event[]> {
     const events = await this.eventRepository.find({ userId, status: Not(EventStatus.Cancelled) });
-    // Hack should query builder or maps
+    // Hack
     for (const event of events ){
       event.contract.hiree = await createQueryBuilder()
         .select('hiree')
