@@ -36,7 +36,9 @@ export class EventsService {
     for (const event of events ){
       event.contract.hiree = await createQueryBuilder()
         .select('hiree')
-        .from(User, 'hiree').getOne() ;
+        .from(User, 'hiree')
+        .where('hiree.userId = :id', { id: event.contract.hireeId })
+        .getOne()
     }
     return events;
   }
