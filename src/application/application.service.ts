@@ -9,6 +9,8 @@ import findMyApplicationDto from "./dto/find-my-application-dto";
 import { User } from "src/entity/user.entity";
 import { Event, EventStatus } from 'src/entity/events.entity';
 import { Contract, ContractStatus } from "src/entity/contract.entity";
+import { NotificationType } from "src/entity/notification.entity";
+import { NotificationService } from "src/notification/notification.service";
 
 @Injectable()
 export class ApplicationService {
@@ -97,6 +99,7 @@ export class ApplicationService {
   }
 
   async acceptUser(user: acceptMusicianDto) {
+
     const res1 = this.applicationRepository.update(user, {
       status: ApplicationStatus.isAccepted
     });
@@ -108,8 +111,8 @@ export class ApplicationService {
       status: ContractStatus.WaitForStartDrafting, 
       hireeId: user.hireeId,
       description: 'MUSICIAN, DRAFT YOUR CONTRACT HERE'});
-    
     return await [res1, res2, res3, res4];
+  
   }
 
 
