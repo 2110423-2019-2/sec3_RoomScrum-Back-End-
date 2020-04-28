@@ -9,6 +9,8 @@ import findMyApplicationDto from "./dto/find-my-application-dto";
 import { User } from "src/entity/user.entity";
 import { Event, EventStatus } from 'src/entity/events.entity';
 import { Contract, ContractStatus } from "src/entity/contract.entity";
+import { NotificationType } from "src/entity/notification.entity";
+import { NotificationService } from "src/notification/notification.service";
 
 @Injectable()
 export class ApplicationService {
@@ -19,6 +21,7 @@ export class ApplicationService {
     private readonly eventRepository: Repository<Event>,
     @InjectRepository(Contract)
     private readonly contractRepository: Repository<Contract>,
+    private readonly notificationService: NotificationService,
   ) {}
 
   findAllApplications(): Promise<Application[]> {
@@ -93,29 +96,56 @@ export class ApplicationService {
   async applyEvent(application: applyDto) {
     const res1 = this.applicationRepository.insert(application);
     const res2 =  this.eventRepository.update(application.eventId, {status: EventStatus.HaveApplicant});
+    const event: Event = await this.eventRepository.findOne({ eventId: application.eventId });
+
+    await this.notificationService.createNotification({
+      type: NotificationType.MusicianApplied,
+      senderId: application.hireeId,
+      receiverId: event.userId,
+      eventId: application.eventId
+    })
     return await [res1, res2];
   }
 
-  async acceptUser(user: acceptMusicianDto) {
+  async acceptUser(user: acceptMusicianDto, userId: number) {
+
     const res1 = this.applicationRepository.update(user, {
       status: ApplicationStatus.isAccepted
     });
-    const res2 = this.applicationRepository.update({eventId: user.eventId, status: Not(ApplicationStatus.isAccepted)},{
+    const res2 = await this.applicationRepository.update({eventId: user.eventId, status: Not(ApplicationStatus.isAccepted)},{
       status: ApplicationStatus.applicationRejected
     });
+    const rejectApplications = await this.applicationRepository.find({eventId: user.eventId, status: ApplicationStatus.applicationRejected});
+    for (const app of rejectApplications){
+      await this.notificationService.createNotification({
+        type: NotificationType.ApplicationRejected,
+        senderId: userId,
+        receiverId: app.hireeId,
+        eventId: user.eventId
+      })
+    }
+    
+    console.log(res2);
+
     const res3 = this.eventRepository.update(user.eventId, { status: EventStatus.ContractDrafting});
     const res4 = this.contractRepository.update(user.eventId, { 
       status: ContractStatus.WaitForStartDrafting, 
       hireeId: user.hireeId,
       description: 'MUSICIAN, DRAFT YOUR CONTRACT HERE'});
-    
     return await [res1, res2, res3, res4];
+  
   }
 
 
-  async inviteMusicianById(application: inviteMusicianDto){
+  async inviteMusicianById(application: inviteMusicianDto, userId: number){
     const checkResult = await this.applicationRepository.findOne({eventId: application.eventId, hireeId: application.hireeId});
     if (!checkResult){
+      await this.notificationService.createNotification({
+        type: NotificationType.InvitationReceived,
+        senderId: userId,
+        receiverId: application.hireeId,
+        eventId: application.eventId
+      })
       return this.applicationRepository.insert(application);
     } 
     else {
@@ -129,7 +159,13 @@ export class ApplicationService {
       timestamp: new Date(),
     });
     const res2 =  this.eventRepository.update(eventId, {status: EventStatus.HaveApplicant});
-
+    const event = this.eventRepository.findOne({eventId: eventId});
+    await this.notificationService.createNotification({
+      type: NotificationType.MusicianApplied,
+      senderId: hireeId,
+      receiverId: (await event).userId,
+      eventId: eventId
+    })
     return await[res1, res2];
   }
 

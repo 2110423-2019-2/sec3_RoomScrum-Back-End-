@@ -6,6 +6,9 @@ import { User } from "src/entity/user.entity";
 import { Event, EventStatus } from 'src/entity/events.entity'
 import { EditContractDto } from "./dto/edit-contract-dto";
 import { Application, ApplicationStatus } from "src/entity/application.entity";
+import { NotificationService } from "src/notification/notification.service";
+import { NotificationType } from "src/entity/notification.entity";
+
 
 
 @Injectable()
@@ -19,6 +22,7 @@ export class ContractService {
         private readonly applicationRepository: Repository<Application>,
         @InjectRepository(Event)
         private readonly eventRepository: Repository<Event>,
+        private readonly notificationService: NotificationService,
 
     ) { }
 
@@ -81,12 +85,21 @@ export class ContractService {
     async sendContractById( eventId:number, userId:number ): Promise<any>
     {
         const contract: Contract = await this.contractRepository.findOne({ eventId: eventId });
+        const event: Event = await this.eventRepository.findOne({ eventId: eventId });
         if (userId == contract.hireeId && contract.status == ContractStatus.Drafting) {
-            return await this.contractRepository.update(
+            const res = await this.contractRepository.update(
                 eventId, {
-                    status: ContractStatus.Sent,
-                }
-            )
+                status: ContractStatus.Sent,
+            });
+            
+            await this.notificationService.createNotification({
+                type: NotificationType.ContractSent,
+                senderId: userId,
+                receiverId: event.userId,
+                eventId: eventId
+            });
+            return res;
+            
         } else {
             throw "not authorize or Contract is waiting for consideration"
         }
@@ -98,10 +111,18 @@ export class ContractService {
 
         if (userId == event.userId) {
             if (contract.status == ContractStatus.Sent) {
-                    
-                return await this.contractRepository.update(
-                    eventId,{status: ContractStatus.Rejected,}
-                )
+                const res = await this.contractRepository.update(
+                    eventId, { status: ContractStatus.Rejected, }
+                );
+                await this.notificationService.createNotification({
+                    type: NotificationType.ContractRejected,
+                    senderId: userId,
+                    receiverId: contract.hireeId,
+                    eventId: eventId
+                })
+
+
+                return res;
             } else {
                 throw "not in correct state current => " + contract.status;
             }
@@ -124,7 +145,16 @@ export class ContractService {
                 let res2 = this.eventRepository.update(
                     eventId, { status: EventStatus.PaymentPending, }
                 )
+
+                await this.notificationService.createNotification({
+                        type: NotificationType.ContractAccepted,
+                        senderId: userId,
+                        receiverId: contract.hireeId,
+                        eventId: eventId
+                    })
+
                 return await [res1, res2]
+
             } else {
                 throw "not in correct state current => " + contract.status;
             }
@@ -164,6 +194,22 @@ export class ContractService {
                 const res3 = this.eventRepository.update(
                     eventId, { status: EventStatus.HaveApplicant,}
                 )
+
+                if (userId == contract.hireeId){
+                    await this.notificationService.createNotification({
+                        type: NotificationType.ContractCancelledByMusician,
+                        senderId: userId,
+                        receiverId: event.userId,
+                        eventId: eventId
+                    })
+                } else {
+                    await this.notificationService.createNotification({
+                        type: NotificationType.ContractCancelledByHirer,
+                        senderId: userId,
+                        receiverId: contract.hireeId,
+                        eventId: eventId
+                    })
+                }
 
                 return await [res1, res2, res3, res4];
                 

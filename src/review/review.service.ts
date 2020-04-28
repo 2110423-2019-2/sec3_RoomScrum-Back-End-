@@ -6,6 +6,8 @@ import { Event } from 'src/entity/events.entity';
 import { CreateReviewDto } from 'src/review/dto/create-review-dto';
 import { User, UserType } from 'src/entity/user.entity';
 import { Contract } from 'src/entity/contract.entity';
+import { NotificationService } from 'src/notification/notification.service';
+import { NotificationType } from 'src/entity/notification.entity';
 
 
 @Injectable()
@@ -13,6 +15,7 @@ export class ReviewService {
     constructor (
         @InjectRepository(Review)
         private readonly reviewRepository: Repository<Review>,
+        private readonly notificationService: NotificationService
     ) {}
 
     async getReviewByTargetId(targetId): Promise<Review[]> {
@@ -81,6 +84,13 @@ export class ReviewService {
             timeStamp: Date(),
             
         }
+
+        await this.notificationService.createNotification({
+            type: NotificationType.NewReview,
+            senderId: reviewer.userId,
+            receiverId: targetId,
+            eventId: reviewDto.eventId
+        })
 
         return this.reviewRepository
             .createQueryBuilder()

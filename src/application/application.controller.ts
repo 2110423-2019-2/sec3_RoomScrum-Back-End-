@@ -19,10 +19,13 @@ import findMyApplicationDto from "./dto/find-my-application-dto";
 import inviteMusicianDto from "./dto/invite-musician-dto";
 import { AuthGuard } from "@nestjs/passport";
 import { ApplicationStatus } from "../entity/application.entity";
+import { NotificationService } from "src/notification/notification.service";
+import { NotificationType } from "src/entity/notification.entity";
 
 @Controller("application")
 export class ApplicationController {
-  constructor(private readonly applicationService: ApplicationService) {}
+  constructor(private readonly applicationService: ApplicationService,
+    private readonly notificationService: NotificationService) {}
 
   @Get()
   findAllApplications(): Promise<Application[]> {
@@ -76,11 +79,11 @@ export class ApplicationController {
 
   @UseGuards(AuthGuard("jwt"))
   @Post("invite-musician")
-  async inviteMusician(@Body() application: inviteMusicianDto): Promise<any> {
+  async inviteMusician(@Body() application: inviteMusicianDto, @Req() req): Promise<any> {
     application.timestamp = new Date();
     application.status = ApplicationStatus.isInvited;
     try{
-      await this.applicationService.inviteMusicianById(application)
+      await this.applicationService.inviteMusicianById(application, req.user.userId)
       return {
         status: 200,
         message: "invite musician ok"
@@ -92,9 +95,16 @@ export class ApplicationController {
 
   @UseGuards(AuthGuard("jwt"))
   @Post("accept-applied-musician")
-  async acceptMusician(@Body() application: acceptMusicianDto): Promise<any> {
+  async acceptMusician(@Body() application: acceptMusicianDto, @Req() req): Promise<any> {
     try {
-      await this.applicationService.acceptUser(application);
+      
+      await this.applicationService.acceptUser(application, req.user.userId);
+      await this.notificationService.createNotification({
+        type: NotificationType.ApplicationAccepted,
+        senderId: req.user,
+        receiverId: application.hireeId,
+        eventId: application.eventId
+      })
       return {
         status: 200,
         message: "accept musician ok"
